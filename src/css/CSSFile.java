@@ -1,6 +1,6 @@
 package css;
 
-import css.CSSBlock;
+import css.CSSSelector;
 import css.Property;
 import java.io.File;
 import java.io.FileReader;
@@ -10,8 +10,7 @@ import java.io.FileWriter;
 public class CSSFile {
 
 	String name;
-	CSSBlock block[] = new CSSBlock[50];
-	int BlockCount;
+	CSSSelector block;
 	
 	public CSSFile(String filename) {
 		
@@ -31,36 +30,50 @@ public class CSSFile {
 			
 			int c;
 			StringBuffer buff = new StringBuffer();
-			CSSBlock tempblock = null;
-			Property tempprop = null;
+			CSSSelector temp_block = null;
+			Property temp_prop = null;
+			String type = "Element Type Selector";
 			
 			while ((c = br.read()) != -1) {
 				char ch = (char) c;
 				
+				//if(ch == '\t')
+		////		if(Character.isWhitespace(ch))
+		//			continue;
+				
 				switch(ch) {
 					
 					case '{' :
-						tempblock = new CSSBlock(buff.toString());
+						temp_block = new CSSSelector(buff.toString().trim(), type);
 						buff.delete(0, buff.length());
+						type = "Element Type Selector";
 						break;
 						
 					case '}' :
-					//	System.out.println(tempblock);
-						add(tempblock);
+						add(temp_block);
 						break;
 						
 					case ':' :
-						tempprop = new Property(buff.toString());
+						temp_prop = new Property(buff.toString().trim());
 						buff.delete(0, buff.length());
 						break;
 						
 					case ';' :
-						tempprop.setValue(buff.toString());
+						temp_prop.setValue(buff.toString().trim());
 						buff.delete(0, buff.length());
-						tempblock.add(tempprop);
+						temp_block.add(temp_prop);
 						break;
 						
-					case '\n' :
+					case '*' :
+						type = "Universal Selector";
+						break;
+						
+					case '#' :
+						type = "ID Selector";
+						break;
+						
+					case '.' :
+						type = "Class Selector";
 						break;
 						
 					default :
@@ -71,9 +84,17 @@ public class CSSFile {
 		} // if
 	} // ReadFile
 	
-	public void add(CSSBlock block) {
+	public void add(CSSSelector block) {
 		
-		this.block[BlockCount++] = block;
+		if(this.block == null) {
+			this.block = block; 
+		}
+		else { 
+			CSSSelector temp = this.block;
+			while(temp.next != null)
+				temp = temp.next;
+			temp.next = block;
+		}
 	}
 
 	public void WriteFile() throws Exception {
@@ -91,9 +112,13 @@ public class CSSFile {
 	
 	public String toString() {
 		
+		CSSSelector temp = block;
 		StringBuffer buff= new StringBuffer();
-		for(int i = 0; i < BlockCount; i++)
-			buff.append(block[i] + "\n");
+		
+		while(temp != null) {
+			buff.append(temp + "\n\n");
+			temp = temp.next;
+		}
 		return buff.toString();
 	}
 }

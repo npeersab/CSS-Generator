@@ -3,6 +3,7 @@ package css;
 public class Property {
 	
 	String name, value;
+	Property next;
 	
 	Property(String name) {
 		
