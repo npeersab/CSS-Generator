@@ -5,7 +5,7 @@ import java.io.FileReader;
 public class CSSFile {
 
 	String filename;
-	CSSSelelctor css[];
+	CSSSelelctor css[] = new CSSSelector[100];
 
 	public CSSFile(String filenm) throws Exception {
 
@@ -17,11 +17,12 @@ public class CSSFile {
 			BufferedReader br = new BufferedReader(freader);
 			
 			int c;
+			css[0] = new CSSSelector();
 			while((c = br.read()) != -1) {
 				char ch = (char) c;
 				switch(ch) {
 					case '{' :
-						String 
+						
 				}
 			}
 		}
