@@ -4,9 +4,17 @@ public class Property {
 	
 	String name, value;
 	
-	Property(String nm, String val) {
+	Property(String name) {
 		
-		name = nm;
-		value = val;
+		this.name = name;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
+	public String toString() {
+		
+		return "\n\t" + name + " : " + value + ";";
 	}
 }
