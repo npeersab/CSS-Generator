@@ -37,10 +37,6 @@ public class CSSFile {
 			while ((c = br.read()) != -1) {
 				char ch = (char) c;
 				
-				//if(ch == '\t')
-		////		if(Character.isWhitespace(ch))
-		//			continue;
-				
 				switch(ch) {
 					
 					case '{' :
