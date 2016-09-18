@@ -2,6 +2,9 @@ package frames;
 
 import css.CSSFile;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,34 +20,28 @@ import javax.swing.JFileChooser;
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel buttonPanel; 
+//	private JPanel buttonPanel; 
 	private JButton newfileButton, openfileButton;
 	private CSSFile cssfile;
-	private JTextArea text;
-	
+		
 	public MainFrame() throws IOException {
 		
-		setLayout(new BorderLayout());
-		buttonPanel = new JPanel();
-		buttonPanel.setLayout(null);
-				
+		setLayout(null);
+								
 		newfileButton = new JButton("New");
 		newfileButton.setBounds(770, 520, 100, 30);
-		buttonPanel.add(newfileButton);
+		add(newfileButton);
 		
 		openfileButton = new JButton("Open");
 		openfileButton.setBounds(890, 520, 100, 30);
-		buttonPanel.add(openfileButton);
 		OpenFile open = new OpenFile();
 		openfileButton.addActionListener(open);
-		
-		text = new JTextArea(100, 100);
-		add(text);
-		
-		add(buttonPanel);
+		add(openfileButton);
+
 		setTitle("CSS Generator");
-		setSize(1020, 600);
-		setLocation(150, 100);
+		setBounds(150, 50, 1020, 600);
+		setMaximizedBounds(getBounds());
+		setMinimumSize(new Dimension(1020, 600));
 		setIconImage(ImageIO.read(new File("res/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
