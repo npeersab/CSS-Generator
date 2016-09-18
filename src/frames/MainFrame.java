@@ -1,28 +1,25 @@
 package frames;
 
 import css.CSSFile;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.TreeNode;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 public class MainFrame extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-//	private JPanel buttonPanel; 
+	private static final long serialVersionUID = 1L; 
 	private JButton newfileButton, openfileButton;
 	private CSSFile cssfile;
+	private JTree tree;
 		
 	public MainFrame() throws IOException {
 		
@@ -37,7 +34,7 @@ public class MainFrame extends JFrame {
 		OpenFile open = new OpenFile();
 		openfileButton.addActionListener(open);
 		add(openfileButton);
-
+		
 		setTitle("CSS Generator");
 		setBounds(150, 50, 1020, 600);
 		setMaximizedBounds(getBounds());
