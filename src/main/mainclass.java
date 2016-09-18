@@ -1,6 +1,5 @@
 package main;
 
-import css.CSSFile;
 import frames.MainFrame;
 
 public class mainclass {
