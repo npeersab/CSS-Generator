@@ -2,6 +2,7 @@ package css;
 
 import css.CSSSelector;
 import css.Property;
+import main.mainclass;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -29,11 +30,11 @@ public class CSSFile {
 			try {
 				filereader = new FileReader(file);
 			}
-			catch(FileNotFoundException fnfe) {
+			catch(FileNotFoundException e) {
 
-				JOptionPane.showInternalMessageDialog(null, "Error : Unable to Read the file");
+				JOptionPane.showMessageDialog(mainclass.frame, "Unable to open file", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-
+			
 			BufferedReader br = new BufferedReader(filereader);
 			int c;
 			StringBuffer buff = new StringBuffer();
@@ -87,7 +88,7 @@ public class CSSFile {
 				br.close();
 			}
 			catch(IOException e) {
-				JOptionPane.showMessageDialog(null, "Error : Unable to read data from the file");
+				JOptionPane.showMessageDialog(mainclass.frame, "Unable to read file", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} // if
 	} // ReadFile
