@@ -2,12 +2,15 @@ package frames;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -19,12 +22,16 @@ public class MainFrame extends JFrame {
 	private JPanel buttonPanel; 
 	private JButton newfileButton, openfileButton;
 	private CSSFile cssfile;
+	private JTextArea text;
+	private JMenu menu;
 	
 	public MainFrame() throws IOException {
 		
 		setLayout(new BorderLayout());
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(null);
+		
+		menu = new JMenu("hello");
 		
 		newfileButton = new JButton("New");
 		newfileButton.setBounds(770, 520, 100, 30);
@@ -36,6 +43,10 @@ public class MainFrame extends JFrame {
 		OpenFile open = new OpenFile();
 		openfileButton.addActionListener(open);
 		
+		text = new JTextArea(100, 100);
+		add(text);
+		
+		add(menu);
 		add(buttonPanel);
 		setTitle("CSS Generator");
 		setSize(1020, 600);
@@ -51,11 +62,16 @@ public class MainFrame extends JFrame {
 			
 			String home = System.getProperty("user.home");
 			File cssdir = new File(home, "css_generator");
+			
 			JFileChooser filechooser = new JFileChooser(cssdir);
 			filechooser.setDialogTitle("Select File");
 			filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			filechooser.showOpenDialog(new JLabel());
-			cssfile = new CSSFile(filechooser.getSelectedFile()); 
+			
+			cssfile = new CSSFile(filechooser.getSelectedFile());
+			cssfile.ReadFile();
+			text.setText(cssfile.toString());
+			
 								
 		}
 	}
