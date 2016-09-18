@@ -1,20 +1,19 @@
 package frames;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JOptionPane;
+import css.CSSFile;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import css.CSSFile;
 
 public class MainFrame extends JFrame {
 
@@ -23,16 +22,13 @@ public class MainFrame extends JFrame {
 	private JButton newfileButton, openfileButton;
 	private CSSFile cssfile;
 	private JTextArea text;
-	private JMenu menu;
 	
 	public MainFrame() throws IOException {
 		
 		setLayout(new BorderLayout());
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(null);
-		
-		menu = new JMenu("hello");
-		
+				
 		newfileButton = new JButton("New");
 		newfileButton.setBounds(770, 520, 100, 30);
 		buttonPanel.add(newfileButton);
@@ -46,7 +42,6 @@ public class MainFrame extends JFrame {
 		text = new JTextArea(100, 100);
 		add(text);
 		
-		add(menu);
 		add(buttonPanel);
 		setTitle("CSS Generator");
 		setSize(1020, 600);
@@ -66,13 +61,13 @@ public class MainFrame extends JFrame {
 			JFileChooser filechooser = new JFileChooser(cssdir);
 			filechooser.setDialogTitle("Select File");
 			filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			filechooser.showOpenDialog(new JLabel());
+			filechooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
 			
-			cssfile = new CSSFile(filechooser.getSelectedFile());
-			cssfile.ReadFile();
-			text.setText(cssfile.toString());
-			
-								
+	
+			if(filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				cssfile = new CSSFile(filechooser.getSelectedFile());
+				cssfile.ReadFile();
+			}						
 		}
 	}
 }
