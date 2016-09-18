@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L; 
 	private JButton newfileButton, openfileButton;
 	private CSSFile cssfile;
-	private JTree tree;
+	private JTree csstree;
 		
 	public MainFrame() throws IOException {
 		
@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
 		OpenFile open = new OpenFile();
 		openfileButton.addActionListener(open);
 		add(openfileButton);
-		
+				
 		setTitle("CSS Generator");
 		setBounds(150, 50, 1020, 600);
 		setMaximizedBounds(getBounds());
