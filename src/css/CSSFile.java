@@ -38,7 +38,7 @@ public class CSSFile {
 			BufferedReader br = new BufferedReader(filereader);
 			int c;
 			StringBuffer buff = new StringBuffer();
-			CSSSelector temp_block = null;
+			CSSSelector temp_selector = null;
 			Property temp_prop = null;
 			String type = "Element Type Selector";
 
@@ -49,13 +49,13 @@ public class CSSFile {
 					switch(ch) {
 
 						case '{' :
-							temp_block = new CSSSelector(buff.toString().trim(), type);
+							temp_selector = new CSSSelector(buff.toString().trim(), type);
 							buff.delete(0, buff.length());
 							type = "Element Type Selector";
 							break;
 
 						case '}' :
-							add(temp_block);
+							add(temp_selector);
 							break;
 
 						case ':' :
@@ -66,7 +66,7 @@ public class CSSFile {
 						case ';' :
 							temp_prop.setValue(buff.toString().trim());
 							buff.delete(0, buff.length());
-							temp_block.add(temp_prop);
+							temp_selector.add(temp_prop);
 							break;
 
 						case '*' :
