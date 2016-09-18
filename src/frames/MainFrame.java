@@ -64,6 +64,7 @@ public class MainFrame extends JFrame {
 			
 	
 			if(filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				setTitle(filechooser.getSelectedFile().getName() + " - CSS Generator");
 				cssfile = new CSSFile(filechooser.getSelectedFile());
 				cssfile.ReadFile();
 			}						
