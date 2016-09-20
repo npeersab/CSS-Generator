@@ -1,5 +1,7 @@
 package css;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import css.Property;
 
 public class CSSSelector {
@@ -46,5 +48,18 @@ public class CSSSelector {
 		
 		return buff.toString();
 	}
-
+	
+	public DefaultMutableTreeNode getTree() {
+		
+		DefaultMutableTreeNode prop = new DefaultMutableTreeNode(name);
+		Property temp = property;
+		
+		while(temp != null) {
+			
+			prop.add(new DefaultMutableTreeNode(temp.getName()));
+			temp = temp.next;
+		}
+		
+		return prop;
+	}
 }

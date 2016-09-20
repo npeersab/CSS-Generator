@@ -9,13 +9,13 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class CSSFile {
 
 	File file ;
-	CSSSelector block;
+	CSSSelector selector;
 
 	public CSSFile(File newfile) {
 
@@ -93,16 +93,16 @@ public class CSSFile {
 		} // if
 	} // ReadFile
 
-	public void add(CSSSelector block) {
+	public void add(CSSSelector selector) {
 
-		if(this.block == null) {
-			this.block = block; 
+		if(this.selector == null) {
+			this.selector = selector; 
 		}
 		else { 
-			CSSSelector temp = this.block;
+			CSSSelector temp = this.selector;
 			while(temp.next != null)
 				temp = temp.next;
-			temp.next = block;
+			temp.next = selector;
 		}
 	}
 
@@ -120,13 +120,27 @@ public class CSSFile {
 
 	public String toString() {
 
-		CSSSelector temp = block;
+		CSSSelector temp = selector;
 		StringBuffer buff= new StringBuffer();
 
 		while(temp != null) {
 			buff.append(temp + "\n\n");
 			temp = temp.next;
 		}
+		
 		return buff.toString();
+	}
+	
+	public DefaultMutableTreeNode getTree() {
+		
+		DefaultMutableTreeNode selectors = new DefaultMutableTreeNode(file.getName());
+		CSSSelector temp = selector;
+		
+		while(temp != null) {
+			selectors.add(temp.getTree());
+			temp = temp.next;
+		}
+			
+		return selectors;
 	}
 }

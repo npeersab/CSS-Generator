@@ -2,8 +2,8 @@ package css;
 
 public class Property {
 	
-	String name, value;
-	Property next;
+	private String name, value;
+	public Property next;
 	
 	Property(String name) {
 		
@@ -17,5 +17,9 @@ public class Property {
 	public String toString() {
 		
 		return "\n\t" + name + " : " + value + ";";
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
