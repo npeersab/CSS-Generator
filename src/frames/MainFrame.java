@@ -2,15 +2,20 @@ package frames;
 
 import css.CSSFile;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.tree.TreeNode;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -20,6 +25,7 @@ public class MainFrame extends JFrame {
 	private JButton newfileButton, openfileButton;
 	private CSSFile cssfile;
 	private JTree csstree;
+	private JMenuBar menubar;
 		
 	public MainFrame() throws IOException {
 		
@@ -33,8 +39,28 @@ public class MainFrame extends JFrame {
 		openfileButton.setBounds(890, 520, 100, 30);
 		OpenFile open = new OpenFile();
 		openfileButton.addActionListener(open);
+		openfileButton.setMnemonic(KeyEvent.VK_O);
 		add(openfileButton);
-				
+		 
+		JMenuItem newfile = new JMenuItem("New");
+		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+		newfile.setMnemonic(KeyEvent.VK_N);
+		
+		JMenuItem openfile = new JMenuItem("Open");
+		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
+		openfile.setMnemonic(KeyEvent.VK_O);
+		openfile.addActionListener(open);
+		
+		JMenu file = new JMenu("File");
+		file.setMnemonic(KeyEvent.VK_F);
+		file.add(newfile);
+		file.add(openfile);
+		
+		
+		menubar = new JMenuBar();
+		menubar.add(file);
+
+		setJMenuBar(menubar);
 		setTitle("CSS Generator");
 		setBounds(150, 50, 1020, 600);
 		setMaximizedBounds(getBounds());
@@ -64,4 +90,6 @@ public class MainFrame extends JFrame {
 			}						
 		}
 	}
+	
+	
 }
