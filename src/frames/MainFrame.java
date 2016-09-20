@@ -42,24 +42,8 @@ public class MainFrame extends JFrame {
 		openfileButton.setMnemonic(KeyEvent.VK_O);
 		add(openfileButton);
 		 
-		JMenuItem newfile = new JMenuItem("New");
-		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
-		newfile.setMnemonic(KeyEvent.VK_N);
 		
-		JMenuItem openfile = new JMenuItem("Open");
-		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
-		openfile.setMnemonic(KeyEvent.VK_O);
-		openfile.addActionListener(open);
-		
-		JMenu file = new JMenu("File");
-		file.setMnemonic(KeyEvent.VK_F);
-		file.add(newfile);
-		file.add(openfile);
-		
-		
-		menubar = new JMenuBar();
-		menubar.add(file);
-
+		createMenuBar();
 		setJMenuBar(menubar);
 		setTitle("CSS Generator");
 		setBounds(150, 50, 1020, 600);
@@ -72,6 +56,7 @@ public class MainFrame extends JFrame {
 	
 	public class OpenFile implements ActionListener {
 		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			
 			String home = System.getProperty("user.home");
@@ -91,5 +76,35 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
-	
+	private void createMenuBar() {
+		
+		JMenuItem newfile = new JMenuItem("New");
+		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+		newfile.setMnemonic(KeyEvent.VK_N);
+		
+		JMenuItem openfile = new JMenuItem("Open");
+		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
+		openfile.setMnemonic(KeyEvent.VK_O);
+		openfile.addActionListener(new OpenFile());
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
+		exit.setMnemonic(KeyEvent.VK_X);
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		JMenu file = new JMenu("File");
+		file.setMnemonic(KeyEvent.VK_F);
+		file.add(newfile);
+		file.add(openfile);
+		file.add(exit);
+		
+		
+		menubar = new JMenuBar();
+		menubar.add(file);
+	}
 }
