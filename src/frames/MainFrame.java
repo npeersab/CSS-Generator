@@ -1,6 +1,7 @@
 package frames;
 
 import css.CSSFile;
+
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -25,6 +27,7 @@ public class MainFrame extends JFrame {
 	private JButton newfileButton, openfileButton;
 	private CSSFile cssfile;
 	private JTree csstree;
+	private DefaultMutableTreeNode root;
 	private JMenuBar menubar;
 		
 	public MainFrame() throws IOException {
@@ -33,22 +36,28 @@ public class MainFrame extends JFrame {
 								
 		newfileButton = new JButton("New");
 		newfileButton.setBounds(770, 520, 100, 30);
-		add(newfileButton);
-		
+			
 		openfileButton = new JButton("Open");
 		openfileButton.setBounds(890, 520, 100, 30);
 		OpenFile open = new OpenFile();
 		openfileButton.addActionListener(open);
 		openfileButton.setMnemonic(KeyEvent.VK_O);
-		add(openfileButton);
-		 
 		
+		root = new DefaultMutableTreeNode("New File");
+		csstree = new JTree(root);
+		csstree.setBounds(0, 0, 300, 620);
+		//csstree.setRootVisible(false);
+		add(csstree);
+		
+		
+		add(newfileButton);
+		add(openfileButton);
 		createMenuBar();
 		setJMenuBar(menubar);
 		setTitle("CSS Generator");
-		setBounds(150, 50, 1020, 600);
+		setBounds(150, 50, 1020, 620);
 		setMaximizedBounds(getBounds());
-		setMinimumSize(new Dimension(1020, 600));
+		setMinimumSize(new Dimension(1020, 620));
 		setIconImage(ImageIO.read(new File("res/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -72,6 +81,9 @@ public class MainFrame extends JFrame {
 				setTitle(filechooser.getSelectedFile().getName() + " - CSS Generator");
 				cssfile = new CSSFile(filechooser.getSelectedFile());
 				cssfile.ReadFile();
+				root.removeAllChildren();
+				root.add(cssfile.getTree());
+				csstree.updateUI();
 			}						
 		}
 	}
