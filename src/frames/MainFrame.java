@@ -1,7 +1,6 @@
 package frames;
 
 import css.CSSFile;
-
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
