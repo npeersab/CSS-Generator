@@ -13,12 +13,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -31,6 +33,7 @@ public class MainFrame extends JFrame {
 	private JTree csstree;
 	private DefaultMutableTreeNode root;
 	private JMenuBar menubar;
+	private AddNode addActionListener;
 		
 	public MainFrame() throws IOException {
 		
@@ -56,32 +59,6 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 	} // Constructor
 	
-	public class OpenFile implements ActionListener {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-						
-			openFile();						
-		}
-	}
-		
-	public class NewFile implements ActionListener {
-		
-			@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			MainFrame.this.remove(csstree);
-				
-			setTitle("new file* - CSS Generator");
-			root = new DefaultMutableTreeNode("new file*");
-			
-			createTree(root);
-			MainFrame.this.add(csstree);
-			MainFrame.this.repaint();	
-		}
-		
-	}
-
 	private void createMenuBar() {
 		
 		JMenuItem newfile = new JMenuItem("New");
@@ -170,21 +147,28 @@ public class MainFrame extends JFrame {
 				
 				case 1 :
 					AddButton.setText("Add Selector");
+					addActionListener.setPath(path);
 					break;
 					
 				case 2 :
 					AddButton.setText("Add Property");
+					addActionListener.setPath(path);
+										
 					RemoveButton.setText("Remove Selector");
 					RemoveButton.setVisible(true);
+					RemoveButton.addActionListener(new DeleteNode(path));
 					break;
 					
 				case 3 :
 					AddButton.setText("Edit Propery");
 					RemoveButton.setText("Remove Property");
 					RemoveButton.setVisible(true);
+					RemoveButton.addActionListener(new DeleteNode(path));
 					break;
 				}
+				
 				AddButton.setVisible(true);
+				
 			}
 		});
 	}
@@ -203,11 +187,78 @@ public class MainFrame extends JFrame {
 		
 		AddButton = new JButton("");
 		AddButton.setBounds(20, 520, 130, 30);
+		addActionListener = new AddNode();
+		AddButton.addActionListener(addActionListener);
 		AddButton.setVisible(false);
 		
 		RemoveButton = new JButton();
 		RemoveButton.setBounds(170, 520, 170, 30);
 		RemoveButton.setMnemonic(KeyEvent.VK_DELETE);
 		RemoveButton.setVisible(false);
+		
+	}
+
+	public class OpenFile implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+						
+			openFile();						
+		}
+	}
+		
+	public class NewFile implements ActionListener {
+		
+			@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			MainFrame.this.remove(csstree);
+				
+			setTitle("new file* - CSS Generator");
+			root = new DefaultMutableTreeNode("new file*");
+			
+			createTree(root);
+			MainFrame.this.add(csstree);
+			MainFrame.this.repaint();	
+		}
+		
+	}
+
+	public class DeleteNode implements ActionListener {
+
+		private TreePath path;
+		
+		public DeleteNode(TreePath path) {
+			
+			this.path = path;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			DefaultTreeModel model = (DefaultTreeModel) csstree.getModel();
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+			if(node.getParent() != null)
+				model.removeNodeFromParent(node);
+		}
+		
+	}
+
+	public class AddNode implements ActionListener {
+
+		private TreePath path;
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+			node.add(new DefaultMutableTreeNode("add"));
+			csstree.updateUI();
+		}
+		
+		public void setPath(TreePath path) {
+			
+			this.path = path;
+		}
+		
 	}
 }
