@@ -6,8 +6,8 @@ import css.Property;
 
 public class CSSSelector {
 	
-	String name, type;
-	Property property;
+	private String name, type;
+	private Property property;
 	CSSSelector next;
 
 	public CSSSelector(String name, String type) {
@@ -61,5 +61,10 @@ public class CSSSelector {
 		}
 		
 		return prop;
+	}
+	
+	public String getName() {
+		
+		return name; 
 	}
 }

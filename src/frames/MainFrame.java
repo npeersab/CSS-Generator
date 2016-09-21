@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.event.TreeSelectionEvent;
@@ -74,6 +73,14 @@ public class MainFrame extends JFrame {
 		JMenuItem save = new JMenuItem("Save");
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		save.setMnemonic(KeyEvent.VK_S);
+		save.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				cssfile.SaveFile();
+			}
+		});
 		
 		JMenuItem saveAs  = new JMenuItem("Save As...");
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
@@ -235,6 +242,12 @@ public class MainFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			if(path.getPathCount() == 2) {
+				cssfile.removeSelector(path.getLastPathComponent().toString());
+			}
+			
+			
 			
 			DefaultTreeModel model = (DefaultTreeModel) csstree.getModel();
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();

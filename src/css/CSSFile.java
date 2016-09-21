@@ -106,16 +106,25 @@ public class CSSFile {
 		}
 	}
 
-	public void WriteFile() throws Exception {
+	public void SaveFile() {
 
 		String home = System.getProperty("user.home");
 		File cssdir = new File(home, "css_generator");
 		if(!cssdir.exists()) 
 			cssdir.mkdir();
 
-		FileWriter filewriter = new FileWriter(file);
-		filewriter.write(this.toString());
-		filewriter.close();
+		FileWriter filewriter = null;
+		
+		try {
+			
+			filewriter = new FileWriter(file);
+			filewriter.write(this.toString());
+			filewriter.close();
+		} catch (IOException e) {
+			
+			JOptionPane.showMessageDialog(mainclass.frame, "Error While Saving file", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	} 
 
 	public String toString() {
@@ -142,5 +151,22 @@ public class CSSFile {
 		}
 			
 		return selectors;
+	}
+	
+	public void removeSelector(String name) {
+		
+		CSSSelector temp = selector;
+		
+		if(temp.getName().equals(name)) {
+			selector = selector.next;
+		}
+		
+		while(temp != null) {
+			
+			if(temp.next.getName().equals(name)) {
+				temp.next = temp.next.next;
+			}
+			temp = temp.next;
+		}
 	}
 }
