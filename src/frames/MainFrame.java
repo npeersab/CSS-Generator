@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
 		setIconImage(ImageIO.read(new File("res/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-	}
+	} // Constructor
 	
 	public class OpenFile implements ActionListener {
 		
@@ -78,7 +78,8 @@ public class MainFrame extends JFrame {
 			
 			createTree(root);
 			MainFrame.this.add(csstree);
-			MainFrame.this.repaint();		}
+			MainFrame.this.repaint();	
+		}
 		
 	}
 
@@ -99,8 +100,8 @@ public class MainFrame extends JFrame {
 		save.setMnemonic(KeyEvent.VK_S);
 		
 		JMenuItem saveAs  = new JMenuItem("Save As...");
-		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
-		save.setMnemonic(KeyEvent.VK_S);
+		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		saveAs.setMnemonic(KeyEvent.VK_S);
 		
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
@@ -118,12 +119,13 @@ public class MainFrame extends JFrame {
 		file.add(openfile);
 		file.addSeparator();
 		file.add(save);
+		file.add(saveAs);
 		file.addSeparator();
 		file.add(exit);
 		
 		menubar = new JMenuBar();
 		menubar.add(file);
-	}
+	} // CreateMenuBar
 	
 	public void openFile() {
 		
@@ -160,9 +162,10 @@ public class MainFrame extends JFrame {
 			public void valueChanged(TreeSelectionEvent e) {
 				
 				TreePath path = e.getPath();
-				if(path.toString().equals("[No File Selected]"))
+				if(path.toString().equals("[No File Selected]")) {
 					openFile();
-				
+					return;
+				}
 				
 				switch(path.getPathCount()) {
 				
@@ -204,7 +207,8 @@ public class MainFrame extends JFrame {
 		AddButton.setVisible(false);
 		
 		RemoveButton = new JButton();
-		RemoveButton.setBounds(170, 520, 180, 30);
+		RemoveButton.setBounds(170, 520, 170, 30);
+		RemoveButton.setMnemonic(KeyEvent.VK_DELETE);
 		RemoveButton.setVisible(false);
 	}
 }
