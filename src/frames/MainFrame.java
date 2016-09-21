@@ -16,15 +16,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L; 
-	private JButton newfileButton, openfileButton;
+	private JButton NewFileButton, OpenFileButton, AddButton, RemoveButton; 
 	private CSSFile cssfile;
 	private JTree csstree;
 	private DefaultMutableTreeNode root;
@@ -33,26 +36,17 @@ public class MainFrame extends JFrame {
 	public MainFrame() throws IOException {
 		
 		setLayout(null);
-								
-		newfileButton = new JButton("New");
-		newfileButton.setBounds(770, 520, 100, 30);
-			
-		openfileButton = new JButton("Open");
-		openfileButton.setBounds(890, 520, 100, 30);
-		OpenFile open = new OpenFile();
-		openfileButton.addActionListener(open);
-		openfileButton.setMnemonic(KeyEvent.VK_O);
-		
-		root = new DefaultMutableTreeNode("New File");
-		csstree = new JTree(root);
-		csstree.setBounds(0, 0, 300, 620);
-		//csstree.setRootVisible(false);
-		add(csstree);
-		
-		
-		add(newfileButton);
-		add(openfileButton);
+	
+		root = new DefaultMutableTreeNode("No File Selected");
+		createTree(root);
+		createButtons();
 		createMenuBar();
+		
+		add(csstree);
+		add(NewFileButton);
+		add(OpenFileButton);
+		add(AddButton);
+		add(RemoveButton);
 		setJMenuBar(menubar);
 		setTitle("CSS Generator");
 		setBounds(150, 50, 1020, 620);
@@ -67,37 +61,46 @@ public class MainFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			String home = System.getProperty("user.home");
-			File cssdir = new File(home, "css_generator");
-			
-			JFileChooser filechooser = new JFileChooser(cssdir);
-			filechooser.setDialogTitle("Select File");
-			filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			filechooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
-			
-	
-			if(filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				setTitle(filechooser.getSelectedFile().getName() + " - CSS Generator");
-				cssfile = new CSSFile(filechooser.getSelectedFile());
-				cssfile.ReadFile();
-				root.removeAllChildren();
-				root.add(cssfile.getTree());
-				csstree.updateUI();
-			}						
+						
+			openFile();						
 		}
 	}
-	
+		
+	public class NewFile implements ActionListener {
+		
+			@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			MainFrame.this.remove(csstree);
+				
+			setTitle("new file* - CSS Generator");
+			root = new DefaultMutableTreeNode("new file*");
+			
+			createTree(root);
+			MainFrame.this.add(csstree);
+			MainFrame.this.repaint();		}
+		
+	}
+
 	private void createMenuBar() {
 		
 		JMenuItem newfile = new JMenuItem("New");
 		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
 		newfile.setMnemonic(KeyEvent.VK_N);
+		newfile.addActionListener(new NewFile());
 		
-		JMenuItem openfile = new JMenuItem("Open");
+		JMenuItem openfile = new JMenuItem("Open File...");
 		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
 		openfile.setMnemonic(KeyEvent.VK_O);
 		openfile.addActionListener(new OpenFile());
+		
+		JMenuItem save = new JMenuItem("Save");
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		save.setMnemonic(KeyEvent.VK_S);
+		
+		JMenuItem saveAs  = new JMenuItem("Save As...");
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		save.setMnemonic(KeyEvent.VK_S);
 		
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
@@ -113,10 +116,95 @@ public class MainFrame extends JFrame {
 		file.setMnemonic(KeyEvent.VK_F);
 		file.add(newfile);
 		file.add(openfile);
+		file.addSeparator();
+		file.add(save);
+		file.addSeparator();
 		file.add(exit);
-		
 		
 		menubar = new JMenuBar();
 		menubar.add(file);
+	}
+	
+	public void openFile() {
+		
+		String home = System.getProperty("user.home");
+		File cssdir = new File(home, "css_generator");
+		
+		JFileChooser filechooser = new JFileChooser(cssdir);
+		filechooser.setDialogTitle("Select File");
+		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		filechooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
+		
+		if(filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			setTitle(filechooser.getSelectedFile().getName() + " - CSS Generator");
+			
+			cssfile = new CSSFile(filechooser.getSelectedFile());
+			cssfile.ReadFile();
+			
+			root = cssfile.getTree();
+			remove(csstree);
+			createTree(root);
+			add(csstree);
+			repaint();
+	
+		}
+	}
+	
+	public void createTree(DefaultMutableTreeNode root) {
+		
+		csstree = new JTree(root);
+		csstree.setBounds(5, 5, 300, 450);
+		csstree.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				
+				TreePath path = e.getPath();
+				if(path.toString().equals("[No File Selected]"))
+					openFile();
+				
+				
+				switch(path.getPathCount()) {
+				
+				case 1 :
+					AddButton.setText("Add Selector");
+					break;
+					
+				case 2 :
+					AddButton.setText("Add Property");
+					RemoveButton.setText("Remove Selector");
+					RemoveButton.setVisible(true);
+					break;
+					
+				case 3 :
+					AddButton.setText("Edit Propery");
+					RemoveButton.setText("Remove Property");
+					RemoveButton.setVisible(true);
+					break;
+				}
+				AddButton.setVisible(true);
+			}
+		});
+	}
+	
+	public void createButtons() {
+	
+		NewFileButton = new JButton("New");
+		NewFileButton.setBounds(730, 520, 100, 30);
+		NewFileButton.addActionListener(new NewFile());
+		NewFileButton.setMnemonic(KeyEvent.VK_N);
+			
+		OpenFileButton = new JButton("Open File...");
+		OpenFileButton.setBounds(860, 520, 120, 30);
+		OpenFileButton.addActionListener(new OpenFile());
+		OpenFileButton.setMnemonic(KeyEvent.VK_O);
+		
+		AddButton = new JButton("");
+		AddButton.setBounds(20, 520, 130, 30);
+		AddButton.setVisible(false);
+		
+		RemoveButton = new JButton();
+		RemoveButton.setBounds(170, 520, 180, 30);
+		RemoveButton.setVisible(false);
 	}
 }

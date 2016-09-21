@@ -14,8 +14,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class CSSFile {
 
-	File file ;
-	CSSSelector selector;
+	private File file ;
+	private CSSSelector selector;
 
 	public CSSFile(File newfile) {
 
