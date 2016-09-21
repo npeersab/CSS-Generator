@@ -1,6 +1,8 @@
 package frames;
 
 import css.CSSFile;
+import css.CSSSelector;
+
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
@@ -13,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.event.TreeSelectionEvent;
@@ -263,8 +266,18 @@ public class MainFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			String name = null;
+			
+			if(path.getPathCount() == 1) {
+				
+				name = JOptionPane.showInputDialog("Enter Selector name");
+				CSSSelector selector = new CSSSelector(name, "Element Type Selector");
+				cssfile.add(selector);
+			}
+			
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-			node.add(new DefaultMutableTreeNode("add"));
+			node.add(new DefaultMutableTreeNode(name));
 			csstree.updateUI();
 		}
 		
