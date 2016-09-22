@@ -156,18 +156,25 @@ public class MainFrame extends JFrame {
 				
 				case 1 :
 					AddButton.setText("Add Selector");
+					AddButton.setToolTipText("add new Selector in the File");
 					break;
 					
 				case 2 :
 					AddButton.setText("Add Property");
+					AddButton.setToolTipText("add new Property to selected Selector");
+					
 					RemoveButton.setText("Remove Selector");
+					RemoveButton.setToolTipText("remove selected Selector");
 					RemoveButton.setVisible(true);
 					
 					break;
 					
 				case 3 :
 					AddButton.setText("Edit Propery");
+					AddButton.setToolTipText("edit selected Property");
+					
 					RemoveButton.setText("Remove Property");
+					RemoveButton.setToolTipText("remove selected Property");
 					RemoveButton.setVisible(true);
 					break;
 				}
@@ -187,11 +194,13 @@ public class MainFrame extends JFrame {
 		NewFileButton.setBounds(730, 520, 100, 30);
 		NewFileButton.addActionListener(new NewFile());
 		NewFileButton.setMnemonic(KeyEvent.VK_N);
+		NewFileButton.setToolTipText("create new File");
 			
 		OpenFileButton = new JButton("Open File...");
 		OpenFileButton.setBounds(860, 520, 120, 30);
 		OpenFileButton.addActionListener(new OpenFile());
 		OpenFileButton.setMnemonic(KeyEvent.VK_O);
+		OpenFileButton.setToolTipText("open existing File");
 		
 		AddButton = new JButton("");
 		AddButton.setBounds(20, 520, 130, 30);
