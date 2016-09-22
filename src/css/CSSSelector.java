@@ -19,7 +19,7 @@ public class CSSSelector {
 		this.type = type;
 	}
 	
-	public void add(Property property) {
+	public void addProperty(Property property) {
 		
 		if(this.property == null) {
 			this.property = property;
@@ -30,6 +30,11 @@ public class CSSSelector {
 				temp = temp.next;
 			temp.next = property;
 		}
+	}
+	
+	public void addProperty(String name, String value){
+		
+		addProperty(new Property(name, value));
 	}
 	
 	public String toString() {
@@ -66,5 +71,21 @@ public class CSSSelector {
 	public String getName() {
 		
 		return name; 
+	}
+
+	public void removeProperty(String property) {
+		
+		Property temp = this.property;
+		
+		if(temp.getName().equals(property)) {
+			this.property = temp;
+		}
+		
+		while(temp.next != null) {
+			if(temp.next.getName().equals(property)) {
+				temp.next = temp.next.next;
+			}
+			temp = temp.next;
+		}
 	}
 }

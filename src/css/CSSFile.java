@@ -55,7 +55,7 @@ public class CSSFile {
 							break;
 
 						case '}' :
-							add(temp_selector);
+							addSelector(temp_selector);
 							break;
 
 						case ':' :
@@ -66,7 +66,7 @@ public class CSSFile {
 						case ';' :
 							temp_prop.setValue(buff.toString().trim());
 							buff.delete(0, buff.length());
-							temp_selector.add(temp_prop);
+							temp_selector.addProperty(temp_prop);
 							break;
 
 						case '*' :
@@ -93,7 +93,7 @@ public class CSSFile {
 		} // if
 	} // ReadFile
 
-	public void add(CSSSelector selector) {
+	public void addSelector(CSSSelector selector) {
 
 		if(this.selector == null) {
 			this.selector = selector; 
@@ -161,11 +161,39 @@ public class CSSFile {
 			selector = selector.next;
 		}
 		
-		while(temp != null) {
+		while(temp.next != null) {
 			
 			if(temp.next.getName().equals(name)) {
 				temp.next = temp.next.next;
 			}
+			temp = temp.next;
+		}
+	}
+
+	public void removeProperty(String selector, String property) {
+		
+		CSSSelector temp = this.selector;
+		
+		while(temp != null) {
+			
+			if(temp.getName().equals(selector)) {
+				temp.removeProperty(property);
+				break;
+			}
+			temp = temp.next;
+		}
+	}
+
+	public void addProperty(String selector, String property, String value) {
+		
+		CSSSelector temp = this.selector;
+		
+		while(temp != null) {
+			
+			if(temp.getName().equals(selector)) {
+				
+			}
+				
 			temp = temp.next;
 		}
 	}

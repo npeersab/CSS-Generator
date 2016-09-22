@@ -2,7 +2,6 @@ package frames;
 
 import css.CSSFile;
 import css.CSSSelector;
-
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
@@ -35,8 +34,9 @@ public class MainFrame extends JFrame {
 	private JTree csstree;
 	private DefaultMutableTreeNode root;
 	private JMenuBar menubar;
-	private AddNode addActionListener;
-		
+	private AddNode addNodeActionListener;
+	private DeleteNode removeNodeActionListener;
+
 	public MainFrame() throws IOException {
 		
 		setLayout(null);
@@ -134,22 +134,21 @@ public class MainFrame extends JFrame {
 			createTree(root);
 			add(csstree);
 			repaint();
-	
 		}
 	}
 	
 	public void createTree(DefaultMutableTreeNode root) {
 		
 		csstree = new JTree(root);
-		csstree.setBounds(5, 5, 300, 450);
+		csstree.setBounds(20, 20, 300, 450);
 		csstree.addTreeSelectionListener(new TreeSelectionListener() {
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				
 				TreePath path = e.getPath();
+				
 				if(path.toString().equals("[No File Selected]")) {
-					openFile();
 					return;
 				}
 				
@@ -157,30 +156,29 @@ public class MainFrame extends JFrame {
 				
 				case 1 :
 					AddButton.setText("Add Selector");
-					addActionListener.setPath(path);
 					break;
 					
 				case 2 :
 					AddButton.setText("Add Property");
-					addActionListener.setPath(path);
-										
 					RemoveButton.setText("Remove Selector");
 					RemoveButton.setVisible(true);
-					RemoveButton.addActionListener(new DeleteNode(path));
+					
 					break;
 					
 				case 3 :
 					AddButton.setText("Edit Propery");
 					RemoveButton.setText("Remove Property");
 					RemoveButton.setVisible(true);
-					RemoveButton.addActionListener(new DeleteNode(path));
 					break;
 				}
 				
+				addNodeActionListener.setPath(path);
+				removeNodeActionListener.setPath(path);
 				AddButton.setVisible(true);
 				
 			}
 		});
+
 	}
 	
 	public void createButtons() {
@@ -197,13 +195,15 @@ public class MainFrame extends JFrame {
 		
 		AddButton = new JButton("");
 		AddButton.setBounds(20, 520, 130, 30);
-		addActionListener = new AddNode();
-		AddButton.addActionListener(addActionListener);
+		addNodeActionListener = new AddNode();
+		AddButton.addActionListener(addNodeActionListener);
 		AddButton.setVisible(false);
 		
 		RemoveButton = new JButton();
 		RemoveButton.setBounds(170, 520, 170, 30);
 		RemoveButton.setMnemonic(KeyEvent.VK_DELETE);
+		removeNodeActionListener = new DeleteNode();
+		RemoveButton.addActionListener(removeNodeActionListener);
 		RemoveButton.setVisible(false);
 		
 	}
@@ -238,24 +238,28 @@ public class MainFrame extends JFrame {
 
 		private TreePath path;
 		
-		public DeleteNode(TreePath path) {
-			
-			this.path = path;
-		}
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
 			if(path.getPathCount() == 2) {
 				cssfile.removeSelector(path.getLastPathComponent().toString());
+
 			}
 			
-			
+			if(path.getPathCount() == 3) {
+				
+				cssfile.removeProperty(path.getPathComponent(2).toString(), path.getLastPathComponent().toString());
+			}
 			
 			DefaultTreeModel model = (DefaultTreeModel) csstree.getModel();
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 			if(node.getParent() != null)
 				model.removeNodeFromParent(node);
+		}
+		
+		public void setPath(TreePath path) {
+			
+			this.path = path;
 		}
 		
 	}
@@ -273,7 +277,7 @@ public class MainFrame extends JFrame {
 				
 				name = JOptionPane.showInputDialog("Enter Selector name");
 				CSSSelector selector = new CSSSelector(name, "Element Type Selector");
-				cssfile.add(selector);
+				cssfile.addSelector(selector);
 			}
 			
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();

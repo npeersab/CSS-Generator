@@ -3,11 +3,17 @@ package css;
 public class Property {
 	
 	private String name, value;
-	public Property next;
+	Property next;
 	
-	Property(String name) {
+	public Property(String name) {
 		
 		this.name = name;
+	}
+	
+	public Property(String name, String value) {
+		
+		this(name);
+		this.value = value;
 	}
 	
 	public void setValue(String value) {
