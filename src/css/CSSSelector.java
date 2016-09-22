@@ -56,7 +56,7 @@ public class CSSSelector {
 	
 	public DefaultMutableTreeNode getTree() {
 		
-		DefaultMutableTreeNode prop = new DefaultMutableTreeNode(name);
+		DefaultMutableTreeNode prop = new DefaultMutableTreeNode(this.getName());
 		Property temp = property;
 		
 		while(temp != null) {

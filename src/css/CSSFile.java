@@ -140,9 +140,13 @@ public class CSSFile {
 		return buff.toString();
 	}
 	
+	public String getName() {
+		return file.getName();
+	}
+	
 	public DefaultMutableTreeNode getTree() {
 		
-		DefaultMutableTreeNode selectors = new DefaultMutableTreeNode(file.getName());
+		DefaultMutableTreeNode selectors = new DefaultMutableTreeNode(this.getName());
 		CSSSelector temp = selector;
 		
 		while(temp != null) {

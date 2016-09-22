@@ -21,8 +21,10 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -37,7 +39,7 @@ public class MainFrame extends JFrame {
 	private AddNode addNodeActionListener;
 	private DeleteNode removeNodeActionListener;
 
-	public MainFrame() throws IOException {
+	public MainFrame() {
 		
 		setLayout(null);
 	
@@ -56,7 +58,12 @@ public class MainFrame extends JFrame {
 		setBounds(150, 50, 1020, 620);
 		setMaximizedBounds(getBounds());
 		setMinimumSize(new Dimension(1020, 620));
-		setIconImage(ImageIO.read(new File("res/icon.png")));
+		try {
+			setIconImage(ImageIO.read(new File("/usr/local/CSS-Generator/res/icon.png")));
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(getParent(), "some files are missing please re-install CSS-Generator", "Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(ERROR);
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	} // Constructor
@@ -141,6 +148,10 @@ public class MainFrame extends JFrame {
 		
 		csstree = new JTree(root);
 		csstree.setBounds(20, 20, 300, 450);
+		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+		renderer.setLeafIcon(new ImageIcon("res/property.png"));
+		csstree.setCellRenderer(renderer);
+		
 		csstree.addTreeSelectionListener(new TreeSelectionListener() {
 			
 			@Override
@@ -300,4 +311,5 @@ public class MainFrame extends JFrame {
 		}
 		
 	}
+
 }
