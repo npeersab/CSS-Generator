@@ -31,7 +31,7 @@ import javax.swing.JFileChooser;
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L; 
-	private JButton NewFileButton, OpenFileButton, AddButton, RemoveButton; 
+	private JButton AddButton, RemoveButton; 
 	private CSSFile cssfile;
 	private JTree csstree;
 	private DefaultMutableTreeNode root;
@@ -49,8 +49,6 @@ public class MainFrame extends JFrame {
 		createMenuBar();
 		
 		add(csstree);
-		add(NewFileButton);
-		add(OpenFileButton);
 		add(AddButton);
 		add(RemoveButton);
 		setJMenuBar(menubar);
@@ -197,18 +195,6 @@ public class MainFrame extends JFrame {
 	
 	public void createButtons() {
 	
-		NewFileButton = new JButton("New");
-		NewFileButton.setBounds(730, 520, 100, 30);
-		NewFileButton.addActionListener(new NewFile());
-		NewFileButton.setMnemonic(KeyEvent.VK_N);
-		NewFileButton.setToolTipText("create new File");
-			
-		OpenFileButton = new JButton("Open File...");
-		OpenFileButton.setBounds(860, 520, 120, 30);
-		OpenFileButton.addActionListener(new OpenFile());
-		OpenFileButton.setMnemonic(KeyEvent.VK_O);
-		OpenFileButton.setToolTipText("open existing File");
-		
 		AddButton = new JButton("");
 		AddButton.setBounds(20, 520, 130, 30);
 		addNodeActionListener = new AddNode();
