@@ -83,14 +83,10 @@ public class MainFrame extends JFrame {
 		JMenuItem save = new JMenuItem("Save");
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		save.setMnemonic(KeyEvent.VK_S);
-		save.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		save.addActionListener( e ->
 				
-				cssfile.SaveFile();
-			}
-		});
+				cssfile.SaveFile()
+		);
 		
 		JMenuItem saveAs  = new JMenuItem("Save As...");
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
@@ -275,6 +271,8 @@ public class MainFrame extends JFrame {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 			if(node.getParent() != null)
 				model.removeNodeFromParent(node);
+			
+			RemoveButton.setVisible(false);
 		}
 		
 		public void setPath(TreePath path) {
