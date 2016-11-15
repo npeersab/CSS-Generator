@@ -2,7 +2,7 @@ package css;
 
 import css.CSSSelector;
 import css.Property;
-import main.mainclass;
+import main.MainClass;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -32,7 +32,7 @@ public class CSSFile {
 			}
 			catch(FileNotFoundException e) {
 
-				JOptionPane.showMessageDialog(mainclass.frame, "Unable to open file", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(MainClass.frame, "Unable to open file", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			BufferedReader br = new BufferedReader(filereader);
@@ -88,7 +88,7 @@ public class CSSFile {
 				br.close();
 			}
 			catch(IOException e) {
-				JOptionPane.showMessageDialog(mainclass.frame, "Unable to read file", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(MainClass.frame, "Unable to read file", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} // if
 	} // ReadFile
@@ -122,7 +122,7 @@ public class CSSFile {
 			filewriter.close();
 		} catch (IOException e) {
 			
-			JOptionPane.showMessageDialog(mainclass.frame, "Error While Saving file", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainClass.frame, "Error While Saving file", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	} 
