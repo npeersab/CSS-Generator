@@ -7,9 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class ImgSrc {
-
 	public static Image getImageIcon() {
-		
 		Image image = null;
 		
 		try {

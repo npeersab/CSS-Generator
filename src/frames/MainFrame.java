@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -30,7 +31,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 public class MainFrame extends JFrame {
-
 	private static final long serialVersionUID = 1L; 
 	private JButton addButton, removeButton; 
 	private CSSFile cssfile;
@@ -43,7 +43,6 @@ public class MainFrame extends JFrame {
 	private JScrollPane treePane;
 
 	public MainFrame() {
-		
 		setLayout(new GridBagLayout());
 		
 		root = new DefaultMutableTreeNode("No File Selected");
@@ -57,16 +56,27 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menubar);
 		setSize(900, 600);
 		setTitle("CSS Generator");
+		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent windowEvent) {
+		        if (JOptionPane.showConfirmDialog(null, 
+		            "Are you sure to close this window?", "Really Closing?", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		            System.exit(0);
+		        }
+		    }
+		});
 					
 		setIconImage(ImgSrc.getImageIcon());
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setVisible(true);
 		
 	} // Constructor
 	
 	private void createMenuBar() {
-		
 		JMenuItem newfile = new JMenuItem("New");
 		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
 		newfile.setMnemonic(KeyEvent.VK_N);
@@ -80,10 +90,8 @@ public class MainFrame extends JFrame {
 		JMenuItem save = new JMenuItem("Save");
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		save.setMnemonic(KeyEvent.VK_S);
-		save.addActionListener(e ->
-				
-				cssfile.SaveFile()
-		);
+		save.addActionListener(
+				e -> cssfile.SaveFile());
 		
 		JMenuItem saveAs  = new JMenuItem("Save As...");
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
@@ -92,10 +100,8 @@ public class MainFrame extends JFrame {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
 		exit.setMnemonic(KeyEvent.VK_X);
-		exit.addActionListener(e ->
-			
-				System.exit(0)
-		);
+		exit.addActionListener(
+				e -> System.exit(0));
 		
 		JMenu file = new JMenu("File");
 		file.setMnemonic(KeyEvent.VK_F);
@@ -112,22 +118,16 @@ public class MainFrame extends JFrame {
 	} // CreateMenuBar
 	
 	private void createTree(DefaultMutableTreeNode root) {
-		
 		csstree = new JTree(root);
-						
 		csstree.addTreeSelectionListener(new TreeSelectionListener() {
-			
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				
 				TreePath path = e.getPath();
 				
-				if (path.toString().equals("[No File Selected]")) {
+				if (path.toString().equals("[No File Selected]"))
 					return;
-				}
 				
 				switch (path.getPathCount()) {
-				
 				case 1 :
 					addButton.setText("Add Selector");
 					addButton.setToolTipText("add new Selector in the File");
@@ -141,7 +141,6 @@ public class MainFrame extends JFrame {
 					removeButton.setText("Remove Selector");
 					removeButton.setToolTipText("remove selected Selector");
 					removeButton.setVisible(true);
-					
 					break;
 					
 				case 3 :
@@ -160,11 +159,9 @@ public class MainFrame extends JFrame {
 				
 			}
 		});
-
 	}
 	
 	private void addButtons() {
-	
 		addButton = new JButton();
 		addNodeActionListener = new AddNode();
 		addButton.addActionListener(addNodeActionListener);
@@ -183,7 +180,6 @@ public class MainFrame extends JFrame {
 		bagConstraints.insets = new Insets(10, 10, 10, 10);
 		buttonPanel.add(addButton, bagConstraints);
 		buttonPanel.add(removeButton, bagConstraints);
-	//	buttonPanel.setBackground(new Color(50, 50, 40));
 		
 		bagConstraints = new GridBagConstraints();
 		bagConstraints.fill = GridBagConstraints.BOTH;
@@ -195,32 +191,31 @@ public class MainFrame extends JFrame {
 	}
 
 	private void addTreePane() {
+		// remove existing treePane
+		if (treePane != null) 
+			remove(treePane);
+		
+		treePane = new JScrollPane(csstree,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.fill = GridBagConstraints.BOTH;
 		bagConstraints.weightx = bagConstraints.weighty = 1;
-		if (treePane != null) 
-			remove(treePane);
-
-		treePane = new JScrollPane(csstree,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		bagConstraints.gridheight = 2;
 		bagConstraints.gridwidth = 1;
+		bagConstraints.insets = new Insets(2, 2, 0, 0);
 		add(treePane, bagConstraints);
 		revalidate();
 	}
 	
 	private void addDetailsPanel() {
-		
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.fill = GridBagConstraints.BOTH;
 		bagConstraints.weightx = bagConstraints.weighty = 1;
 	
-		
 		detailsPanel = new JPanel();
-	//	detailsPanel.setBackground(new Color(100, 20, 100));
 		bagConstraints.gridwidth = 3;
 		bagConstraints.gridheight = 2;
 		bagConstraints.weightx = 5;
@@ -231,7 +226,6 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void openFile() {
-		
 		String home = System.getProperty("user.home");
 		File cssdir = new File(home, "css_generator");
 		
@@ -240,7 +234,7 @@ public class MainFrame extends JFrame {
 		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		filechooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
 		
-		if(filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			setTitle(filechooser.getSelectedFile().getName() + " - CSS Generator");
 			
 			cssfile = new CSSFile(filechooser.getSelectedFile());
@@ -253,46 +247,37 @@ public class MainFrame extends JFrame {
 	}
 	
 	public class OpenFile implements ActionListener {
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-						
 			openFile();						
 		}
 	}
 		
 	public class NewFile implements ActionListener {
-		
-			@Override
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			MainFrame.this.remove(csstree);
 				
-			setTitle("new file* - CSS Generator");
-			cssfile = new CSSFile(new File("new file"));
-			root = new DefaultMutableTreeNode("new file*");
+			setTitle("*new file - CSS Generator");
+			cssfile = new CSSFile(new File("Untitled"));
+			root = new DefaultMutableTreeNode("Untitled File");
 			createTree(root);
 			addTreePane();
 			MainFrame.this.repaint();	
 		}
-		
 	}
 
 	public class DeleteNode implements ActionListener {
-
 		private TreePath path;
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			if (path.getPathCount() == 2) {
 				cssfile.removeSelector(path.getLastPathComponent().toString());
-
 			}
-			
-			if (path.getPathCount() == 3) {
-				
-				cssfile.removeProperty(path.getPathComponent(2).toString(),
+
+			if (path.getPathCount() == 3) {				
+				cssfile.removeProperty(path.getPathComponent(1).toString(),
 						path.getLastPathComponent().toString());
 			}
 			
@@ -305,23 +290,18 @@ public class MainFrame extends JFrame {
 		}
 		
 		public void setPath(TreePath path) {
-			
 			this.path = path;
 		}
-		
 	}
 
 	public class AddNode implements ActionListener {
-
 		private TreePath path;
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			String name = null;
 			
 			if (path.getPathCount() == 1) {
-				
 				name = JOptionPane.showInputDialog("Enter Selector name");
 				CSSSelector selector = new CSSSelector(name, "Element Type Selector");
 				cssfile.addSelector(selector);
@@ -333,9 +313,7 @@ public class MainFrame extends JFrame {
 		}
 		
 		public void setPath(TreePath path) {
-			
 			this.path = path;
 		}
-		
 	}
 }

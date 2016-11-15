@@ -3,6 +3,8 @@ package frames;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,12 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class SelectorFrame extends JFrame {
-
-	//private CSSSelector selector;
 	private static final long serialVersionUID = 1L;
+	private JTextField textField;
 
 	public SelectorFrame() {
-		
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		
@@ -30,16 +30,32 @@ public class SelectorFrame extends JFrame {
 		add(new JLabel("Enter Selector name : "), bagConstraints);
 		
 		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(
+				e -> dispose());
 		bagConstraints.gridy++;
 		add(cancelButton, bagConstraints);
 		
-		String selectors[] = {"Universal", "Element Type Selector", "ID Selector", "Class Selector"};
+		String selectors[] = {"Class Selector", "Element Type Selector", "ID Selector", "Universal"};
 		JComboBox<String> selector = new JComboBox<String>(selectors);
+		selector.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (((String) selector.getSelectedItem()) == "Universal") {
+					textField.setText("Cannot set name");
+					textField.setEditable(false);
+				}
+				else {
+					textField.setText("");
+					textField.setEditable(true);
+				}
+			}
+		});
 		bagConstraints.gridx++;
 		bagConstraints.gridy = 0;
 		add(selector, bagConstraints);
 		
-		JTextField textField = new JTextField();
+		textField = new JTextField();
 		bagConstraints.gridy++;
 		add(textField, bagConstraints);
 		
@@ -48,8 +64,10 @@ public class SelectorFrame extends JFrame {
 		bagConstraints.gridy++;
 		add(addButton, bagConstraints);
 					
+		setTitle("Add new Selector");
 		setIconImage(ImgSrc.getImageIcon());
 		setSize(400, 200);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setVisible(true);

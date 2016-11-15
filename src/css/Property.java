@@ -1,17 +1,13 @@
 package css;
 
 public class Property {
-	
 	private String name, value;
-	Property next;
-	
-	public Property(String name) {
 		
+	public Property(String name) {
 		this.name = name;
 	}
 	
 	public Property(String name, String value) {
-		
 		this(name);
 		this.value = value;
 	}
@@ -21,7 +17,6 @@ public class Property {
 	}
 	
 	public String toString() {
-		
 		return "\n\t" + name + " : " + value + ";";
 	}
 	
