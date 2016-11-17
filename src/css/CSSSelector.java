@@ -2,9 +2,7 @@ package css;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import javax.swing.tree.DefaultMutableTreeNode;
-
 import css.Property;
 
 public class CSSSelector {
