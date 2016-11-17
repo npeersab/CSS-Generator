@@ -43,7 +43,7 @@ public class SelectorFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (((String) selector.getSelectedItem()) == "Universal Selector") {
-					textField.setText("Cannot set name");
+					textField.setText("*");
 					textField.setEditable(false);
 				}
 				else {

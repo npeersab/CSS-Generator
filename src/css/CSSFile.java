@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -21,8 +20,13 @@ public class CSSFile {
 
 	public CSSFile(File newfile) {
 		file = newfile;
+		selectorsList = new LinkedList<CSSSelector>();
 	}
 
+	public CSSFile() {
+		this(null);
+	}
+	
 	public void ReadFile() {
 		if (file.canRead()) {
 			FileReader filereader = null;
@@ -34,7 +38,6 @@ public class CSSFile {
 			}
 			
 			BufferedReader br = new BufferedReader(filereader);
-			selectorsList = new LinkedList<CSSSelector>();
 			int c;
 			StringBuffer buff = new StringBuffer();
 			CSSSelector temp_selector = null;
@@ -70,14 +73,17 @@ public class CSSFile {
 
 						case '*' :
 							type = "Universal Selector";
+							buff.append(ch);
 							break;
 
 						case '#' :
 							type = "ID Selector";
+							buff.append(ch);
 							break;
 
 						case '.' :
 							type = "Class Selector";
+							buff.append(ch);
 							break;
 
 						default :
@@ -95,29 +101,61 @@ public class CSSFile {
 		} // if
 	} // ReadFile
 
-	public void addSelector(CSSSelector selector) {
-		selectorsList.add(selector);
-	}
-
 	public void SaveFile() {
-		String home = System.getProperty("user.home");
-		File cssdir = new File(home, "css_generator");
-		
-		if (!cssdir.exists()) 
-			cssdir.mkdir();
-
 		FileWriter filewriter = null;
-		
+				
 		try {
 			filewriter = new FileWriter(file);
 			filewriter.write(this.toString());
 			filewriter.close();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(MainClass.frame, "Error While Saving file", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainClass.frame,
+					"Error While Saving file",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		
 	} 
+	
+	public void addSelector(CSSSelector selector) {
+		selectorsList.add(selector);
+	}
 
+	// removes selector by name
+	public void removeSelector(String name) {
+		Iterator<CSSSelector> iterator = selectorsList.iterator();
+		
+		while (iterator.hasNext())
+			if (iterator.next().getName() == name)
+				iterator.remove();
+	}
+	
+	// removes property from selector
+	public void removeProperty(String selector, String property) { 
+		Iterator<CSSSelector> iterator = selectorsList.iterator();
+		CSSSelector temp = null;
+		
+		while (iterator.hasNext()) {
+			temp = iterator.next();
+			if (temp.getName() == selector) {
+				temp.removeProperty(property);
+				break;
+			}
+		}
+	}
+
+	// adds a property to the selector
+	public void addProperty(String selector, String property, String value) {	
+		Iterator<CSSSelector> iterator = selectorsList.iterator();
+		
+		while (iterator.hasNext()) {
+			if (iterator.next().getName() == selector) {
+				
+			}
+		}
+	}
+
+	// returns the selectors in the form of string
 	public String toString() {
 		Iterator<CSSSelector> iterator = selectorsList.iterator();
 		StringBuffer buff= new StringBuffer();
@@ -140,36 +178,5 @@ public class CSSFile {
 			selectors.add(iterator.next().getTree());
 			
 		return selectors;
-	}
-	
-	public void removeSelector(String name) {
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
-		
-		while (iterator.hasNext())
-			if (iterator.next().getName() == name)
-				iterator.remove();
-	}
-
-	public void removeProperty(String selector, String property) { 
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
-		CSSSelector temp = null;
-		
-		while (iterator.hasNext()) {
-			temp = iterator.next();
-			if (temp.getName() == selector) {
-				temp.removeProperty(property);
-				break;
-			}
-		}
-	}
-
-	public void addProperty(String selector, String property, String value) {	
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
-		
-		while (iterator.hasNext()) {
-			if (iterator.next().getName() == selector) {
-				
-			}
-		}
 	}
 }

@@ -96,7 +96,7 @@ public class MainFrame extends JFrame {
 		JMenuItem saveAs  = new JMenuItem("Save As...");
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		saveAs.setMnemonic(KeyEvent.VK_S);
-		
+				
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
 		exit.setMnemonic(KeyEvent.VK_X);
@@ -233,16 +233,17 @@ public class MainFrame extends JFrame {
 		filechooser.setDialogTitle("Select File");
 		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		filechooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
-		
-		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			setTitle(filechooser.getSelectedFile().getName() + " - CSS Generator");
-			
-			cssfile = new CSSFile(filechooser.getSelectedFile());
+				
+		if (filechooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			File file = filechooser.getSelectedFile();
+			cssfile = new CSSFile(file);
 			cssfile.ReadFile();
 			
 			root = cssfile.getTree();
 			createTree(root);
 			addTreePane();
+			
+			setTitle(file.getName() + " - CSS Generator");
 		}
 	}
 	
@@ -256,11 +257,9 @@ public class MainFrame extends JFrame {
 	public class NewFile implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainFrame.this.remove(csstree);
-				
-			setTitle("*new file - CSS Generator");
-			cssfile = new CSSFile(new File("Untitled"));
-			root = new DefaultMutableTreeNode("Untitled File");
+			setTitle("*Untitled file - CSS Generator");
+			cssfile = new CSSFile();
+			root = new DefaultMutableTreeNode("Untitled file");
 			createTree(root);
 			addTreePane();
 			MainFrame.this.repaint();	

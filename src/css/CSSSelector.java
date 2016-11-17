@@ -12,10 +12,7 @@ public class CSSSelector {
 	private LinkedList<Property> propertiesList;
 
 	public CSSSelector(String name, String type) {
-		if (type.equals("Universal Selector"))
-			this.name = "*";
-		else
-			this.name = name;
+		this.name = name;
 		this.type = type;
 		
 		propertiesList = new LinkedList<Property>();
@@ -32,7 +29,7 @@ public class CSSSelector {
 	public String toString() {
 		StringBuffer buff = new StringBuffer();
 		Iterator<Property> iterator = propertiesList.iterator();
-	
+					
 		buff.append(name + " {");
 		
 		while (iterator.hasNext())
@@ -54,6 +51,10 @@ public class CSSSelector {
 	
 	public String getName() {
 		return name; 
+	}
+	
+	public String getType() {
+		return type;
 	}
 
 	public void removeProperty(String property) {
