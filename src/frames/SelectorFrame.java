@@ -1,11 +1,12 @@
 package frames;
 
+import css.CSSSelector;
+import main.MainClass;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,7 +16,7 @@ import javax.swing.JTextField;
 public class SelectorFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
-
+	
 	public SelectorFrame() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
@@ -35,13 +36,13 @@ public class SelectorFrame extends JFrame {
 		bagConstraints.gridy++;
 		add(cancelButton, bagConstraints);
 		
-		String selectors[] = {"Class Selector", "Element Type Selector", "ID Selector", "Universal"};
+		String selectors[] = {"Class Selector", "Element Type Selector", "ID Selector", "Universal Selector"};
 		JComboBox<String> selector = new JComboBox<String>(selectors);
 		selector.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (((String) selector.getSelectedItem()) == "Universal") {
+				if (((String) selector.getSelectedItem()) == "Universal Selector") {
 					textField.setText("Cannot set name");
 					textField.setEditable(false);
 				}
@@ -61,6 +62,12 @@ public class SelectorFrame extends JFrame {
 		
 		bagConstraints.insets = new Insets(10, 20, 10, 0);
 		JButton addButton = new JButton("Add Selector");
+		addButton.addActionListener(e -> {
+			CSSSelector temp_selector = new CSSSelector(textField.getText(),
+					selector.getSelectedItem().toString());
+			MainClass.frame.addSelector(temp_selector);
+			dispose();
+		});
 		bagConstraints.gridy++;
 		add(addButton, bagConstraints);
 					

@@ -299,21 +299,23 @@ public class MainFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String name = null;
-			
+						
 			if (path.getPathCount() == 1) {
-				name = JOptionPane.showInputDialog("Enter Selector name");
-				CSSSelector selector = new CSSSelector(name, "Element Type Selector");
-				cssfile.addSelector(selector);
+				new SelectorFrame();
 			}
-			
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-			node.add(new DefaultMutableTreeNode(name));
-			csstree.updateUI();
 		}
 		
 		public void setPath(TreePath path) {
 			this.path = path;
 		}
+	}
+
+	public void addSelector(CSSSelector selector) {
+		TreePath path = csstree.getSelectionPath();
+		
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+		node.add(new DefaultMutableTreeNode(selector.getName()));
+		csstree.updateUI();
+		cssfile.addSelector(selector);
 	}
 }
