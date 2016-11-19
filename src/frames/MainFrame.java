@@ -284,7 +284,7 @@ public class MainFrame extends JFrame {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 			if (node.getParent() != null)
 				model.removeNodeFromParent(node);
-			
+			addButton.setVisible(false);
 			removeButton.setVisible(false);
 		}
 		
@@ -299,7 +299,6 @@ public class MainFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			System.out.println(path.getPathCount());
 			switch (path.getPathCount()) {
 			case 1:
 				new SelectorFrame();

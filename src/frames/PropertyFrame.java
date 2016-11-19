@@ -1,5 +1,6 @@
 package frames;
 
+import css.PropertyType;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,12 +11,6 @@ import javax.swing.JLabel;
 
 public class PropertyFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final String propertytypes[] = {"Animation", "Background and Borders",
-			"Basic Box", "Basic User Interface", "Color", "Filter Effects", "Flexible Box",
-			"Fonts", "Generated Content", "Image/Replaced Content", "Lists and Counters",
-			"Marquee", "Masking", "Multi-column", "Paged Media", "Speech", "Table", "Text",
-			"Text Decoration", "Transform", "Transition", "Writing Modes"
-		    };
 	private JButton cancelButton, selectButton;
 	
 	public PropertyFrame() {
@@ -31,12 +26,25 @@ public class PropertyFrame extends JFrame {
 		bagConstraints.gridy++;
 		add(cancelButton, bagConstraints);
 		
-		JComboBox<String> comboBox = new JComboBox<String>(propertytypes);
+		PropertyType propertytypes[] = {PropertyType.animation, PropertyType.background_and_borders,
+				PropertyType.basic_box, PropertyType.basic_user_interface, PropertyType.color,
+				PropertyType.filter_effects, PropertyType.flexible_box, PropertyType.fonts,
+				PropertyType.generated_content, PropertyType.image_replaced_content,
+				PropertyType.lists_and_counters, PropertyType.marquee, PropertyType.masking,
+				PropertyType.multi_column, PropertyType.paged_media, PropertyType.speech,
+				PropertyType.table, PropertyType.text, PropertyType.text_decoration,
+				PropertyType.transform, PropertyType.transition, PropertyType.writing_modes
+				};
+		
+		JComboBox<PropertyType> comboBox = new JComboBox<PropertyType>(propertytypes);
 		bagConstraints.gridx++;
 		bagConstraints.gridy = 0;
 		add(comboBox, bagConstraints);
 		
 		selectButton = new JButton("Select");
+		selectButton.addActionListener(e -> {
+			
+		});
 		bagConstraints.gridy++;
 		add(selectButton, bagConstraints);
 						

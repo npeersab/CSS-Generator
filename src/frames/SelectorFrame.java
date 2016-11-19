@@ -6,12 +6,11 @@ import main.MainClass;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class SelectorFrame extends JFrame {
@@ -41,10 +40,7 @@ public class SelectorFrame extends JFrame {
 				SelectorType.id_selector, SelectorType.universal_selector
 		};
 		JComboBox<SelectorType> selector = new JComboBox<SelectorType>(selectorType);
-		selector.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		selector.addActionListener( e -> {
 				if (((SelectorType) selector.getSelectedItem()) == SelectorType.universal_selector) {
 					textField.setText("*");
 					textField.setEditable(false);
@@ -53,8 +49,8 @@ public class SelectorFrame extends JFrame {
 					textField.setText("");
 					textField.setEditable(true);
 				}
-			}
 		});
+		
 		bagConstraints.gridx++;
 		bagConstraints.gridy = 0;
 		add(selector, bagConstraints);
@@ -66,10 +62,18 @@ public class SelectorFrame extends JFrame {
 		bagConstraints.insets = new Insets(10, 20, 10, 0);
 		JButton addButton = new JButton("Add Selector");
 		addButton.addActionListener(e -> {
-			Selector temp_selector = new Selector(textField.getText(),
-					(SelectorType) selector.getSelectedItem());
-			MainClass.frame.addSelector(temp_selector);
-			dispose();
+			if(textField.getText().length() == 0) {
+				JOptionPane.showMessageDialog(SelectorFrame.this, 
+						"Please enter Selector name", "No Selector name", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				Selector temp_selector = new Selector(textField.getText(),
+						(SelectorType) selector.getSelectedItem());
+				System.out.println(textField.getText().length());
+				MainClass.frame.addSelector(temp_selector);
+				dispose();
+			}
 		});
 		bagConstraints.gridy++;
 		add(addButton, bagConstraints);
