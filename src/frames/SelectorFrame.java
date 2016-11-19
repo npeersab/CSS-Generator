@@ -1,6 +1,7 @@
 package frames;
 
-import css.CSSSelector;
+import css.Selector;
+import css.SelectorType;
 import main.MainClass;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -35,14 +36,16 @@ public class SelectorFrame extends JFrame {
 				e -> dispose());
 		bagConstraints.gridy++;
 		add(cancelButton, bagConstraints);
-		
-		String selectors[] = {"Class Selector", "Element Type Selector", "ID Selector", "Universal Selector"};
-		JComboBox<String> selector = new JComboBox<String>(selectors);
+
+		SelectorType selectorType[] = {SelectorType.class_selector, SelectorType.element_type_selector,
+				SelectorType.id_selector, SelectorType.universal_selector
+		};
+		JComboBox<SelectorType> selector = new JComboBox<SelectorType>(selectorType);
 		selector.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (((String) selector.getSelectedItem()) == "Universal Selector") {
+				if (((SelectorType) selector.getSelectedItem()) == SelectorType.universal_selector) {
 					textField.setText("*");
 					textField.setEditable(false);
 				}
@@ -63,8 +66,8 @@ public class SelectorFrame extends JFrame {
 		bagConstraints.insets = new Insets(10, 20, 10, 0);
 		JButton addButton = new JButton("Add Selector");
 		addButton.addActionListener(e -> {
-			CSSSelector temp_selector = new CSSSelector(textField.getText(),
-					selector.getSelectedItem().toString());
+			Selector temp_selector = new Selector(textField.getText(),
+					(SelectorType) selector.getSelectedItem());
 			MainClass.frame.addSelector(temp_selector);
 			dispose();
 		});

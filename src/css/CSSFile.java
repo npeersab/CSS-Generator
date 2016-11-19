@@ -1,6 +1,6 @@
 package css;
 
-import css.CSSSelector;
+import css.Selector;
 import css.Property;
 import main.MainClass;
 import java.io.File;
@@ -16,11 +16,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class CSSFile {
 	private File file ;
-	private LinkedList<CSSSelector> selectorsList;
+	private LinkedList<Selector> selectorsList;
 
 	public CSSFile(File newfile) {
 		file = newfile;
-		selectorsList = new LinkedList<CSSSelector>();
+		selectorsList = new LinkedList<Selector>();
 	}
 
 	public CSSFile() {
@@ -40,9 +40,9 @@ public class CSSFile {
 			BufferedReader br = new BufferedReader(filereader);
 			int c;
 			StringBuffer buff = new StringBuffer();
-			CSSSelector temp_selector = null;
+			Selector temp_selector = null;
 			Property temp_prop = null;
-			String type = "Element Type Selector";
+			SelectorType type = SelectorType.element_type_selector;
 
 			try {
 				while ((c = br.read()) != -1) {
@@ -51,9 +51,9 @@ public class CSSFile {
 					switch (ch) {
 
 						case '{' :
-							temp_selector = new CSSSelector(buff.toString().trim(), type);
+							temp_selector = new Selector(buff.toString().trim(), type);
 							buff.delete(0, buff.length());
-							type = "Element Type Selector";
+							type = SelectorType.element_type_selector;
 							break;
 
 						case '}' :
@@ -72,17 +72,17 @@ public class CSSFile {
 							break;
 
 						case '*' :
-							type = "Universal Selector";
+							type = SelectorType.universal_selector;
 							buff.append(ch);
 							break;
 
 						case '#' :
-							type = "ID Selector";
+							type = SelectorType.id_selector;
 							buff.append(ch);
 							break;
 
 						case '.' :
-							type = "Class Selector";
+							type = SelectorType.class_selector;
 							buff.append(ch);
 							break;
 
@@ -117,13 +117,13 @@ public class CSSFile {
 		
 	} 
 	
-	public void addSelector(CSSSelector selector) {
+	public void addSelector(Selector selector) {
 		selectorsList.add(selector);
 	}
 
 	// removes selector by name
 	public void removeSelector(String name) {
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
+		Iterator<Selector> iterator = selectorsList.iterator();
 		
 		while (iterator.hasNext())
 			if (iterator.next().getName() == name)
@@ -132,8 +132,8 @@ public class CSSFile {
 	
 	// removes property from selector
 	public void removeProperty(String selector, String property) { 
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
-		CSSSelector temp = null;
+		Iterator<Selector> iterator = selectorsList.iterator();
+		Selector temp = null;
 		
 		while (iterator.hasNext()) {
 			temp = iterator.next();
@@ -146,7 +146,7 @@ public class CSSFile {
 
 	// adds a property to the selector
 	public void addProperty(String selector, String property, String value) {	
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
+		Iterator<Selector> iterator = selectorsList.iterator();
 		
 		while (iterator.hasNext()) {
 			if (iterator.next().getName() == selector) {
@@ -157,7 +157,7 @@ public class CSSFile {
 
 	// returns the selectors in the form of string
 	public String toString() {
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
+		Iterator<Selector> iterator = selectorsList.iterator();
 		StringBuffer buff= new StringBuffer();
 
 		while (iterator.hasNext())
@@ -172,7 +172,7 @@ public class CSSFile {
 	
 	public DefaultMutableTreeNode getTree() {
 		DefaultMutableTreeNode selectors = new DefaultMutableTreeNode(this.getName());
-		Iterator<CSSSelector> iterator = selectorsList.iterator();
+		Iterator<Selector> iterator = selectorsList.iterator();
 				
 		while (iterator.hasNext())
 			selectors.add(iterator.next().getTree());

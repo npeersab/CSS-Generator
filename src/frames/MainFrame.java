@@ -1,7 +1,7 @@
 package frames;
 
 import css.CSSFile;
-import css.CSSSelector;
+import css.Selector;
 import frames.ImgSrc;
 import java.awt.Event;
 import java.awt.GridBagConstraints;
@@ -247,14 +247,14 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
-	public class OpenFile implements ActionListener {
+	class OpenFile implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			openFile();						
 		}
 	}
 		
-	public class NewFile implements ActionListener {
+	class NewFile implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			setTitle("*Untitled file - CSS Generator");
@@ -266,7 +266,7 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	public class DeleteNode implements ActionListener {
+	class DeleteNode implements ActionListener {
 		private TreePath path;
 		
 		@Override
@@ -293,14 +293,20 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	public class AddNode implements ActionListener {
+	class AddNode implements ActionListener {
 		private TreePath path;
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-						
-			if (path.getPathCount() == 1) {
+			
+			System.out.println(path.getPathCount());
+			switch (path.getPathCount()) {
+			case 1:
 				new SelectorFrame();
+				break;
+			case 2:
+				new PropertyFrame();
+				break;
 			}
 		}
 		
@@ -309,7 +315,7 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	public void addSelector(CSSSelector selector) {
+	public void addSelector(Selector selector) {
 		TreePath path = csstree.getSelectionPath();
 		
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();

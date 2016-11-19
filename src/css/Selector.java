@@ -5,11 +5,12 @@ import java.util.LinkedList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import css.Property;
 
-public class CSSSelector {
-	private String name, type;
+public class Selector {
+	private String name;
+	private SelectorType type;
 	private LinkedList<Property> propertiesList;
 
-	public CSSSelector(String name, String type) {
+	public Selector(String name, SelectorType type) {
 		this.name = name;
 		this.type = type;
 		
@@ -51,7 +52,7 @@ public class CSSSelector {
 		return name; 
 	}
 	
-	public String getType() {
+	public SelectorType getType() {
 		return type;
 	}
 
@@ -63,3 +64,4 @@ public class CSSSelector {
 				iterator.remove();
 	}
 }
+
