@@ -1,5 +1,6 @@
 package frames;
 
+import css.PropertyDetailsList;
 import css.PropertyType;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -43,7 +44,59 @@ public class PropertyFrame extends JFrame {
 		
 		selectButton = new JButton("Select");
 		selectButton.addActionListener(e -> {
-			
+			switch ((PropertyType) comboBox.getSelectedItem()) {
+			case animation:
+				break;
+			case background_and_borders:
+				new SelectProperty(PropertyDetailsList.backgroundBorder);
+				break;
+			case basic_box:
+				new SelectProperty(PropertyDetailsList.basicBox);
+				break;
+			case basic_user_interface:
+				break;
+			case color:
+				new SelectProperty(PropertyDetailsList.color);
+				break;
+			case filter_effects:
+				break;
+			case flexible_box:
+				new SelectProperty(PropertyDetailsList.flexibleBoxLayout);
+				break;
+			case fonts:
+				break;
+			case generated_content:
+				break;
+			case image_replaced_content:
+				break;
+			case lists_and_counters:
+				break;
+			case marquee:
+				break;
+			case masking:
+				break;
+			case multi_column:
+				break;
+			case paged_media:
+				break;
+			case speech:
+				break;
+			case table:
+				break;
+			case text:
+				break;
+			case text_decoration:
+				break;
+			case transform:
+				break;
+			case transition:
+				break;
+			case writing_modes:
+				break;
+			default:
+				break;
+				
+			}
 		});
 		bagConstraints.gridy++;
 		add(selectButton, bagConstraints);
@@ -52,6 +105,7 @@ public class PropertyFrame extends JFrame {
 		setIconImage(ImgSrc.getImageIcon());
 		setSize(500, 150);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}

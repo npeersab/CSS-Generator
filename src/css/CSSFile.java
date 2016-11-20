@@ -121,35 +121,17 @@ public class CSSFile {
 		selectorsList.add(selector);
 	}
 
-	// removes selector by name
-	public void removeSelector(String name) {
-		Iterator<Selector> iterator = selectorsList.iterator();
-		
-		while (iterator.hasNext())
-			if (iterator.next().getName() == name)
-				iterator.remove();
+	// removes selector from the list
+	public void removeSelector(Selector selector) {
+			selectorsList.remove(selector);
 	}
 	
-	// removes property from selector
-	public void removeProperty(String selector, String property) { 
-		Iterator<Selector> iterator = selectorsList.iterator();
-		Selector temp = null;
-		
-		while (iterator.hasNext()) {
-			temp = iterator.next();
-			if (temp.getName() == selector) {
-				temp.removeProperty(property);
-				break;
-			}
-		}
-	}
-
 	// adds a property to the selector
 	public void addProperty(String selector, String property, String value) {	
 		Iterator<Selector> iterator = selectorsList.iterator();
 		
 		while (iterator.hasNext()) {
-			if (iterator.next().getName() == selector) {
+			if (iterator.next().toString() == selector) {
 				
 			}
 		}
@@ -161,7 +143,7 @@ public class CSSFile {
 		StringBuffer buff= new StringBuffer();
 
 		while (iterator.hasNext())
-			buff.append(iterator.next() + "\n\n");
+			buff.append(iterator.next().getCode() + "\n\n");
 		
 		return buff.toString();
 	}

@@ -1,6 +1,7 @@
 package frames;
 
 import css.CSSFile;
+import css.Property;
 import css.Selector;
 import frames.ImgSrc;
 import java.awt.Event;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -41,7 +43,9 @@ public class MainFrame extends JFrame {
 	private DeleteNode removeNodeActionListener;
 	private JPanel buttonPanel, detailsPanel;
 	private JScrollPane treePane;
-
+	private boolean saved;
+	private String TITLE = "CSS Generator";
+	
 	public MainFrame() {
 		setLayout(new GridBagLayout());
 		
@@ -53,14 +57,19 @@ public class MainFrame extends JFrame {
 		addDetailsPanel();
 		
 		createMenuBar();
+		
 		setJMenuBar(menubar);
 		setSize(900, 600);
-		setTitle("CSS Generator");
+		setTitle(TITLE);
+		setIconImage(ImgSrc.getImageIcon());
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setVisible(true);
 		
-		addWindowListener(new java.awt.event.WindowAdapter() {
+		addWindowListener(new WindowAdapter() {
 		    @Override
 		    public void windowClosing(WindowEvent windowEvent) {
-		        if (JOptionPane.showConfirmDialog(null, 
+		        if (JOptionPane.showConfirmDialog(MainFrame.this, 
 		            "Are you sure to close this window?", "Really Closing?", 
 		            JOptionPane.YES_NO_OPTION,
 		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
@@ -68,11 +77,6 @@ public class MainFrame extends JFrame {
 		        }
 		    }
 		});
-					
-		setIconImage(ImgSrc.getImageIcon());
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setVisible(true);
 		
 	} // Constructor
 	
@@ -85,7 +89,8 @@ public class MainFrame extends JFrame {
 		JMenuItem openfile = new JMenuItem("Open File...");
 		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
 		openfile.setMnemonic(KeyEvent.VK_O);
-		openfile.addActionListener(new OpenFile());
+		openfile.addActionListener(
+				e -> openFile());
 		
 		JMenuItem save = new JMenuItem("Save");
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
@@ -243,49 +248,49 @@ public class MainFrame extends JFrame {
 			createTree(root);
 			addTreePane();
 			
-			setTitle(file.getName() + " - CSS Generator");
+			setTitle(file.getName() + " - " + TITLE);
 		}
 	}
 	
-	class OpenFile implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			openFile();						
-		}
-	}
-		
 	class NewFile implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			setTitle("*Untitled file - CSS Generator");
-			cssfile = new CSSFile();
+			
+			cssfile = new CSSFile(new File("Untitled file"));
 			root = new DefaultMutableTreeNode("Untitled file");
 			createTree(root);
 			addTreePane();
-			MainFrame.this.repaint();	
+			MainFrame.this.repaint();
+			
+			fileEdited();
 		}
 	}
 
 	class DeleteNode implements ActionListener {
 		private TreePath path;
-		
+				
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			DefaultMutableTreeNode node = 
+					(DefaultMutableTreeNode) path.getLastPathComponent();
 			if (path.getPathCount() == 2) {
-				cssfile.removeSelector(path.getLastPathComponent().toString());
+				cssfile.removeSelector(
+						(Selector) node.getUserObject());
 			}
 
-			if (path.getPathCount() == 3) {				
-				cssfile.removeProperty(path.getPathComponent(1).toString(),
-						path.getLastPathComponent().toString());
+			if (path.getPathCount() == 3) {
+				Selector selector = (Selector) (
+						(DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+				selector.removeProperty((Property) node.getUserObject());
 			}
 			
 			DefaultTreeModel model = (DefaultTreeModel) csstree.getModel();
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 			if (node.getParent() != null)
 				model.removeNodeFromParent(node);
 			addButton.setVisible(false);
 			removeButton.setVisible(false);
+			
+			fileEdited();
 		}
 		
 		public void setPath(TreePath path) {
@@ -318,8 +323,23 @@ public class MainFrame extends JFrame {
 		TreePath path = csstree.getSelectionPath();
 		
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-		node.add(new DefaultMutableTreeNode(selector.getName()));
+		node.add(new DefaultMutableTreeNode(selector));
 		csstree.updateUI();
 		cssfile.addSelector(selector);
+		
+		fileEdited();
+	}
+	
+	private void fileEdited() {
+		setTitle("*" + cssfile.getName() + " - " + TITLE);
+		setSaved(false);
+	}
+
+	public boolean isSaved() {
+		return saved;
+	}
+
+	public void setSaved(boolean saved) {
+		this.saved = saved;
 	}
 }

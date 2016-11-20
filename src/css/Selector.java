@@ -25,43 +25,39 @@ public class Selector {
 		addProperty(new Property(name, value));
 	}
 	
-	public String toString() {
+	public void removeProperty(Property property) {
+		propertiesList.remove(property);
+	}
+	
+	public String getCode() {
 		StringBuffer buff = new StringBuffer();
 		Iterator<Property> iterator = propertiesList.iterator();
 					
 		buff.append(name + " {");
 		
 		while (iterator.hasNext())
-			buff.append(iterator.next());
+			buff.append(iterator.next().getCode());
 		buff.append("\n}");
 		
 		return buff.toString();
 	}
 	
 	public DefaultMutableTreeNode getTree() {
-		DefaultMutableTreeNode prop = new DefaultMutableTreeNode(this.getName());
+		DefaultMutableTreeNode prop = new DefaultMutableTreeNode(this);
 		Iterator<Property> iterator = propertiesList.iterator();
 		
 		while (iterator.hasNext())
-			prop.add(new DefaultMutableTreeNode(iterator.next().getName()));
+			prop.add(new DefaultMutableTreeNode(iterator.next()));
 					
 		return prop;
 	}
 	
-	public String getName() {
+	public String toString() {
 		return name; 
 	}
 	
 	public SelectorType getType() {
 		return type;
-	}
-
-	public void removeProperty(String property) {
-		Iterator<Property> iterator = propertiesList.iterator();
-	
-		while (iterator.hasNext())
-			if (iterator.next().getName() == property)
-				iterator.remove();
 	}
 }
 

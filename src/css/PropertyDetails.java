@@ -25,5 +25,16 @@ public class PropertyDetails {
 		this(name, description, valueType, null, possibleValues);
 	}
 	
+	public String toString() {
+		return name;
+	}
+	
+	public ValueType getType() {
+		return valueType;
+	}
+	
+	public String[] getPossibleValues() {
+		return possibleValues;
+	}
 }
 

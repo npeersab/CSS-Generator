@@ -16,12 +16,13 @@ import javax.swing.JTextField;
 public class SelectorFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
+	private JComboBox<SelectorType> selector;
 	
 	public SelectorFrame() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		
-		bagConstraints.fill = GridBagConstraints.BOTH;
+		bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.insets = new Insets(10, 5, 10, 0);
 		
@@ -33,13 +34,15 @@ public class SelectorFrame extends JFrame {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(
 				e -> dispose());
+		bagConstraints.fill = GridBagConstraints.NONE;
 		bagConstraints.gridy++;
 		add(cancelButton, bagConstraints);
-
+		
+		
 		SelectorType selectorType[] = {SelectorType.class_selector, SelectorType.element_type_selector,
 				SelectorType.id_selector, SelectorType.universal_selector
 		};
-		JComboBox<SelectorType> selector = new JComboBox<SelectorType>(selectorType);
+		selector = new JComboBox<SelectorType>(selectorType);
 		selector.addActionListener( e -> {
 				if (((SelectorType) selector.getSelectedItem()) == SelectorType.universal_selector) {
 					textField.setText("*");
@@ -50,7 +53,7 @@ public class SelectorFrame extends JFrame {
 					textField.setEditable(true);
 				}
 		});
-		
+		bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 		bagConstraints.gridx++;
 		bagConstraints.gridy = 0;
 		add(selector, bagConstraints);
@@ -59,18 +62,33 @@ public class SelectorFrame extends JFrame {
 		bagConstraints.gridy++;
 		add(textField, bagConstraints);
 		
-		bagConstraints.insets = new Insets(10, 20, 10, 0);
+		bagConstraints.fill = GridBagConstraints.NONE;
 		JButton addButton = new JButton("Add Selector");
 		addButton.addActionListener(e -> {
-			if(textField.getText().length() == 0) {
+			String selectorName = textField.getText();
+			if(selectorName.length() == 0) {
 				JOptionPane.showMessageDialog(SelectorFrame.this, 
 						"Please enter Selector name", "No Selector name", 
 						JOptionPane.ERROR_MESSAGE);
 			}
 			else {
-				Selector temp_selector = new Selector(textField.getText(),
-						(SelectorType) selector.getSelectedItem());
-				System.out.println(textField.getText().length());
+				SelectorType type = (SelectorType) selector.getSelectedItem();
+				
+				switch (type) {
+				case class_selector:
+					selectorName = "." + selectorName;
+					break;
+				case id_selector:
+					selectorName = "#" + selectorName;
+					break;
+				case element_type_selector:
+					break;
+				case universal_selector:
+					break;
+				default:
+					break;				
+				}
+				Selector temp_selector = new Selector(selectorName, type);
 				MainClass.frame.addSelector(temp_selector);
 				dispose();
 			}
@@ -83,7 +101,7 @@ public class SelectorFrame extends JFrame {
 		setSize(400, 200);
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
 }

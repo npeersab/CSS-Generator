@@ -16,11 +16,11 @@ public class Property {
 		this.value = value;
 	}
 	
-	public String toString() {
+	public String getCode() {
 		return "\n\t" + name + " : " + value + ";";
 	}
 	
-	public String getName() {
+	public String toString() {
 		return name;
 	}
 }
