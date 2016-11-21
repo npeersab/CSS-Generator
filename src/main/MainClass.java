@@ -7,7 +7,9 @@ public class MainClass {
 	public static MainFrame frame;
 	
 	public static void main(String[] args) throws Exception {
-		frame = new MainFrame();
 		new PropertyDetailsList();
+		frame = new MainFrame();
+		
+		System.out.println();
 	}
 }
