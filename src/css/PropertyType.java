@@ -5,10 +5,9 @@ public enum PropertyType {
 	basic_box("Basic Box"), basic_user_interface("Basic User Interface"),
 	color("Color"), filter_effects("Filter Effects"), flexible_box("Flexible Box"),
 	fonts("Fonts"), generated_content("Generated Content"), 
-	image_replaced_content("Image/Replaced Content"), lists_and_counters("Lists and Counters"),
-	marquee("Marquee"), masking("Masking"), multi_column("Multi-Column"),
-	paged_media("Paged Media"), speech("Speech"), table("Table"), text("Text"),
-	text_decoration("Text Decoration"), transform("Transform"), transition("Transition"),
+	image_replaced_content("Image/Replaced Content"), marquee("Marquee"), masking("Masking"),
+	multi_column("Multi-Column"), paged_media("Paged Media"), speech("Speech"), table("Table"),
+	text("Text"), text_decoration("Text Decoration"), transform("Transform"), transition("Transition"),
 	writing_modes("Writing Modes");
 	
 	private String name;

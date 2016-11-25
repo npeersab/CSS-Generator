@@ -1,40 +1,57 @@
 package css;
 
+import java.awt.GraphicsEnvironment;
+
 public class PropertyDetailsList {
 	public static PropertyDetails[] color, backgroundBorder, basicBox, flexibleBoxLayout, font,
-	text, textDecoration;
+	table, text, textDecoration, writingModes;
 	public static final String ABSOLUTE = "absolute", ALLOW_END = "allow-end", AUTO = "auto",
-			BASELINE = "baseline", BLOCK = "block", BORDER_BOX = "border-box", BOTH = "both",
+			BASELINE = "baseline", BIDI_OVERRIDE = "bidi-override", BLOCK = "block", 
+			BORDER_BOX = "border-box", 
+			BOLD = "bold", BOLDER = "bolder", BOTH = "both",
 			BOTTOM = "bottom", BREAK_ALL = "break-all", BREAK_WORD = "break-word",
 			CAPITALIZE = "capitalize", CENTER = "center", COLLAPSE = "collapse",
 			COLOR = "color", COLOR_DODGE = "color-dodge", COLUMN = "column",
-			COLUMN_REVERSE = "column-reverse", CONTAIN = "contain", CONTENT_BOX = "content-box", 
+			COLUMN_REVERSE = "column-reverse", 
+			CONDENSED = "condensed",
+			CONTAIN = "contain", CONTENT_BOX = "content-box", 
 			COVER = "cover", DARKEN = "darken", DASHED = "dashed", DISTRIBUTE = "distribute",
-			DOTTED = "dotted", DOUBLE = "double", END = "end", FIRST = "first",	FIXED = "fixed", 
+			DOTTED = "dotted", DOUBLE = "double", EMBED = "embed", END = "end",
+			EXPANDED = "expanded", EXTRA_CONDENSED = "extra-condensed", EXTRA_EXPANDED = "extra-expanded",
+			FIRST = "first",	FIXED = "fixed", 
 			FLEX_END = "flex-end", FLEX_START = "flex-start", FORCE_END = "force-end", GROOVE = "groove",
-			HIDDEN = "hidden", INITIAL = "initial", INHERIT = "inherit", 
+			HIDDEN = "hidden", HIDE = "hide", INITIAL = "initial", INHERIT = "inherit", 
 			INLINE = "inline",
 			INSET = "inset", INTER_CLUSTER = "inter-cluster", 
-			INTER_IDEOGRAPH = "inter-ideograph", INTER_WORD = "inter-word",
+			INTER_IDEOGRAPH = "inter-ideograph", INTER_WORD = "inter-word", ITALIC = "italic",
 			JUSTIFY = "justify", KASHIDA = "kashida", KEEP_ALL = "keep-all",
 			LAST = "last", LEFT = "left",
-			LIGHTEN = "lighten", LINE_THROUGH = "line-through", LIST_ITEM = "list-item",
-			LOCAL = "local", LOWERCASE = "lowercase", LUMINOSITY = "luminosity",
-			MULTIPLY = "multiply", 
+			LIGHTEN = "lighten", LIGHTER = "lighter", LINE_THROUGH = "line-through",
+			LIST_ITEM = "list-item",
+			LOCAL = "local", LOWERCASE = "lowercase", LTR = "ltr", LUMINOSITY = "luminosity",
+			MIXED = "mixed", MULTIPLY = "multiply", 
 			NONE = "none", NORMAL = "normal", 
 			NO_REPEAT = "no-repeat", NOWRAP = "nowrap",
-			OUTSET = "outset",
+			OBLIQUE = "oblique", OUTSET = "outset",
 			OVERLAY = "overlay", OVERLINE = "overline", 
 			PADDING_BOX = "padding-box", PRE = "pre", PRE_LINE = "pre-line",
 			PRE_WRAP = "pre-wrap",
 			RELATIVE = "relative",
 			REPEAT = "repeat", REPEAT_X = "repeat-x", REPEAT_Y = "repeat-y", 
-			RIDGE = "ridge", RIGHT = "right", ROW = "row", ROW_REVERSE = "row-reverse",
+			RIDGE = "ridge", RIGHT = "right", ROW = "row", ROW_REVERSE = "row-reverse", RTL = "rtl",
 			SATURATION = "saturation",
-			SCREEN = "screen", SCROLL = "scroll", 
+			SCREEN = "screen", SCROLL = "scroll", SEMI_CONDENSED = "semi-condensed", 
+			SEMI_EXPANDED = "semi-expanded",
+			SEPARATE = "separate", 
+			SHOW = "show", SIDEWAYS = "sideways", SIDEWAYS_RIGHT = "sideways-right", 
+			SMALL_CAPS = "small-caps",
 			SOLID = "solid", START = "start", STATIC = "static",
-			STRETCH = "stretch", TOP = "top", TRIM = "trim", 
-			UNDERLINE = "underline", UPPERCASE = "uppercase", VISIBLE = "visible", WAVY = "wavy",
+			STRETCH = "stretch", STYLE = "style", TOP = "top", TRIM = "trim", 
+			ULTRA_CONDENSED = "ultra-condensed", ULTRA_EXPANDED = "utra-expanded",
+			UNDERLINE = "underline", UPPERCASE = "uppercase", UPRIGHT = "upright",
+			USE_GLYPH_ORIENTATION = "use-glyph-orientation",
+			VISIBLE = "visible", WAVY = "wavy",
+			WEIGHT = "weigth",
 			WRAP = "wrap", WRAP_REVERSE = "wrap-reverse",
 	
 			BACKGROUND_PROP[] = new String[] {
@@ -449,7 +466,8 @@ public class PropertyDetailsList {
 	 			TEXT_DECORATION_LINE);
 	 	
 	 	textDecoration[cnt++] = new PropertyDetails(
-	 			"text-decoration-color", "Specifies the color of the text-decoration", ValueType.COLOR);
+	 			"text-decoration-color", "Specifies the color of the text-decoration",
+	 			ValueType.COLOR);
 	 	
 	 	textDecoration[cnt++] = new PropertyDetails(
 	 			"text-decoration-line", " 	Specifies the type of line in a text-decoration", 
@@ -461,7 +479,104 @@ public class PropertyDetailsList {
 	 					SOLID, DOUBLE, DOTTED, DASHED, WAVY, INITIAL, INHERIT
 	 			});
 	 	
-	 	font = new PropertyDetails[100];
+	 	font = new PropertyDetails[8];
 	 	cnt = 0;
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-family", "Specifies the font family for text", ValueType.STRING,
+	 			GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-kerning", "Controls the usage of the kerning information"
+	 					+ " (how letters are spaced)", ValueType.STRING, new String[] {
+	 					AUTO, NORMAL, NONE, INITIAL, INHERIT
+	 			});
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-size", "Specifies the font size of text", ValueType.PIXEL, RANGE_0_TO_20);
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-stretch", "Selects a normal, condensed, or expanded face from a font family",
+	 			ValueType.STRING, new String[] {
+	 					ULTRA_CONDENSED, EXTRA_CONDENSED, CONDENSED, SEMI_CONDENSED, NORMAL,
+	 					SEMI_EXPANDED, EXPANDED, EXTRA_EXPANDED, ULTRA_EXPANDED, INITIAL, INHERIT
+	 			});
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-style", "Specifies the font style for text", ValueType.STRING, new String[] {
+	 					NORMAL, ITALIC, OBLIQUE, INITIAL, INHERIT
+	 			});
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-synthesis", "Controls which missing typefaces (bold or italic)"
+	 					+ " may be synthesized by the browser", ValueType.STRING, new String[] {
+	 							NONE, WEIGHT, STYLE, WEIGHT + " " + STYLE, INITIAL, INHERIT
+	 					});
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-variant", "Specifies whether or not a text should be displayed in a"
+	 					+ " small-caps font", ValueType.STRING, new String[] {
+	 					NORMAL, SMALL_CAPS, INITIAL, INHERIT
+	 			});
+	 	
+	 	font[cnt++] = new PropertyDetails(
+	 			"font-weight", "Specifies the weight of a font", ValueType.STRING, new String[] {
+	 					NORMAL, BOLD, BOLDER, LIGHTER, INITIAL, INHERIT
+	 			});
+
+	 	writingModes = new PropertyDetails[3];
+	 	cnt = 0;
+	 	
+	 	writingModes[cnt++] = new PropertyDetails(
+	 			"direction", "Specifies the text direction/writing direction", ValueType.STRING,
+	 			new String[] {
+	 					LTR, RTL, INITIAL, INHERIT
+	 			});
+	 	
+	 	writingModes[cnt++] = new PropertyDetails(
+	 			"text-orientation", "Defines the orientation of the text in a line", ValueType.STRING, 
+	 			new String[] {
+	 					MIXED, UPRIGHT, SIDEWAYS, SIDEWAYS_RIGHT, USE_GLYPH_ORIENTATION, INITIAL,
+	 					INHERIT
+	 			});
+	 	
+	 	writingModes[cnt++] = new PropertyDetails(
+	 			" unicode-bidi", "Specifies the combination of multiple characters into the space of a"
+	 					+ " single character", ValueType.STRING, new String[] {
+	 							NORMAL, EMBED, BIDI_OVERRIDE, INITIAL, INHERIT
+	 					});
+	 	
+	 	table = new PropertyDetails[5];
+	 	cnt = 0;
+	 		 	
+	 	table[cnt++] = new PropertyDetails(
+	 			"border-collapse", "Specifies whether or not table borders should be collapsed",
+	 			ValueType.STRING, new String[] {
+	 					SEPARATE, COLLAPSE, INITIAL, INHERIT
+	 			});
+	 	
+	 	table[cnt++] = new PropertyDetails(
+	 			"border-spacing", "Specifies the distance between the borders of adjacent cells", 
+	 			ValueType.PIXEL, RANGE_0_TO_20);
+	 	
+	 	table[cnt++] = new PropertyDetails(
+	 			"caption-side", "Specifies the placement of a table caption", ValueType.STRING,
+	 			new String[] {
+	 					TOP, BOTTOM, INITIAL, INHERIT
+	 			});
+	 	
+	 	table[cnt++] = new PropertyDetails(
+	 			"empty-cells", "Specifies whether or not to display borders and background on empty"
+	 					+ " cells in a table", ValueType.STRING, new String[] {
+	 							SHOW, HIDE, INITIAL, INHERIT
+	 					});
+	 	
+	 	table[cnt++] = new PropertyDetails(
+	 			"table-layout", "Sets the layout algorithm to be used for a table", ValueType.STRING, 
+	 			new String[] {
+	 					AUTO, FIXED, INITIAL, INHERIT
+	 			});
+	 	
+	 	System.out.println(cnt);
 	}
 }

@@ -36,5 +36,9 @@ public class PropertyDetails {
 	public String[] getPossibleValues() {
 		return possibleValues;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
 }
 
