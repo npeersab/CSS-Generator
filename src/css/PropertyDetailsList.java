@@ -3,49 +3,63 @@ package css;
 import java.awt.GraphicsEnvironment;
 
 public class PropertyDetailsList {
-	public static PropertyDetails[] color, backgroundBorder, basicBox, flexibleBoxLayout, font,
-	table, text, textDecoration, writingModes;
-	public static final String ABSOLUTE = "absolute", ALLOW_END = "allow-end", AUTO = "auto",
+	public static PropertyDetails[] animation, color, backgroundBorder, basicBox, basicUserInterface, 
+	flexibleBoxLayout, font, table, text, textDecoration, writingModes;
+	public static final String ABSOLUTE = "absolute", ALLOW_END = "allow-end", ALTERNATE = "alternate",
+			ALIAS = "alias", ALL_SCROLL = "all-scroll",
+			ALTERNATE_REVERSE = "alternate-reverse", ATTR = "attr", AUTO = "auto",
+			BACKWORDS = "backwords",
 			BASELINE = "baseline", BIDI_OVERRIDE = "bidi-override", BLOCK = "block", 
 			BORDER_BOX = "border-box", 
 			BOLD = "bold", BOLDER = "bolder", BOTH = "both",
 			BOTTOM = "bottom", BREAK_ALL = "break-all", BREAK_WORD = "break-word",
-			CAPITALIZE = "capitalize", CENTER = "center", COLLAPSE = "collapse",
+			CAPITALIZE = "capitalize", CELL = "cell", CENTER = "center", CLOSE_QUOTE = "close-quote", 
+			COLLAPSE = "collapse",
 			COLOR = "color", COLOR_DODGE = "color-dodge", COLUMN = "column",
-			COLUMN_REVERSE = "column-reverse", 
+			COLUMN_REVERSE = "column-reverse", COL_RESIZE = "col-resize",
 			CONDENSED = "condensed",
-			CONTAIN = "contain", CONTENT_BOX = "content-box", 
-			COVER = "cover", DARKEN = "darken", DASHED = "dashed", DISTRIBUTE = "distribute",
-			DOTTED = "dotted", DOUBLE = "double", EMBED = "embed", END = "end",
+			CONTAIN = "contain", CONTENT_BOX = "content-box", CONTEXT_MENU = "context-menu", 
+			COPY = "copy", COUNTER = "counter", 
+			COVER = "cover", CROSSHAIR = "crosshair",
+			DARKEN = "darken", DASHED = "dashed", DEFAULT = "default", 
+			DISTRIBUTE = "distribute",
+			DOTTED = "dotted", DOUBLE = "double", 
+			EASE = "ease", EASE_IN = "ease-in", EASE_IN_OUT = "ease-in-out", EASE_OUT = "ease-out",
+			EMBED = "embed", END = "end",
 			EXPANDED = "expanded", EXTRA_CONDENSED = "extra-condensed", EXTRA_EXPANDED = "extra-expanded",
+			E_RESIZE = "e-resize",
 			FIRST = "first",	FIXED = "fixed", 
-			FLEX_END = "flex-end", FLEX_START = "flex-start", FORCE_END = "force-end", GROOVE = "groove",
+			FLEX_END = "flex-end", FLEX_START = "flex-start", FORCE_END = "force-end", 
+			FORWARDS = "forwards", GROOVE = "groove",
 			HIDDEN = "hidden", HIDE = "hide", INITIAL = "initial", INHERIT = "inherit", 
 			INLINE = "inline",
 			INSET = "inset", INTER_CLUSTER = "inter-cluster", 
 			INTER_IDEOGRAPH = "inter-ideograph", INTER_WORD = "inter-word", ITALIC = "italic",
 			JUSTIFY = "justify", KASHIDA = "kashida", KEEP_ALL = "keep-all",
 			LAST = "last", LEFT = "left",
-			LIGHTEN = "lighten", LIGHTER = "lighter", LINE_THROUGH = "line-through",
+			LIGHTEN = "lighten", LIGHTER = "lighter",
+			LINEAR = "linear", LINE_THROUGH = "line-through",
 			LIST_ITEM = "list-item",
 			LOCAL = "local", LOWERCASE = "lowercase", LTR = "ltr", LUMINOSITY = "luminosity",
 			MIXED = "mixed", MULTIPLY = "multiply", 
 			NONE = "none", NORMAL = "normal", 
-			NO_REPEAT = "no-repeat", NOWRAP = "nowrap",
-			OBLIQUE = "oblique", OUTSET = "outset",
+			NO_REPEAT = "no-repeat", NO_CLOSE_QUOTE = "no-close-quote", NO_OPEN_QUOTE = "no-open-quote", 
+			NOWRAP = "nowrap",
+			OBLIQUE = "oblique", OPEN_QUOTE = "open-quote", OUTSET = "outset",
 			OVERLAY = "overlay", OVERLINE = "overline", 
-			PADDING_BOX = "padding-box", PRE = "pre", PRE_LINE = "pre-line",
+			PADDING_BOX = "padding-box", PAUSED = "paused", PRE = "pre", PRE_LINE = "pre-line",
 			PRE_WRAP = "pre-wrap",
 			RELATIVE = "relative",
-			REPEAT = "repeat", REPEAT_X = "repeat-x", REPEAT_Y = "repeat-y", 
+			REPEAT = "repeat", REPEAT_X = "repeat-x", REPEAT_Y = "repeat-y", REVERSE = "reverse", 
 			RIDGE = "ridge", RIGHT = "right", ROW = "row", ROW_REVERSE = "row-reverse", RTL = "rtl",
-			SATURATION = "saturation",
+			RUNNING = "running", SATURATION = "saturation",
 			SCREEN = "screen", SCROLL = "scroll", SEMI_CONDENSED = "semi-condensed", 
 			SEMI_EXPANDED = "semi-expanded",
 			SEPARATE = "separate", 
 			SHOW = "show", SIDEWAYS = "sideways", SIDEWAYS_RIGHT = "sideways-right", 
 			SMALL_CAPS = "small-caps",
-			SOLID = "solid", START = "start", STATIC = "static",
+			SOLID = "solid", START = "start", STATIC = "static", STEP_END = "step-end",
+			STEP_START = "step-start",
 			STRETCH = "stretch", STYLE = "style", TOP = "top", TRIM = "trim", 
 			ULTRA_CONDENSED = "ultra-condensed", ULTRA_EXPANDED = "utra-expanded",
 			UNDERLINE = "underline", UPPERCASE = "uppercase", UPRIGHT = "upright",
@@ -54,17 +68,17 @@ public class PropertyDetailsList {
 			WEIGHT = "weigth",
 			WRAP = "wrap", WRAP_REVERSE = "wrap-reverse",
 	
-			BACKGROUND_PROP[] = new String[] {
+			BACKGROUND_PROP[] = {
 					BORDER_BOX, PADDING_BOX, CONTENT_BOX, INITIAL, INHERIT
 			},
-			BORDER_STYLE_VALUES[] = new String[] {
+			BORDER_STYLE_VALUES[] = {
 					NONE, HIDDEN, DOTTED, DASHED, SOLID, DOUBLE, GROOVE, RIDGE,
 					INSET, OUTSET, INITIAL, INHERIT						
 			},
-			OVERFLOW_VALUES[] = new String[] {
+			OVERFLOW_VALUES[] = {
 					VISIBLE, HIDDEN, SCROLL, AUTO, INITIAL, INHERIT
 			},
-			TEXT_DECORATION_LINE[] = new String[] {
+			TEXT_DECORATION_LINE[] = {
  					NONE, UNDERLINE, OVERLINE, LINE_THROUGH, INITIAL, INHERIT
  			};
 	public static final Range<Integer> RANGE_0_TO_100 = new Range<Integer>(0, 100),
@@ -577,6 +591,68 @@ public class PropertyDetailsList {
 	 					AUTO, FIXED, INITIAL, INHERIT
 	 			});
 	 	
-	 	System.out.println(cnt);
+	 	animation = new PropertyDetails[7];
+	 	cnt = 0;
+	 	
+	 	animation[cnt++] = new PropertyDetails(
+	 			"animation-delay", "Specifies a delay for the start of an animation", ValueType.TIME,
+	 			RANGE_0_TO_20);
+	 	
+	 	animation[cnt++] = new PropertyDetails(
+	 			"animation-direction", "Specifies whether or not the animation should play in reverse"
+	 					+ " on alternate cycles", ValueType.STRING, new String[] {
+	 							NORMAL, REVERSE, ALTERNATE, ALTERNATE_REVERSE, INITIAL, INHERIT
+	 					});
+	 	
+	 	animation[cnt++] = new PropertyDetails(
+	 			"animation-duration", "Specifies how many seconds or milliseconds an animation takes to"
+	 					+ " complete one cycle", ValueType.TIME, RANGE_0_TO_20);
+	 	
+	 	animation[cnt++] = new PropertyDetails(
+	 			"animation-fill-mode", "Specifies a style for the element when the animation is not"
+	 					+ " playing (when it is finished, or when it has a delay)", ValueType.STRING, 
+	 					new String[] {
+	 							NONE, FORWARDS, BACKWORDS, BOTH, INITIAL, INHERIT
+	 					});
+	 			
+	 	animation[cnt++] = new PropertyDetails(
+	 			"animation-iteration-count", "Specifies the number of times an animation should be played",
+	 			ValueType.INTEGER, RANGE_0_TO_20);
+	 	
+	 	
+	 	animation[cnt++] = new PropertyDetails(
+	 			"animation-play-state", "Specifies whether the animation is running or paused",
+	 			ValueType.STRING, new String[] {
+	 					PAUSED, RUNNING, INITIAL, INHERIT
+	 			});
+	 	
+	 	animation[cnt++] = new PropertyDetails(
+	 			"animation-timing-function", "Specifies the speed curve of an animation",
+	 			ValueType.STRING, new String[] {
+	 					LINEAR, EASE, EASE_IN, EASE_OUT, EASE_IN_OUT, STEP_START, STEP_END, INITIAL,
+	 					INHERIT
+	 			});
+	 	
+	 	basicUserInterface = new PropertyDetails[100];
+	 	cnt = 0;
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"box-sizing", "Tells the browser what the sizing properties (width and height) should include",
+	 			ValueType.STRING, new String[] {
+	 					CONTENT_BOX, BORDER_BOX, INITIAL, INHERIT
+	 			});
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"content", "Used with the :before and :after pseudo-elements, to insert generated content",
+	 			ValueType.STRING, new String[] {
+	 					NORMAL, NONE, COUNTER, ATTR, OPEN_QUOTE, CLOSE_QUOTE, NO_OPEN_QUOTE,
+	 					NO_CLOSE_QUOTE, INITIAL, INHERIT
+	 			});
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"cursor", "Specifies the type of cursor to be displayed", ValueType.STRING,
+	 			new String[] {
+	 					
+	 			});
 	}
 }

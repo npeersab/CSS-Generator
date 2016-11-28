@@ -8,11 +8,11 @@ public class Range<type> {
 		this.max = max;
 	}
 	
-	type getMin() {
+	public type getMin() {
 		return min;
 	}
 	
-	type getMax() {
+	public type getMax() {
 		return max;
 	}
 }

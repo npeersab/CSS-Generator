@@ -1,5 +1,5 @@
 package css;
 
 public enum ValueType {
-	COLOR, DOUBLE, INTEGER, PIXEL, STRING;
+	COLOR, DOUBLE, INTEGER, PIXEL, STRING, TIME;
 }

@@ -40,5 +40,9 @@ public class PropertyDetails {
 	public String getDescription() {
 		return description;
 	}
+	
+	public Range<?> getRange() {
+		return range;
+	}
 }
 
