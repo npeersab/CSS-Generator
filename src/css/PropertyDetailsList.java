@@ -4,11 +4,11 @@ import java.awt.GraphicsEnvironment;
 
 public class PropertyDetailsList {
 	public static PropertyDetails[] animation, color, backgroundBorder, basicBox, basicUserInterface, 
-	flexibleBoxLayout, font, table, text, textDecoration, writingModes;
+	flexibleBoxLayout, font, multiColumnLayout, table, text, textDecoration, writingModes;
 	public static final String ABSOLUTE = "absolute", ALLOW_END = "allow-end", ALTERNATE = "alternate",
-			ALIAS = "alias", ALL_SCROLL = "all-scroll",
+			ALIAS = "alias", ALL_SCROLL = "all-scroll", ALL = "all",
 			ALTERNATE_REVERSE = "alternate-reverse", ATTR = "attr", AUTO = "auto",
-			BACKWORDS = "backwords",
+			BACKWORDS = "backwords", BALANCED = "balanced",
 			BASELINE = "baseline", BIDI_OVERRIDE = "bidi-override", BLOCK = "block", 
 			BORDER_BOX = "border-box", 
 			BOLD = "bold", BOLDER = "bolder", BOTH = "both",
@@ -25,13 +25,15 @@ public class PropertyDetailsList {
 			DISTRIBUTE = "distribute",
 			DOTTED = "dotted", DOUBLE = "double", 
 			EASE = "ease", EASE_IN = "ease-in", EASE_IN_OUT = "ease-in-out", EASE_OUT = "ease-out",
-			EMBED = "embed", END = "end",
+			EMBED = "embed", END = "end", EW_RESIZE = "ew-resize",
 			EXPANDED = "expanded", EXTRA_CONDENSED = "extra-condensed", EXTRA_EXPANDED = "extra-expanded",
 			E_RESIZE = "e-resize",
 			FIRST = "first",	FIXED = "fixed", 
 			FLEX_END = "flex-end", FLEX_START = "flex-start", FORCE_END = "force-end", 
-			FORWARDS = "forwards", GROOVE = "groove",
-			HIDDEN = "hidden", HIDE = "hide", INITIAL = "initial", INHERIT = "inherit", 
+			FORWARDS = "forwards", GRABE = "grabe", GRABBING = "grabbing", GROOVE = "groove",
+			HELP = "help",
+			HIDDEN = "hidden", HIDE = "hide", HORIZONTAL = "horizontal",
+			INITIAL = "initial", INHERIT = "inherit", 
 			INLINE = "inline",
 			INSET = "inset", INTER_CLUSTER = "inter-cluster", 
 			INTER_IDEOGRAPH = "inter-ideograph", INTER_WORD = "inter-word", ITALIC = "italic",
@@ -41,37 +43,46 @@ public class PropertyDetailsList {
 			LINEAR = "linear", LINE_THROUGH = "line-through",
 			LIST_ITEM = "list-item",
 			LOCAL = "local", LOWERCASE = "lowercase", LTR = "ltr", LUMINOSITY = "luminosity",
-			MIXED = "mixed", MULTIPLY = "multiply", 
-			NONE = "none", NORMAL = "normal", 
-			NO_REPEAT = "no-repeat", NO_CLOSE_QUOTE = "no-close-quote", NO_OPEN_QUOTE = "no-open-quote", 
-			NOWRAP = "nowrap",
+			MIXED = "mixed", MOVE = "move", MULTIPLY = "multiply", 
+			NESW_RESIZE = "nes-resize", NS_RESIZE = "ns-resize", NWSE_RESIZE = "nwse-resize",
+			NW_RESIZE = "nw-resize",
+			NE_RESIZE = "ne-resize", NONE = "none", NORMAL = "normal", 
+			NO_REPEAT = "no-repeat", NO_CLOSE_QUOTE = "no-close-quote", NO_DROP = "no-drop",
+			NO_OPEN_QUOTE = "no-open-quote", NOT_ALLOWED = "not-allowed",
+			NOWRAP = "nowrap", N_RESIZE = "n-resize",
 			OBLIQUE = "oblique", OPEN_QUOTE = "open-quote", OUTSET = "outset",
 			OVERLAY = "overlay", OVERLINE = "overline", 
-			PADDING_BOX = "padding-box", PAUSED = "paused", PRE = "pre", PRE_LINE = "pre-line",
-			PRE_WRAP = "pre-wrap",
+			PADDING_BOX = "padding-box", PAUSED = "paused", POINTER = "pointer", 
+			PRE = "pre", PRE_LINE = "pre-line",
+			PRE_WRAP = "pre-wrap", PROGRESS = "progress",
 			RELATIVE = "relative",
 			REPEAT = "repeat", REPEAT_X = "repeat-x", REPEAT_Y = "repeat-y", REVERSE = "reverse", 
-			RIDGE = "ridge", RIGHT = "right", ROW = "row", ROW_REVERSE = "row-reverse", RTL = "rtl",
+			RIDGE = "ridge", RIGHT = "right", ROW = "row", ROW_RESIZE = "row-resize",
+			ROW_REVERSE = "row-reverse",
+			RTL = "rtl",
 			RUNNING = "running", SATURATION = "saturation",
+			S_RESIZE = "s-resize",
 			SCREEN = "screen", SCROLL = "scroll", SEMI_CONDENSED = "semi-condensed", 
 			SEMI_EXPANDED = "semi-expanded",
-			SEPARATE = "separate", 
+			SEPARATE = "separate",  SE_RESIZE = "se-resize",
 			SHOW = "show", SIDEWAYS = "sideways", SIDEWAYS_RIGHT = "sideways-right", 
 			SMALL_CAPS = "small-caps",
 			SOLID = "solid", START = "start", STATIC = "static", STEP_END = "step-end",
 			STEP_START = "step-start",
-			STRETCH = "stretch", STYLE = "style", TOP = "top", TRIM = "trim", 
+			STRETCH = "stretch", STYLE = "style", SW_RESIZE = "sw-resize", 
+			TEXT = "text", TOP = "top", TRIM = "trim", 
 			ULTRA_CONDENSED = "ultra-condensed", ULTRA_EXPANDED = "utra-expanded",
 			UNDERLINE = "underline", UPPERCASE = "uppercase", UPRIGHT = "upright",
-			USE_GLYPH_ORIENTATION = "use-glyph-orientation",
-			VISIBLE = "visible", WAVY = "wavy",
+			USE_GLYPH_ORIENTATION = "use-glyph-orientation", VERTICAL_TEXT = "vertical-text",
+			VERTICAL = "vertical", VISIBLE = "visible", 
+			W_RESIZE = "w-resize", WAIT = "wait", WAVY = "wavy",
 			WEIGHT = "weigth",
-			WRAP = "wrap", WRAP_REVERSE = "wrap-reverse",
-	
+			WRAP = "wrap", WRAP_REVERSE = "wrap-reverse", ZOOM_IN = "zoom-in", ZOOM_OUT = "zoom-out",
+				
 			BACKGROUND_PROP[] = {
 					BORDER_BOX, PADDING_BOX, CONTENT_BOX, INITIAL, INHERIT
 			},
-			BORDER_STYLE_VALUES[] = {
+			STYLE_VALUES[] = {
 					NONE, HIDDEN, DOTTED, DASHED, SOLID, DOUBLE, GROOVE, RIDGE,
 					INSET, OUTSET, INITIAL, INHERIT						
 			},
@@ -163,7 +174,7 @@ public class PropertyDetailsList {
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-bottom-style", "Sets the style of the bottom border", ValueType.STRING,
-				BORDER_STYLE_VALUES);
+				STYLE_VALUES);
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-bottom-width", "Sets the width of the bottom border", ValueType.PIXEL,
@@ -177,7 +188,7 @@ public class PropertyDetailsList {
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-left-style", "Sets the style of the left border", ValueType.STRING,
-				BORDER_STYLE_VALUES);
+				STYLE_VALUES);
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-left-width", "Sets the width of the left border", ValueType.PIXEL,
@@ -193,7 +204,7 @@ public class PropertyDetailsList {
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-right-style", "Sets the style of the right border", ValueType.STRING,
-				BORDER_STYLE_VALUES);
+				STYLE_VALUES);
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-right-width", "Sets the width of the right border", ValueType.PIXEL, 
@@ -201,7 +212,7 @@ public class PropertyDetailsList {
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-style", "Sets the style of the four borders", ValueType.STRING,
-				BORDER_STYLE_VALUES);
+				STYLE_VALUES);
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-top-color", "Sets the color of the top border", ValueType.COLOR);
@@ -216,7 +227,7 @@ public class PropertyDetailsList {
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-top-style", "Sets the style of the top border", ValueType.STRING,
-				BORDER_STYLE_VALUES);
+				STYLE_VALUES);
 		
 		backgroundBorder[cnt++] = new PropertyDetails(
 				"border-top-width", "Sets the width of the top border", ValueType.PIXEL, RANGE_0_TO_20);
@@ -633,7 +644,7 @@ public class PropertyDetailsList {
 	 					INHERIT
 	 			});
 	 	
-	 	basicUserInterface = new PropertyDetails[100];
+	 	basicUserInterface = new PropertyDetails[9];
 	 	cnt = 0;
 	 	
 	 	basicUserInterface[cnt++] = new PropertyDetails(
@@ -654,5 +665,69 @@ public class PropertyDetailsList {
 	 			new String[] {
 	 					
 	 			});
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"cursor", "Specifies the type of cursor to be displayed", ValueType.STRING,
+	 			new String[] {
+	 					ALIAS, ALL_SCROLL, AUTO, CELL, CONTEXT_MENU, COL_RESIZE, COPY, CROSSHAIR, DEFAULT,
+	 					E_RESIZE, EW_RESIZE, GRABE, GRABBING, HELP, MOVE, N_RESIZE, NE_RESIZE, NESW_RESIZE,
+	 					NS_RESIZE, NW_RESIZE, NWSE_RESIZE, NO_DROP, NONE, NOT_ALLOWED, POINTER, PROGRESS,
+	 					ROW_RESIZE, S_RESIZE, SE_RESIZE, SW_RESIZE, TEXT, VERTICAL_TEXT, W_RESIZE, WAIT,
+	 					ZOOM_IN, ZOOM_OUT, INITIAL, INHERIT
+	 			});
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"outline-color", "Sets the color of an outline", ValueType.COLOR);
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"outline-offset", "Offsets an outline, and draws it beyond the border edge", ValueType.PIXEL,
+	 			RANGE_0_TO_20);
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"outline-style", " 	Sets the style of an outline", ValueType.STRING, STYLE_VALUES);
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"outline-width", "Sets the width of an outline", ValueType.PIXEL, RANGE_0_TO_20);
+	 	
+	 	basicUserInterface[cnt++] = new PropertyDetails(
+	 			"resize", "Specifies whether or not an element is resizable by the user", ValueType.STRING,
+	 			new String[] {
+	 					NONE, BOTH, HORIZONTAL, VERTICAL, INITIAL, INHERIT
+	 			});
+	 	
+	 	multiColumnLayout = new PropertyDetails[100];
+	 	cnt = 0;
+	 	
+	 	multiColumnLayout[cnt++] = new PropertyDetails(
+	 			"column-fill", "Specifies how to fill columns", ValueType.STRING, new String[] {
+	 					BALANCED, AUTO, INITIAL, INHERIT
+	 			});
+	 	
+	 	multiColumnLayout[cnt++] = new PropertyDetails(
+	 			"column-gap", "Specifies the gap between the columns", ValueType.PIXEL, RANGE_0_TO_100);
+	 	
+	 	
+	 	multiColumnLayout[cnt++] = new PropertyDetails(
+	 			"column-rule-color", "Specifies the color of the rule between columns", ValueType.COLOR);
+	 	
+	 	multiColumnLayout[cnt++] = new PropertyDetails(
+	 			"column-rule-style", "Specifies the style of the rule between columns", ValueType.STRING, 
+	 			STYLE_VALUES);
+	 	
+	 	multiColumnLayout[cnt++] = new PropertyDetails(
+	 			"column-rule-width", "Specifies the width of the rule between columns", ValueType.PIXEL,
+	 			RANGE_0_TO_20);
+	 	
+	 	multiColumnLayout[cnt++] = new PropertyDetails(
+	 			"column-span", "Specifies how many columns an element should span across", ValueType.STRING,
+	 			new String[] {
+	 					"1", ALL, INITIAL, INHERIT
+	 			});
+	 	
+	 	multiColumnLayout[cnt++] = new PropertyDetails(
+	 			"column-width", "Specifies the width of the columns", ValueType.PIXEL, RANGE_0_TO_200);
+
+	 	
+	 	System.out.println(cnt);
 	}
 }
