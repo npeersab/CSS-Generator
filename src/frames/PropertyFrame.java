@@ -62,11 +62,10 @@ public class PropertyFrame extends JFrame {
 			PropertyType propertytypes[] = {
 					PropertyType.animation, PropertyType.background_and_borders,
 					PropertyType.basic_box, PropertyType.basic_user_interface, PropertyType.color,
-					PropertyType.filter_effects, PropertyType.flexible_box, PropertyType.fonts,
-					PropertyType.generated_content, PropertyType.image_replaced_content,
-					PropertyType.marquee, PropertyType.masking, PropertyType.multi_column,
-					PropertyType.paged_media, PropertyType.speech, PropertyType.table,
-					PropertyType.text, PropertyType.text_decoration, PropertyType.writing_modes
+					PropertyType.flexible_box, PropertyType.fonts, PropertyType.multi_column,
+					PropertyType.speech, 
+					PropertyType.table, PropertyType.text, PropertyType.text_decoration, 
+					PropertyType.writing_modes
 					};
 			
 			propertyTypeComboBox= new JComboBox<PropertyType>(propertytypes);
@@ -82,6 +81,7 @@ public class PropertyFrame extends JFrame {
 			
 			switch ((PropertyType) propertyTypeComboBox.getSelectedItem()) {
 			case animation:
+				propertyDetails = PropertyDetailsList.animation;
 				break;
 			case background_and_borders:
 				propertyDetails = PropertyDetailsList.backgroundBorder;
@@ -90,11 +90,10 @@ public class PropertyFrame extends JFrame {
 				propertyDetails = PropertyDetailsList.basicBox;
 				break;
 			case basic_user_interface:
+				propertyDetails = PropertyDetailsList.basicUserInterface;
 				break;
 			case color:
 				propertyDetails = PropertyDetailsList.color;
-				break;
-			case filter_effects:
 				break;
 			case flexible_box:
 				propertyDetails = PropertyDetailsList.flexibleBoxLayout;
@@ -102,19 +101,8 @@ public class PropertyFrame extends JFrame {
 			case fonts:
 				propertyDetails = PropertyDetailsList.font;
 				break;
-			case generated_content:
-				break;
-			case image_replaced_content:
-				break;
-			case marquee:
-				break;
-			case masking:
-				break;
 			case multi_column:
-				break;
-			case paged_media:
-				break;
-			case speech:
+				propertyDetails = PropertyDetailsList.multiColumnLayout;
 				break;
 			case table:
 				propertyDetails = PropertyDetailsList.table;
@@ -129,7 +117,7 @@ public class PropertyFrame extends JFrame {
 				propertyDetails = PropertyDetailsList.writingModes;
 				break;
 			default:
-				break;	
+				break;
 			}
 			selectProperty.setBox(propertyDetails);
 			selectValue.setValueChooser(propertyDetails[0].getType());

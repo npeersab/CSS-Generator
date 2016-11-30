@@ -5,79 +5,52 @@ import java.awt.GraphicsEnvironment;
 public class PropertyDetailsList {
 	public static PropertyDetails[] animation, color, backgroundBorder, basicBox, basicUserInterface, 
 	flexibleBoxLayout, font, multiColumnLayout, table, text, textDecoration, writingModes;
+	//Strings for all CSS Values
 	public static final String ABSOLUTE = "absolute", ALLOW_END = "allow-end", ALTERNATE = "alternate",
-			ALIAS = "alias", ALL_SCROLL = "all-scroll", ALL = "all",
-			ALTERNATE_REVERSE = "alternate-reverse", ATTR = "attr", AUTO = "auto",
-			BACKWORDS = "backwords", BALANCED = "balanced",
-			BASELINE = "baseline", BIDI_OVERRIDE = "bidi-override", BLOCK = "block", 
-			BORDER_BOX = "border-box", 
-			BOLD = "bold", BOLDER = "bolder", BOTH = "both",
-			BOTTOM = "bottom", BREAK_ALL = "break-all", BREAK_WORD = "break-word",
-			CAPITALIZE = "capitalize", CELL = "cell", CENTER = "center", CLOSE_QUOTE = "close-quote", 
-			COLLAPSE = "collapse",
-			COLOR = "color", COLOR_DODGE = "color-dodge", COLUMN = "column",
-			COLUMN_REVERSE = "column-reverse", COL_RESIZE = "col-resize",
-			CONDENSED = "condensed",
-			CONTAIN = "contain", CONTENT_BOX = "content-box", CONTEXT_MENU = "context-menu", 
-			COPY = "copy", COUNTER = "counter", 
-			COVER = "cover", CROSSHAIR = "crosshair",
-			DARKEN = "darken", DASHED = "dashed", DEFAULT = "default", 
-			DISTRIBUTE = "distribute",
-			DOTTED = "dotted", DOUBLE = "double", 
+			ALIAS = "alias", ALL_SCROLL = "all-scroll", ALL = "all", ALTERNATE_REVERSE = "alternate-reverse",
+			ATTR = "attr", AUTO = "auto", BACKWORDS = "backwords", BALANCED = "balanced",
+			BASELINE = "baseline", BIDI_OVERRIDE = "bidi-override", BLOCK = "block",
+			BORDER_BOX = "border-box", BOLD = "bold", BOLDER = "bolder", BOTH = "both",	BOTTOM = "bottom",
+			BREAK_ALL = "break-all", BREAK_WORD = "break-word", CAPITALIZE = "capitalize", CELL = "cell",
+			CENTER = "center", CLOSE_QUOTE = "close-quote",	COLLAPSE = "collapse", COLOR = "color",
+			COLOR_DODGE = "color-dodge", COLUMN = "column",	COLUMN_REVERSE = "column-reverse", 
+			COL_RESIZE = "col-resize", CONDENSED = "condensed", CONTAIN = "contain", 
+			CONTENT_BOX = "content-box", CONTEXT_MENU = "context-menu", COPY = "copy", COUNTER = "counter", 
+			COVER = "cover", CROSSHAIR = "crosshair", DARKEN = "darken", DASHED = "dashed", 
+			DEFAULT = "default", DISTRIBUTE = "distribute",	DOTTED = "dotted", DOUBLE = "double",
 			EASE = "ease", EASE_IN = "ease-in", EASE_IN_OUT = "ease-in-out", EASE_OUT = "ease-out",
-			EMBED = "embed", END = "end", EW_RESIZE = "ew-resize",
-			EXPANDED = "expanded", EXTRA_CONDENSED = "extra-condensed", EXTRA_EXPANDED = "extra-expanded",
-			E_RESIZE = "e-resize",
-			FIRST = "first",	FIXED = "fixed", 
-			FLEX_END = "flex-end", FLEX_START = "flex-start", FORCE_END = "force-end", 
-			FORWARDS = "forwards", GRABE = "grabe", GRABBING = "grabbing", GROOVE = "groove",
-			HELP = "help",
-			HIDDEN = "hidden", HIDE = "hide", HORIZONTAL = "horizontal",
-			INITIAL = "initial", INHERIT = "inherit", 
-			INLINE = "inline",
-			INSET = "inset", INTER_CLUSTER = "inter-cluster", 
-			INTER_IDEOGRAPH = "inter-ideograph", INTER_WORD = "inter-word", ITALIC = "italic",
-			JUSTIFY = "justify", KASHIDA = "kashida", KEEP_ALL = "keep-all",
-			LAST = "last", LEFT = "left",
-			LIGHTEN = "lighten", LIGHTER = "lighter",
-			LINEAR = "linear", LINE_THROUGH = "line-through",
-			LIST_ITEM = "list-item",
-			LOCAL = "local", LOWERCASE = "lowercase", LTR = "ltr", LUMINOSITY = "luminosity",
-			MIXED = "mixed", MOVE = "move", MULTIPLY = "multiply", 
+			EMBED = "embed", END = "end", EW_RESIZE = "ew-resize", EXPANDED = "expanded",
+			EXTRA_CONDENSED = "extra-condensed", EXTRA_EXPANDED = "extra-expanded",	E_RESIZE = "e-resize",
+			FIRST = "first",	FIXED = "fixed", FLEX_END = "flex-end", FLEX_START = "flex-start", 
+			FORCE_END = "force-end", FORWARDS = "forwards", GRABE = "grabe", GRABBING = "grabbing", 
+			GROOVE = "groove", HELP = "help", HIDDEN = "hidden", HIDE = "hide", HORIZONTAL = "horizontal",
+			INITIAL = "initial", INHERIT = "inherit", INLINE = "inline", INSET = "inset", 
+			INTER_CLUSTER = "inter-cluster", INTER_IDEOGRAPH = "inter-ideograph", INTER_WORD = "inter-word",
+			ITALIC = "italic", JUSTIFY = "justify", KASHIDA = "kashida", KEEP_ALL = "keep-all",	LAST = "last",
+			LEFT = "left", LIGHTEN = "lighten", LIGHTER = "lighter", LINEAR = "linear",
+			LINE_THROUGH = "line-through", LIST_ITEM = "list-item",	LOCAL = "local", LOWERCASE = "lowercase", 
+			LTR = "ltr", LUMINOSITY = "luminosity",	MIXED = "mixed", MOVE = "move", MULTIPLY = "multiply", 
 			NESW_RESIZE = "nes-resize", NS_RESIZE = "ns-resize", NWSE_RESIZE = "nwse-resize",
-			NW_RESIZE = "nw-resize",
-			NE_RESIZE = "ne-resize", NONE = "none", NORMAL = "normal", 
+			NW_RESIZE = "nw-resize", NE_RESIZE = "ne-resize", NONE = "none", NORMAL = "normal",
 			NO_REPEAT = "no-repeat", NO_CLOSE_QUOTE = "no-close-quote", NO_DROP = "no-drop",
-			NO_OPEN_QUOTE = "no-open-quote", NOT_ALLOWED = "not-allowed",
-			NOWRAP = "nowrap", N_RESIZE = "n-resize",
-			OBLIQUE = "oblique", OPEN_QUOTE = "open-quote", OUTSET = "outset",
-			OVERLAY = "overlay", OVERLINE = "overline", 
-			PADDING_BOX = "padding-box", PAUSED = "paused", POINTER = "pointer", 
-			PRE = "pre", PRE_LINE = "pre-line",
-			PRE_WRAP = "pre-wrap", PROGRESS = "progress",
-			RELATIVE = "relative",
-			REPEAT = "repeat", REPEAT_X = "repeat-x", REPEAT_Y = "repeat-y", REVERSE = "reverse", 
-			RIDGE = "ridge", RIGHT = "right", ROW = "row", ROW_RESIZE = "row-resize",
-			ROW_REVERSE = "row-reverse",
-			RTL = "rtl",
-			RUNNING = "running", SATURATION = "saturation",
-			S_RESIZE = "s-resize",
-			SCREEN = "screen", SCROLL = "scroll", SEMI_CONDENSED = "semi-condensed", 
-			SEMI_EXPANDED = "semi-expanded",
-			SEPARATE = "separate",  SE_RESIZE = "se-resize",
-			SHOW = "show", SIDEWAYS = "sideways", SIDEWAYS_RIGHT = "sideways-right", 
-			SMALL_CAPS = "small-caps",
-			SOLID = "solid", START = "start", STATIC = "static", STEP_END = "step-end",
-			STEP_START = "step-start",
-			STRETCH = "stretch", STYLE = "style", SW_RESIZE = "sw-resize", 
-			TEXT = "text", TOP = "top", TRIM = "trim", 
-			ULTRA_CONDENSED = "ultra-condensed", ULTRA_EXPANDED = "utra-expanded",
-			UNDERLINE = "underline", UPPERCASE = "uppercase", UPRIGHT = "upright",
-			USE_GLYPH_ORIENTATION = "use-glyph-orientation", VERTICAL_TEXT = "vertical-text",
-			VERTICAL = "vertical", VISIBLE = "visible", 
-			W_RESIZE = "w-resize", WAIT = "wait", WAVY = "wavy",
-			WEIGHT = "weigth",
-			WRAP = "wrap", WRAP_REVERSE = "wrap-reverse", ZOOM_IN = "zoom-in", ZOOM_OUT = "zoom-out",
+			NO_OPEN_QUOTE = "no-open-quote", NOT_ALLOWED = "not-allowed", NOWRAP = "nowrap", 
+			N_RESIZE = "n-resize", OBLIQUE = "oblique", OPEN_QUOTE = "open-quote", OUTSET = "outset",
+			OVERLAY = "overlay", OVERLINE = "overline",	PADDING_BOX = "padding-box", PAUSED = "paused", 
+			POINTER = "pointer", PRE = "pre", PRE_LINE = "pre-line", PRE_WRAP = "pre-wrap", 
+			PROGRESS = "progress", RELATIVE = "relative", REPEAT = "repeat", REPEAT_X = "repeat-x",
+			REPEAT_Y = "repeat-y", REVERSE = "reverse", RIDGE = "ridge", RIGHT = "right", ROW = "row", 
+			ROW_RESIZE = "row-resize", ROW_REVERSE = "row-reverse",	RTL = "rtl", RUNNING = "running", 
+			SATURATION = "saturation", S_RESIZE = "s-resize", SCREEN = "screen", SCROLL = "scroll", 
+			SEMI_CONDENSED = "semi-condensed", SEMI_EXPANDED = "semi-expanded",	SEPARATE = "separate",  
+			SE_RESIZE = "se-resize", SHOW = "show", SIDEWAYS = "sideways", SIDEWAYS_RIGHT = "sideways-right", 
+			SMALL_CAPS = "small-caps", SOLID = "solid", START = "start", STATIC = "static",
+			STEP_END = "step-end", STEP_START = "step-start", STRETCH = "stretch", STYLE = "style", 
+			SW_RESIZE = "sw-resize", TEXT = "text", TOP = "top", TRIM = "trim",
+			ULTRA_CONDENSED = "ultra-condensed", ULTRA_EXPANDED = "utra-expanded", UNDERLINE = "underline",
+			UPPERCASE = "uppercase", UPRIGHT = "upright", USE_GLYPH_ORIENTATION = "use-glyph-orientation", 
+			VERTICAL_TEXT = "vertical-text", VERTICAL = "vertical", VISIBLE = "visible", W_RESIZE = "w-resize", 
+			WAIT = "wait", WAVY = "wavy", WEIGHT = "weigth", WRAP = "wrap", WRAP_REVERSE = "wrap-reverse", 
+			ZOOM_IN = "zoom-in", ZOOM_OUT = "zoom-out",
 				
 			BACKGROUND_PROP[] = {
 					BORDER_BOX, PADDING_BOX, CONTENT_BOX, INITIAL, INHERIT
@@ -92,6 +65,7 @@ public class PropertyDetailsList {
 			TEXT_DECORATION_LINE[] = {
  					NONE, UNDERLINE, OVERLINE, LINE_THROUGH, INITIAL, INHERIT
  			};
+	
 	public static final Range<Integer> RANGE_0_TO_100 = new Range<Integer>(0, 100),
 			RANGE_0_TO_20 = new Range<Integer>(0, 20), RANGE_0_TO_200 = new Range<Integer>(0, 200),
 			RANGE_n100_to_100 = new Range<Integer>(-100, 100),
@@ -695,7 +669,7 @@ public class PropertyDetailsList {
 	 					NONE, BOTH, HORIZONTAL, VERTICAL, INITIAL, INHERIT
 	 			});
 	 	
-	 	multiColumnLayout = new PropertyDetails[100];
+	 	multiColumnLayout = new PropertyDetails[7];
 	 	cnt = 0;
 	 	
 	 	multiColumnLayout[cnt++] = new PropertyDetails(
@@ -726,8 +700,5 @@ public class PropertyDetailsList {
 	 	
 	 	multiColumnLayout[cnt++] = new PropertyDetails(
 	 			"column-width", "Specifies the width of the columns", ValueType.PIXEL, RANGE_0_TO_200);
-
-	 	
-	 	System.out.println(cnt);
-	}
+	 	}
 }
