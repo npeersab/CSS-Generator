@@ -300,7 +300,7 @@ public class MainFrame extends JFrame {
 
 	class AddNode implements ActionListener {
 		private TreePath path;
-		
+				
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -309,7 +309,7 @@ public class MainFrame extends JFrame {
 				new SelectorFrame();
 				break;
 			case 2:
-				new PropertyFrame();
+				new PropertyFrame((Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject());
 				break;
 			}
 		}

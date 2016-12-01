@@ -39,9 +39,7 @@ public class SelectorFrame extends JFrame {
 		add(cancelButton, bagConstraints);
 		
 		
-		SelectorType selectorType[] = {SelectorType.class_selector, SelectorType.element_type_selector,
-				SelectorType.id_selector, SelectorType.universal_selector
-		};
+		SelectorType selectorType[] = SelectorType.values();
 		selector = new JComboBox<SelectorType>(selectorType);
 		selector.addActionListener( e -> {
 				if (((SelectorType) selector.getSelectedItem()) == SelectorType.universal_selector) {

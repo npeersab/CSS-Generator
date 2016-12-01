@@ -540,7 +540,7 @@ public class PropertyDetailsList {
 	 			});
 	 	
 	 	writingModes[cnt++] = new PropertyDetails(
-	 			" unicode-bidi", "Specifies the combination of multiple characters into the space of a"
+	 			"unicode-bidi", "Specifies the combination of multiple characters into the space of a"
 	 					+ " single character", ValueType.STRING, new String[] {
 	 							NORMAL, EMBED, BIDI_OVERRIDE, INITIAL, INHERIT
 	 					});
