@@ -15,7 +15,7 @@ public class SelectPropertyPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private PropertyFrame parent;
 	private JComboBox<PropertyDetails> propertyComboBox;
-	
+		
 	public SelectPropertyPanel(PropertyFrame parent) {
 		this.parent = parent;
 		setLayout(new GridBagLayout());
@@ -25,6 +25,7 @@ public class SelectPropertyPanel extends JPanel implements ActionListener {
 		
 		add(new JLabel("Select Property : "), bagConstraints);
 		setPropertyComboBox(PropertyDetailsList.animation);
+		setDescription(PropertyDetailsList.animation[0].getDescription());
 	}
 	
 	public void setPropertyComboBox(PropertyDetails propertyDetails[]) {
@@ -39,7 +40,8 @@ public class SelectPropertyPanel extends JPanel implements ActionListener {
 		bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 		bagConstraints.gridx = 1;
 		bagConstraints.gridy = 0;
-		add(propertyComboBox, bagConstraints);		
+		add(propertyComboBox, bagConstraints);
+				
 		updateUI();
 	}
 
@@ -47,5 +49,10 @@ public class SelectPropertyPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		PropertyDetails propertyDetails = (PropertyDetails) propertyComboBox.getSelectedItem();
 		parent.getSelectValuePanel().setValueChooser(propertyDetails.getType());
+		setDescription(propertyDetails.getDescription());
+	}
+	
+	public void setDescription(String description) {
+		parent.getDescription().setText(description);
 	}
 }

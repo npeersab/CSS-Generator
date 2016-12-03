@@ -44,6 +44,7 @@ public class MainFrame extends JFrame {
 	private JPanel buttonPanel, detailsPanel;
 	private JScrollPane treePane;
 	private boolean saved;
+	// default title for the application
 	private String TITLE = "CSS Generator";
 	
 	public MainFrame() {
@@ -124,6 +125,7 @@ public class MainFrame extends JFrame {
 	
 	private void createTree(DefaultMutableTreeNode root) {
 		csstree = new JTree(root);
+		csstree.setSize(200, 300);
 		csstree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
@@ -190,7 +192,7 @@ public class MainFrame extends JFrame {
 		bagConstraints.fill = GridBagConstraints.BOTH;
 		bagConstraints.weightx = bagConstraints.weighty = 1;
 		bagConstraints.gridheight = 1;
-		bagConstraints.gridwidth = 4;
+		bagConstraints.gridwidth = 2;
 		bagConstraints.gridy = 3;
 		add(buttonPanel, bagConstraints);
 	}
@@ -200,9 +202,7 @@ public class MainFrame extends JFrame {
 		if (treePane != null) 
 			remove(treePane);
 		
-		treePane = new JScrollPane(csstree,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		treePane = new JScrollPane(csstree);
 		
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
@@ -221,7 +221,7 @@ public class MainFrame extends JFrame {
 		bagConstraints.weightx = bagConstraints.weighty = 1;
 	
 		detailsPanel = new JPanel();
-		bagConstraints.gridwidth = 3;
+		bagConstraints.gridwidth = 1;
 		bagConstraints.gridheight = 2;
 		bagConstraints.weightx = 5;
 		bagConstraints.gridx = 1;
@@ -309,7 +309,8 @@ public class MainFrame extends JFrame {
 				new SelectorFrame();
 				break;
 			case 2:
-				new PropertyFrame((Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject());
+				new PropertyFrame(
+						MainFrame.this, (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject());
 				break;
 			}
 		}

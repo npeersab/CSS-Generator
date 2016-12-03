@@ -452,7 +452,7 @@ public class PropertyDetailsList {
 	 			ValueType.PIXEL, RANGE_n5_to_50);
 	 	
 	 	text[cnt] = new PropertyDetails(
-	 			"word-wrap", " 	Allows long, unbreakable words to be broken and wrap to the next line",
+	 			"word-wrap", "Allows long, unbreakable words to be broken and wrap to the next line",
 	 			ValueType.STRING, new String[] {
 	 					NORMAL, BREAK_WORD, INITIAL, INHERIT
 	 			});

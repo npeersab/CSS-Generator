@@ -4,28 +4,51 @@ import css.PropertyDetails;
 import css.PropertyType;
 import css.Selector;
 import panels.PropertyButtonPanel;
+import panels.PropertyDescriptionPanel;
 import panels.SelectPropertyPanel;
 import panels.SelectPropertyTypePanel;
 import panels.SelectValuePanel;
+
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
-public class PropertyFrame extends JFrame {
+public class PropertyFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private JComboBox<PropertyType> propertyTypeComboBox;
-	private JComboBox<PropertyDetails> propertyComboBox;
+	
+	// panels
 	private SelectPropertyPanel selectPropertyPanel;
 	private SelectValuePanel selectValuePanel;
 	private SelectPropertyTypePanel selectPropertyTypePanel;
 	private PropertyButtonPanel buttonPanel;
+	private PropertyDescriptionPanel descriptionPanel;
+	
+	// components
+	private JComboBox<PropertyType> propertyTypeComboBox;
+	private JComboBox<PropertyDetails> propertyComboBox;
 	private JButton addButton, cancelButton;
+	private JTextArea description;
+	
+	// to keep reference of selector in which property is going to be added
+	private Selector selector;
+	
+	// default frame size;
+	public final Dimension FRAME_SIZE = new Dimension(600, 500); 
 		
 	// Constructor
-	public PropertyFrame(Selector selector) {
+	public PropertyFrame(MainFrame parent, Selector selector) {
+		// store the selector in which property is to be added
+		this.selector = selector;
+		
+		// set layout to GridBaglayout and create GridBagConstraints
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
@@ -36,14 +59,23 @@ public class PropertyFrame extends JFrame {
 		selectPropertyTypePanel = new SelectPropertyTypePanel(this);
 		add(selectPropertyTypePanel, bagConstraints);
 		
+		descriptionPanel = new PropertyDescriptionPanel(this);
+		
+		// add propertyPanel
 		selectPropertyPanel = new SelectPropertyPanel(this);
 		bagConstraints.gridy++;
 		add(selectPropertyPanel, bagConstraints);
 		
+		// add description panel
+		bagConstraints.gridy++;
+		add(descriptionPanel, bagConstraints);
+		
+		// add valuePanel
 		selectValuePanel = new SelectValuePanel(this);
 		bagConstraints.gridy++;
 		add(selectValuePanel, bagConstraints);
 		
+		// add buttonPanel
 		buttonPanel = new PropertyButtonPanel(this);
 		bagConstraints.anchor = GridBagConstraints.CENTER;
 		bagConstraints.gridy++;
@@ -52,8 +84,8 @@ public class PropertyFrame extends JFrame {
 					
 		setTitle("Select Property Type");
 		setIconImage(ImgSrc.getImageIcon());
-		setSize(500, 300);
-		setLocationRelativeTo(null);
+		setSize(FRAME_SIZE);
+		setLocationRelativeTo(parent);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
@@ -111,5 +143,22 @@ public class PropertyFrame extends JFrame {
 
 	public void setCancelButton(JButton cancelButton) {
 		this.cancelButton = cancelButton;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String value = selectValuePanel.getValue();
+		selector.addProperty(
+				((PropertyDetails) propertyComboBox.getSelectedItem()).toString(), value);		
+		dispose();
+	}
+
+	// getter and setter for property description
+	public JTextArea getDescription() {
+		return description;
+	}
+
+	public void setDescription(JTextArea description) {
+		this.description = description;
 	}
 }
