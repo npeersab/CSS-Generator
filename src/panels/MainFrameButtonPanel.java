@@ -1,6 +1,7 @@
 package panels;
 
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
@@ -15,10 +16,13 @@ public class MainFrameButtonPanel extends JPanel {
 	// buttons
 	private JButton addButton, removeButton;
 	
+	// buttonListeners
 	private AddButtonListener addButtonListener;
 	private RemoveButtonListener removeButtonListener;
 
 	public MainFrameButtonPanel(MainFrame parent) {
+		
+		
 		// create addButton
 		addButton = new JButton();
 		parent.setAddButton(addButton);
@@ -38,12 +42,13 @@ public class MainFrameButtonPanel extends JPanel {
 		removeButton.addActionListener(removeButtonListener);
 		removeButton.setVisible(false);
 		
+		// set layout and add buttons
+		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.insets = new Insets(10, 10, 10, 10);
 		bagConstraints.anchor = GridBagConstraints.WEST;
-		bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 		add(addButton, bagConstraints);
-		bagConstraints.gridx++;
+		bagConstraints.gridy++;
 		add(removeButton, bagConstraints);
 	}
 }

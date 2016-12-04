@@ -1,9 +1,9 @@
 package css;
 
 public class PropertyDetails {
-	String name, description, possibleValues[];
-	ValueType valueType;
-	Range<?> range;
+	private String name, description, possibleValues[];
+	private ValueType valueType;
+	private Range<?> range;
 	
 	public PropertyDetails(String name, String description, ValueType valueType, Range<?> range, String possibleValues[]) {
 		this.name = name;

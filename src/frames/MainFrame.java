@@ -5,6 +5,7 @@ import css.Property;
 import css.Selector;
 import listeners.AddButtonListener;
 import listeners.RemoveButtonListener;
+import res.Directory;
 import res.ImgSrc;
 import panels.MainFrameButtonPanel;
 import panels.MainFrameDetailsPanel;
@@ -12,6 +13,7 @@ import panels.TreePanel;
 import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
@@ -51,34 +53,38 @@ public class MainFrame extends JFrame {
 	private MainFrameDetailsPanel detailsPanel;
 	private MainFrameButtonPanel buttonPanel;
 	
-	private boolean saved;
 	private customWindowAdapter windowAdapter;
 	
 	// default title for the application
 	private final String TITLE = "CSS Generator";
 	
 	public MainFrame() {
-		setLayout(new GridBagLayout());
-						
+		// set layout to GridBagLayout and create GridbagConstraints
+		setLayout(new GridBagLayout());			
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.fill = GridBagConstraints.BOTH;
+		bagConstraints.insets = new Insets(4, 4, 4, 4);
 		
+		// create and add treePanel
 		treePanel = new TreePanel(this);
 		bagConstraints.weightx = 1;
 		bagConstraints.weighty = 3;
 		add(treePanel, bagConstraints);
 		
+		// create default tree
 		root = new DefaultMutableTreeNode("No File Selected");
 		createTree(root);
 		treePanel.updateTree();
 		
+		// create and add details panel
 		detailsPanel = new MainFrameDetailsPanel(this);
 		bagConstraints.weightx = 4;
 		bagConstraints.weighty = 3;
 		bagConstraints.gridx++;
 		add(detailsPanel, bagConstraints);
 		
+		// create and add buttons panel
 		buttonPanel = new MainFrameButtonPanel(this);
 		bagConstraints.gridwidth = 2;
 		bagConstraints.weightx = 4;
@@ -89,6 +95,7 @@ public class MainFrame extends JFrame {
 		
 		createMenuBar();
 		
+		// set frame properties
 		setJMenuBar(menubar);
 		setSize(900, 600);
 		setTitle(TITLE);
@@ -100,6 +107,7 @@ public class MainFrame extends JFrame {
 		addWindowListener(windowAdapter);
 	} // Constructor
 	
+	// create new menuBar
 	private void createMenuBar() {
 		JMenuItem newfile = new JMenuItem("New");
 		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
@@ -117,12 +125,12 @@ public class MainFrame extends JFrame {
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		save.setMnemonic(KeyEvent.VK_S);
 		save.setEnabled(false);
-		save.addActionListener(
-				e -> saveFile());
+		save.addActionListener(e -> save());
 		
 		saveAs  = new JMenuItem("Save As...");
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		saveAs.setEnabled(false);
+		saveAs.addActionListener(e -> saveAs());
 		saveAs.setMnemonic(KeyEvent.VK_S);
 				
 		JMenuItem exit = new JMenuItem("Exit");
@@ -145,6 +153,7 @@ public class MainFrame extends JFrame {
 		menubar.add(file);
 	} // CreateMenuBar
 	
+	// create cssTree
 	private void createTree(DefaultMutableTreeNode root) {
 		cssTree = new JTree(root);
 		cssTree.setSize(200, 300);
@@ -192,9 +201,7 @@ public class MainFrame extends JFrame {
 	
 	// open existing file
 	public void openFile() {
-		String home = System.getProperty("user.home");
-		File cssdir = new File(home, "css_generator");
-		
+		File cssdir = Directory.getHomeDirectory();
 		JFileChooser filechooser = new JFileChooser(cssdir);
 		filechooser.setDialogTitle("Select File");
 		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -215,15 +222,22 @@ public class MainFrame extends JFrame {
 	
 	// create new cssFile
 	public void newFile() {
-		cssFile = new CSSFile(new File("Untitled file"));
-		root = new DefaultMutableTreeNode("Untitled file");
-		createTree(root);
-		treePanel.updateTree();
-		fileEdited();
-		
-		updateTitle("*" + cssFile.getName());
+		File cssdir = Directory.getHomeDirectory();
+		JFileChooser chooser = new JFileChooser(cssdir);
+		chooser.setDialogTitle("Enter file name");
+		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
+		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+			cssFile = new CSSFile(chooser.getSelectedFile());
+			cssFile.saveFile();
+			root = new DefaultMutableTreeNode(cssFile.getName());
+			createTree(root);
+			treePanel.updateTree();
+			fileEdited();
+			updateTitle("*" + cssFile.getName());
+		}
 	}
 
+	// add new Selector
 	public void addSelector(Selector selector) {
 		TreePath path = cssTree.getSelectionPath();
 		
@@ -235,6 +249,7 @@ public class MainFrame extends JFrame {
 		fileEdited();
 	}
 	
+	// add new Property
 	public void addProperty(Property property) {
 		TreePath path = cssTree.getSelectionPath();
 		
@@ -245,23 +260,20 @@ public class MainFrame extends JFrame {
 		fileEdited();
 	}
 	
+	// make changes when file is edited
 	public void fileEdited() {
-		saved = false;
 		save.setEnabled(true);
 		saveAs.setEnabled(true);
 	}
 	
-	public void updateTitle(String filename) {
-		setTitle(filename + " - " + TITLE);
-	}
-
-	public boolean isSaved() {
-		return saved;
-	}
-
+	// make changes when file is saved
 	public void fileSaved() {
 		save.setEnabled(false);
 		saveAs.setEnabled(false);
+	}
+	
+	public void updateTitle(String filename) {
+		setTitle(filename + " - " + TITLE);
 	}
 	
 	class customWindowAdapter extends WindowAdapter {
@@ -275,8 +287,9 @@ public class MainFrame extends JFrame {
 	        }
 	    }
 	}    
-		
-	public void saveFile() {
+
+	// save file
+	public void save() {
 		if(cssFile.getFile().exists()) {
 			cssFile.saveFile();
 			fileSaved();
@@ -286,12 +299,11 @@ public class MainFrame extends JFrame {
 			saveAs();
 	}
 	
+	// save new file
 	public void saveAs() {
-		String home = System.getProperty("user.home");
-		File cssdir = new File(home, "css_generator");
-
+		File cssdir = Directory.getHomeDirectory();
 		JFileChooser chooser = new JFileChooser(cssdir);
-		chooser.setDialogTitle("Save As..");
+		chooser.setDialogTitle("Save As...");
 		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
 		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
 			cssFile.setFile(chooser.getSelectedFile());

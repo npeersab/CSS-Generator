@@ -7,12 +7,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class ImgSrc {
-	public static Image getImageIcon() {
+	public static Image getImage(String path) {
 		Image image = null;
 		
 		try {
 			image = ImageIO.read(
-					new File("/usr/local/CSS-Generator/res/icon.png"));
+					new File(path));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
 					"some files are missing please re-install CSS-Generator",
@@ -22,5 +22,13 @@ public class ImgSrc {
 		}
 		
 		return image;
+	}
+	
+	public static Image getIntroImage() {
+		return getImage("/usr/local/CSS-Generator/res/IntroImage.png");
+	}
+	
+	public static Image getImageIcon() {
+		return getImage("/usr/local/CSS-Generator/res/icon.png");
 	}
 }

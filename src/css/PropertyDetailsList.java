@@ -618,7 +618,7 @@ public class PropertyDetailsList {
 	 					INHERIT
 	 			});
 	 	
-	 	basicUserInterface = new PropertyDetails[9];
+	 	basicUserInterface = new PropertyDetails[8];
 	 	cnt = 0;
 	 	
 	 	basicUserInterface[cnt++] = new PropertyDetails(
@@ -633,13 +633,7 @@ public class PropertyDetailsList {
 	 					NORMAL, NONE, COUNTER, ATTR, OPEN_QUOTE, CLOSE_QUOTE, NO_OPEN_QUOTE,
 	 					NO_CLOSE_QUOTE, INITIAL, INHERIT
 	 			});
-	 	
-	 	basicUserInterface[cnt++] = new PropertyDetails(
-	 			"cursor", "Specifies the type of cursor to be displayed", ValueType.STRING,
-	 			new String[] {
-	 					
-	 			});
-	 	
+	 
 	 	basicUserInterface[cnt++] = new PropertyDetails(
 	 			"cursor", "Specifies the type of cursor to be displayed", ValueType.STRING,
 	 			new String[] {
@@ -701,4 +695,42 @@ public class PropertyDetailsList {
 	 	multiColumnLayout[cnt++] = new PropertyDetails(
 	 			"column-width", "Specifies the width of the columns", ValueType.PIXEL, RANGE_0_TO_200);
 	 	}
+	
+	public static String getDescription(String name) {
+		
+		String description = null;
+		if((description = getDescription(name, animation)) != null)
+			return description;
+		else if((description = getDescription(name, backgroundBorder)) != null)
+			return description;
+		else if((description = getDescription(name, basicBox)) != null)
+			return description;
+		else if((description = getDescription(name, basicUserInterface)) != null)
+			return description;
+		else if((description = getDescription(name, color)) != null)
+			return description;
+		else if((description = getDescription(name, flexibleBoxLayout)) != null)
+			return description;
+		else if((description = getDescription(name, font)) != null)
+			return description;
+		else if((description = getDescription(name, multiColumnLayout)) != null)
+			return description;
+		else if((description = getDescription(name, table)) != null)
+			return description;
+		else if((description = getDescription(name, text)) != null)
+			return description;		
+		else if((description = getDescription(name, textDecoration)) != null)
+			return description;
+		else if((description = getDescription(name, writingModes)) != null)
+			return description;
+		return null;
+	}
+	
+	public static String getDescription(String name, PropertyDetails propertyDetailsList[]) {
+		for (PropertyDetails propertyDetails : animation) {
+			if (propertyDetails.toString() == name)
+				return propertyDetails.getDescription();
+		}
+		return null;
+	}
 }

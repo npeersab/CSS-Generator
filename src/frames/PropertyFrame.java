@@ -42,7 +42,7 @@ public class PropertyFrame extends JFrame implements ActionListener {
 	private Selector selector;
 	
 	// default frame size;
-	public final Dimension FRAME_SIZE = new Dimension(600, 500);
+	public final Dimension FRAME_SIZE = new Dimension(600, 450);
 	
 	// reference to parent
 	private MainFrame parent;
@@ -97,65 +97,13 @@ public class PropertyFrame extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
-	// getter and setter for propertyTypeComboBox
-	public JComboBox<PropertyType> getPropertyTypeComboBox() {
-		return propertyTypeComboBox;
-	}
-
-	public void setPropertyTypeComboBox(JComboBox<PropertyType> propertyTypeComboBox) {
-		this.propertyTypeComboBox = propertyTypeComboBox;
-	}
-
-	// getter and setter for propertyComboBox
-	public JComboBox<PropertyDetails> getPropertyComboBox() {
-		return propertyComboBox;
-	}
-
-	public void setPropertyComboBox(JComboBox<PropertyDetails> propertyComboBox) {
-		this.propertyComboBox = propertyComboBox;
-	}
-
-	// getter and setter for selectValuePanel
-	public SelectValuePanel getSelectValuePanel() {
-		return selectValuePanel;
-	}
-
-	public void setSelectValuePanel(SelectValuePanel selectValuePanel) {
-		this.selectValuePanel = selectValuePanel;
-	}
-
-	// getter and setter for selectPropertyPanel
-	public SelectPropertyPanel getSelectPropertyPanel() {
-		return selectPropertyPanel;
-	}
-	
-	public void setSelectPropertyPanel(SelectPropertyPanel selectPropertyPanel) {
-		this.selectPropertyPanel = selectPropertyPanel;
-	}
-
-	// getter and setter for addButton
-	public JButton getAddButton() {
-		return addButton;
-	}
-
-	public void setAddButton(JButton addButton) {
-		this.addButton = addButton;
-	}
-	
-	//getter and setter for cancelButton
-	public JButton getCancelButton() {
-		return cancelButton;
-	}
-
-	public void setCancelButton(JButton cancelButton) {
-		this.cancelButton = cancelButton;
-	}
-
+	// action after pressing addButton
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String value = selectValuePanel.getValue();
+		PropertyDetails propertyDetails = (PropertyDetails) propertyComboBox.getSelectedItem();
 		Property property = new Property(
-				((PropertyDetails) propertyComboBox.getSelectedItem()).toString(), value); 
+				propertyDetails.toString(), value, propertyDetails.getDescription()); 
 		selector.addProperty(property);	
 		parent.addProperty(property);
 		dispose();
@@ -165,8 +113,55 @@ public class PropertyFrame extends JFrame implements ActionListener {
 	public JTextArea getDescription() {
 		return description;
 	}
-
 	public void setDescription(JTextArea description) {
 		this.description = description;
+	}
+	
+	//getter and setter for cancelButton
+	public JButton getCancelButton() {
+		return cancelButton;
+	}
+	public void setCancelButton(JButton cancelButton) {
+		this.cancelButton = cancelButton;
+	}
+	
+	// getter and setter for propertyTypeComboBox
+	public JComboBox<PropertyType> getPropertyTypeComboBox() {
+		return propertyTypeComboBox;
+	}
+	public void setPropertyTypeComboBox(JComboBox<PropertyType> propertyTypeComboBox) {
+		this.propertyTypeComboBox = propertyTypeComboBox;
+	}
+
+	// getter and setter for propertyComboBox
+	public JComboBox<PropertyDetails> getPropertyComboBox() {
+		return propertyComboBox;
+	}
+	public void setPropertyComboBox(JComboBox<PropertyDetails> propertyComboBox) {
+		this.propertyComboBox = propertyComboBox;
+	}
+
+	// getter and setter for selectValuePanel
+	public SelectValuePanel getSelectValuePanel() {
+		return selectValuePanel;
+	}
+	public void setSelectValuePanel(SelectValuePanel selectValuePanel) {
+		this.selectValuePanel = selectValuePanel;
+	}
+
+	// getter and setter for selectPropertyPanel
+	public SelectPropertyPanel getSelectPropertyPanel() {
+		return selectPropertyPanel;
+	}
+	public void setSelectPropertyPanel(SelectPropertyPanel selectPropertyPanel) {
+		this.selectPropertyPanel = selectPropertyPanel;
+	}
+
+	// getter and setter for addButton
+	public JButton getAddButton() {
+		return addButton;
+	}
+	public void setAddButton(JButton addButton) {
+		this.addButton = addButton;
 	}
 }

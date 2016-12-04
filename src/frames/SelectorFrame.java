@@ -2,7 +2,6 @@ package frames;
 
 import css.Selector;
 import css.SelectorType;
-import main.MainClass;
 import res.ImgSrc;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -96,7 +95,7 @@ public class SelectorFrame extends JFrame {
 					break;				
 				}
 				Selector temp_selector = new Selector(selectorName, type);
-				MainClass.frame.addSelector(temp_selector);
+				parent.addSelector(temp_selector);
 				dispose();
 				enableParent(true);
 			}
