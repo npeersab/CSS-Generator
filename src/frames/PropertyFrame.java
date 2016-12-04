@@ -2,7 +2,7 @@ package frames;
 
 import css.Property;
 import css.PropertyDetails;
-import css.PropertyType;
+import css.PropertyGroup;
 import css.Selector;
 import panels.PropertyButtonPanel;
 import panels.PropertyDescriptionPanel;
@@ -10,7 +10,6 @@ import panels.SelectPropertyPanel;
 import panels.SelectPropertyTypePanel;
 import panels.SelectValuePanel;
 import res.ImgSrc;
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,7 +32,7 @@ public class PropertyFrame extends JFrame implements ActionListener {
 	private PropertyDescriptionPanel descriptionPanel;
 	
 	// components
-	private JComboBox<PropertyType> propertyTypeComboBox;
+	private JComboBox<PropertyGroup> propertyGroupComboBox;
 	private JComboBox<PropertyDetails> propertyComboBox;
 	private JButton addButton, cancelButton;
 	private JTextArea description;
@@ -125,12 +124,12 @@ public class PropertyFrame extends JFrame implements ActionListener {
 		this.cancelButton = cancelButton;
 	}
 	
-	// getter and setter for propertyTypeComboBox
-	public JComboBox<PropertyType> getPropertyTypeComboBox() {
-		return propertyTypeComboBox;
+	// getter and setter for propertyGroupComboBox
+	public JComboBox<PropertyGroup> getPropertyGroupComboBox() {
+		return propertyGroupComboBox;
 	}
-	public void setPropertyTypeComboBox(JComboBox<PropertyType> propertyTypeComboBox) {
-		this.propertyTypeComboBox = propertyTypeComboBox;
+	public void setPropertyGroupComboBox(JComboBox<PropertyGroup> propertyTypeComboBox) {
+		this.propertyGroupComboBox = propertyTypeComboBox;
 	}
 
 	// getter and setter for propertyComboBox

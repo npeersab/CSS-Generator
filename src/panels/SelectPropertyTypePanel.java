@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
-import css.PropertyType;
+import css.PropertyGroup;
 import frames.PropertyFrame;
 
 
@@ -28,20 +28,20 @@ public class SelectPropertyTypePanel extends JPanel implements ActionListener {
 		add(new JLabel("Select Type of the Property : "), bagConstraints);
 				
 		// Array which will contain all property types
-		PropertyType[] propertyTypes = PropertyType.values();
+		PropertyGroup[] propertyGroups = PropertyGroup.values();
 		
-		parent.setPropertyTypeComboBox(new JComboBox<PropertyType>(propertyTypes));
-		parent.getPropertyTypeComboBox().addActionListener(this);
+		parent.setPropertyGroupComboBox(new JComboBox<PropertyGroup>(propertyGroups));
+		parent.getPropertyGroupComboBox().addActionListener(this);
 		bagConstraints.gridx++;
 		bagConstraints.gridy = 0;
-		add(parent.getPropertyTypeComboBox(), bagConstraints);
+		add(parent.getPropertyGroupComboBox(), bagConstraints);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		PropertyDetails propertyDetails[] = null;
 		
-		switch ((PropertyType) parent.getPropertyTypeComboBox().getSelectedItem()) {
+		switch ((PropertyGroup) parent.getPropertyGroupComboBox().getSelectedItem()) {
 		case animation:
 			propertyDetails = PropertyDetailsList.animation;
 			break;
