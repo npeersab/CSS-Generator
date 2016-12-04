@@ -3,9 +3,12 @@ package frames;
 import css.Selector;
 import css.SelectorType;
 import main.MainClass;
+import res.ImgSrc;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,8 +20,12 @@ public class SelectorFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JComboBox<SelectorType> selector;
+	private MainFrame parent;
 	
-	public SelectorFrame() {
+	public SelectorFrame(MainFrame parent) {
+
+		this.parent = parent;
+		enableParent(false);
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		
@@ -32,8 +39,10 @@ public class SelectorFrame extends JFrame {
 		add(new JLabel("Enter Selector name : "), bagConstraints);
 		
 		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(
-				e -> dispose());
+		cancelButton.addActionListener(e -> {
+			dispose();
+			enableParent(true);
+			});
 		bagConstraints.fill = GridBagConstraints.NONE;
 		bagConstraints.gridy++;
 		add(cancelButton, bagConstraints);
@@ -89,6 +98,7 @@ public class SelectorFrame extends JFrame {
 				Selector temp_selector = new Selector(selectorName, type);
 				MainClass.frame.addSelector(temp_selector);
 				dispose();
+				enableParent(true);
 			}
 		});
 		bagConstraints.gridy++;
@@ -99,7 +109,23 @@ public class SelectorFrame extends JFrame {
 		setSize(400, 200);
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				enableParent(true);
+			}
+		});
 		setVisible(true);
+		setAlwaysOnTop(true);
+	}
+	
+	public void enableParent(boolean b) {
+		parent.setFocusableWindowState(b);
+		parent.setEnabled(b);
+		parent.removeWindowListener(parent.getWindowAdapter());
+		if (b)
+			parent.addWindowListener(parent.getWindowAdapter());
+		parent.revalidate();	
 	}
 }

@@ -22,10 +22,6 @@ public class CSSFile {
 		file = newfile;
 		selectorsList = new LinkedList<Selector>();
 	}
-
-	public CSSFile() {
-		this(null);
-	}
 	
 	public void ReadFile() {
 		if (file.canRead()) {
@@ -101,7 +97,7 @@ public class CSSFile {
 		} // if
 	} // ReadFile
 
-	public void SaveFile() {
+	public void saveFile() {
 		FileWriter filewriter = null;
 				
 		try {
@@ -160,5 +156,14 @@ public class CSSFile {
 			selectors.add(iterator.next().getTree());
 			
 		return selectors;
+	}
+	
+	// getter and setter for file
+	public File getFile() {
+		return file;
+	}
+	
+	public void setFile(File file) {
+		this.file = file;
 	}
 }

@@ -3,13 +3,15 @@ package frames;
 import css.CSSFile;
 import css.Property;
 import css.Selector;
-import frames.ImgSrc;
+import listeners.AddButtonListener;
+import listeners.RemoveButtonListener;
+import res.ImgSrc;
+import panels.MainFrameButtonPanel;
+import panels.MainFrameDetailsPanel;
+import panels.TreePanel;
 import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
@@ -19,43 +21,71 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 public class MainFrame extends JFrame {
-	private static final long serialVersionUID = 1L; 
+	private static final long serialVersionUID = 1L;
+	
+	// components
 	private JButton addButton, removeButton; 
-	private CSSFile cssfile;
-	private JTree csstree;
+	private CSSFile cssFile;
+	private JTree cssTree;
 	private DefaultMutableTreeNode root;
 	private JMenuBar menubar;
-	private AddNode addNodeActionListener;
-	private DeleteNode removeNodeActionListener;
-	private JPanel buttonPanel, detailsPanel;
-	private JScrollPane treePane;
+	private JMenuItem save, saveAs;
+	
+	// Listeners
+	private AddButtonListener addButtonListener;
+	private RemoveButtonListener removeButtonListener;
+	
+	// Panels
+	private TreePanel treePanel;
+	private MainFrameDetailsPanel detailsPanel;
+	private MainFrameButtonPanel buttonPanel;
+	
 	private boolean saved;
+	private customWindowAdapter windowAdapter;
+	
 	// default title for the application
-	private String TITLE = "CSS Generator";
+	private final String TITLE = "CSS Generator";
 	
 	public MainFrame() {
 		setLayout(new GridBagLayout());
+						
+		GridBagConstraints bagConstraints = new GridBagConstraints();
+		bagConstraints.gridx = bagConstraints.gridy = 0;
+		bagConstraints.fill = GridBagConstraints.BOTH;
+		
+		treePanel = new TreePanel(this);
+		bagConstraints.weightx = 1;
+		bagConstraints.weighty = 3;
+		add(treePanel, bagConstraints);
 		
 		root = new DefaultMutableTreeNode("No File Selected");
 		createTree(root);
+		treePanel.updateTree();
 		
-		addTreePane();
-		addButtons();
-		addDetailsPanel();
+		detailsPanel = new MainFrameDetailsPanel(this);
+		bagConstraints.weightx = 4;
+		bagConstraints.weighty = 3;
+		bagConstraints.gridx++;
+		add(detailsPanel, bagConstraints);
+		
+		buttonPanel = new MainFrameButtonPanel(this);
+		bagConstraints.gridwidth = 2;
+		bagConstraints.weightx = 4;
+		bagConstraints.weighty = 2;
+		bagConstraints.gridx = 0;		
+		bagConstraints.gridy = 1;
+		add(buttonPanel, bagConstraints);
 		
 		createMenuBar();
 		
@@ -66,26 +96,16 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setVisible(true);
-		
-		addWindowListener(new WindowAdapter() {
-		    @Override
-		    public void windowClosing(WindowEvent windowEvent) {
-		        if (JOptionPane.showConfirmDialog(MainFrame.this, 
-		            "Are you sure to close this window?", "Really Closing?", 
-		            JOptionPane.YES_NO_OPTION,
-		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		            System.exit(0);
-		        }
-		    }
-		});
-		
+		windowAdapter = new customWindowAdapter();
+		addWindowListener(windowAdapter);
 	} // Constructor
 	
 	private void createMenuBar() {
 		JMenuItem newfile = new JMenuItem("New");
 		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
 		newfile.setMnemonic(KeyEvent.VK_N);
-		newfile.addActionListener(new NewFile());
+		newfile.addActionListener(
+				e -> newFile());
 		
 		JMenuItem openfile = new JMenuItem("Open File...");
 		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
@@ -93,14 +113,16 @@ public class MainFrame extends JFrame {
 		openfile.addActionListener(
 				e -> openFile());
 		
-		JMenuItem save = new JMenuItem("Save");
+		save = new JMenuItem("Save");
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		save.setMnemonic(KeyEvent.VK_S);
+		save.setEnabled(false);
 		save.addActionListener(
-				e -> cssfile.SaveFile());
+				e -> saveFile());
 		
-		JMenuItem saveAs  = new JMenuItem("Save As...");
+		saveAs  = new JMenuItem("Save As...");
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		saveAs.setEnabled(false);
 		saveAs.setMnemonic(KeyEvent.VK_S);
 				
 		JMenuItem exit = new JMenuItem("Exit");
@@ -124,9 +146,9 @@ public class MainFrame extends JFrame {
 	} // CreateMenuBar
 	
 	private void createTree(DefaultMutableTreeNode root) {
-		csstree = new JTree(root);
-		csstree.setSize(200, 300);
-		csstree.addTreeSelectionListener(new TreeSelectionListener() {
+		cssTree = new JTree(root);
+		cssTree.setSize(200, 300);
+		cssTree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				TreePath path = e.getPath();
@@ -160,76 +182,15 @@ public class MainFrame extends JFrame {
 					break;
 				}
 				
-				addNodeActionListener.setPath(path);
-				removeNodeActionListener.setPath(path);
+				addButtonListener.setPath(path);
+				removeButtonListener.setPath(path);
 				addButton.setVisible(true);
 				
 			}
 		});
 	}
 	
-	private void addButtons() {
-		addButton = new JButton();
-		addNodeActionListener = new AddNode();
-		addButton.addActionListener(addNodeActionListener);
-		addButton.setVisible(false);
-		
-		removeButton = new JButton();
-		removeButton.setMnemonic(KeyEvent.VK_DELETE);
-		removeNodeActionListener = new DeleteNode();
-		removeButton.addActionListener(removeNodeActionListener);
-		removeButton.setVisible(false);
-		
-		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridBagLayout());
-		
-		GridBagConstraints bagConstraints = new GridBagConstraints();
-		bagConstraints.insets = new Insets(10, 10, 10, 10);
-		buttonPanel.add(addButton, bagConstraints);
-		buttonPanel.add(removeButton, bagConstraints);
-		
-		bagConstraints = new GridBagConstraints();
-		bagConstraints.fill = GridBagConstraints.BOTH;
-		bagConstraints.weightx = bagConstraints.weighty = 1;
-		bagConstraints.gridheight = 1;
-		bagConstraints.gridwidth = 2;
-		bagConstraints.gridy = 3;
-		add(buttonPanel, bagConstraints);
-	}
-
-	private void addTreePane() {
-		// remove existing treePane
-		if (treePane != null) 
-			remove(treePane);
-		
-		treePane = new JScrollPane(csstree);
-		
-		GridBagConstraints bagConstraints = new GridBagConstraints();
-		bagConstraints.gridx = bagConstraints.gridy = 0;
-		bagConstraints.fill = GridBagConstraints.BOTH;
-		bagConstraints.weightx = bagConstraints.weighty = 1;
-		bagConstraints.gridheight = 2;
-		bagConstraints.gridwidth = 1;
-		bagConstraints.insets = new Insets(2, 2, 0, 0);
-		add(treePane, bagConstraints);
-		revalidate();
-	}
-	
-	private void addDetailsPanel() {
-		GridBagConstraints bagConstraints = new GridBagConstraints();
-		bagConstraints.fill = GridBagConstraints.BOTH;
-		bagConstraints.weightx = bagConstraints.weighty = 1;
-	
-		detailsPanel = new JPanel();
-		bagConstraints.gridwidth = 1;
-		bagConstraints.gridheight = 2;
-		bagConstraints.weightx = 5;
-		bagConstraints.gridx = 1;
-		bagConstraints.gridy = 0;
-		add(detailsPanel, bagConstraints);
-			
-	}
-	
+	// open existing file
 	public void openFile() {
 		String home = System.getProperty("user.home");
 		File cssdir = new File(home, "css_generator");
@@ -241,106 +202,159 @@ public class MainFrame extends JFrame {
 				
 		if (filechooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File file = filechooser.getSelectedFile();
-			cssfile = new CSSFile(file);
-			cssfile.ReadFile();
+			cssFile = new CSSFile(file);
+			cssFile.ReadFile();
 			
-			root = cssfile.getTree();
+			root = cssFile.getTree();
 			createTree(root);
-			addTreePane();
+			treePanel.updateTree();
 			
-			setTitle(file.getName() + " - " + TITLE);
+			updateTitle("*" + cssFile.getName());
 		}
 	}
 	
-	class NewFile implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			cssfile = new CSSFile(new File("Untitled file"));
-			root = new DefaultMutableTreeNode("Untitled file");
-			createTree(root);
-			addTreePane();
-			MainFrame.this.repaint();
-			
-			fileEdited();
-		}
-	}
-
-	class DeleteNode implements ActionListener {
-		private TreePath path;
-				
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			DefaultMutableTreeNode node = 
-					(DefaultMutableTreeNode) path.getLastPathComponent();
-			if (path.getPathCount() == 2) {
-				cssfile.removeSelector(
-						(Selector) node.getUserObject());
-			}
-
-			if (path.getPathCount() == 3) {
-				Selector selector = (Selector) (
-						(DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
-				selector.removeProperty((Property) node.getUserObject());
-			}
-			
-			DefaultTreeModel model = (DefaultTreeModel) csstree.getModel();
-			if (node.getParent() != null)
-				model.removeNodeFromParent(node);
-			addButton.setVisible(false);
-			removeButton.setVisible(false);
-			
-			fileEdited();
-		}
+	// create new cssFile
+	public void newFile() {
+		cssFile = new CSSFile(new File("Untitled file"));
+		root = new DefaultMutableTreeNode("Untitled file");
+		createTree(root);
+		treePanel.updateTree();
+		fileEdited();
 		
-		public void setPath(TreePath path) {
-			this.path = path;
-		}
-	}
-
-	class AddNode implements ActionListener {
-		private TreePath path;
-				
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			switch (path.getPathCount()) {
-			case 1:
-				new SelectorFrame();
-				break;
-			case 2:
-				new PropertyFrame(
-						MainFrame.this, (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject());
-				break;
-			}
-		}
-		
-		public void setPath(TreePath path) {
-			this.path = path;
-		}
+		updateTitle("*" + cssFile.getName());
 	}
 
 	public void addSelector(Selector selector) {
-		TreePath path = csstree.getSelectionPath();
+		TreePath path = cssTree.getSelectionPath();
 		
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 		node.add(new DefaultMutableTreeNode(selector));
-		csstree.updateUI();
-		cssfile.addSelector(selector);
+		cssTree.updateUI();
+		cssFile.addSelector(selector);
 		
 		fileEdited();
 	}
 	
-	private void fileEdited() {
-		setTitle("*" + cssfile.getName() + " - " + TITLE);
-		setSaved(false);
+	public void addProperty(Property property) {
+		TreePath path = cssTree.getSelectionPath();
+		
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+		node.add(new DefaultMutableTreeNode(property));
+		cssTree.updateUI();
+		
+		fileEdited();
+	}
+	
+	public void fileEdited() {
+		saved = false;
+		save.setEnabled(true);
+		saveAs.setEnabled(true);
+	}
+	
+	public void updateTitle(String filename) {
+		setTitle(filename + " - " + TITLE);
 	}
 
 	public boolean isSaved() {
 		return saved;
 	}
 
-	public void setSaved(boolean saved) {
-		this.saved = saved;
+	public void fileSaved() {
+		save.setEnabled(false);
+		saveAs.setEnabled(false);
+	}
+	
+	class customWindowAdapter extends WindowAdapter {
+	    @Override
+	    public void windowClosing(WindowEvent windowEvent) {
+	        if (JOptionPane.showConfirmDialog(MainFrame.this, 
+	            "Are you sure to close this window?", "Really Closing?", 
+	            JOptionPane.YES_NO_OPTION,
+	            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+	            System.exit(0);
+	        }
+	    }
+	}    
+		
+	public void saveFile() {
+		if(cssFile.getFile().exists()) {
+			cssFile.saveFile();
+			fileSaved();
+			updateTitle(cssFile.getName());
+		}
+		else
+			saveAs();
+	}
+	
+	public void saveAs() {
+		String home = System.getProperty("user.home");
+		File cssdir = new File(home, "css_generator");
+
+		JFileChooser chooser = new JFileChooser(cssdir);
+		chooser.setDialogTitle("Save As..");
+		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
+		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+			cssFile.setFile(chooser.getSelectedFile());
+		else
+			return;
+		updateTitle(cssFile.getName());
+		cssFile.saveFile();
+		fileSaved();
+	}
+	
+	// getter and setter for windowApdater
+	public customWindowAdapter getWindowAdapter() {
+		return windowAdapter;
+	}
+	public void setWindowAdapter(customWindowAdapter windowAdapter) {
+		this.windowAdapter = windowAdapter;
+	}
+	
+	// getter and setter for cssTree
+	public JTree getCssTree() {
+		return cssTree;
+	}
+	public void setCssTree(JTree cssTree) {
+		this.cssTree = cssTree;
+	}
+	
+	// getter and setter for addButtonListener
+	public AddButtonListener getAddNButtonListener() {
+		return addButtonListener;
+	}
+	public void setAddButtonListener(AddButtonListener addButtonListener) {
+		this.addButtonListener = addButtonListener;
+	}
+	
+	// getter and setter for removeButtonListener
+	public RemoveButtonListener getRemoveButtonListener() {
+		return removeButtonListener;
+	}
+	public void setRemoveButtonListener(RemoveButtonListener removeButtonListener) {
+		this.removeButtonListener = removeButtonListener;
+	}
+	
+	// getter and setter for addButton
+	public JButton getAddButton() {
+		return addButton;
+	}
+	public void setAddButton(JButton button) {
+		this.addButton = button;
+	}
+	
+	// getter and setter for removeButton
+	public JButton getRemoveButton() {
+		return removeButton;
+	}
+	public void setRemoveButton(JButton button) {
+		this.removeButton = button;
+	}
+	
+	// getter and setter for cssFile
+	public CSSFile getCssFile() {
+		return cssFile;
+	}
+	public void setCssFile(CSSFile cssFile) {
+		this.cssFile = cssFile;
 	}
 }

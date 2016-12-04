@@ -1,5 +1,6 @@
 package frames;
 
+import css.Property;
 import css.PropertyDetails;
 import css.PropertyType;
 import css.Selector;
@@ -8,6 +9,7 @@ import panels.PropertyDescriptionPanel;
 import panels.SelectPropertyPanel;
 import panels.SelectPropertyTypePanel;
 import panels.SelectValuePanel;
+import res.ImgSrc;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -15,7 +17,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -41,12 +42,17 @@ public class PropertyFrame extends JFrame implements ActionListener {
 	private Selector selector;
 	
 	// default frame size;
-	public final Dimension FRAME_SIZE = new Dimension(600, 500); 
-		
+	public final Dimension FRAME_SIZE = new Dimension(600, 500);
+	
+	// reference to parent
+	private MainFrame parent;
+
 	// Constructor
 	public PropertyFrame(MainFrame parent, Selector selector) {
 		// store the selector in which property is to be added
 		this.selector = selector;
+		
+		this.parent = parent;
 		
 		// set layout to GridBaglayout and create GridBagConstraints
 		setLayout(new GridBagLayout());
@@ -148,8 +154,10 @@ public class PropertyFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String value = selectValuePanel.getValue();
-		selector.addProperty(
-				((PropertyDetails) propertyComboBox.getSelectedItem()).toString(), value);		
+		Property property = new Property(
+				((PropertyDetails) propertyComboBox.getSelectedItem()).toString(), value); 
+		selector.addProperty(property);	
+		parent.addProperty(property);
 		dispose();
 	}
 

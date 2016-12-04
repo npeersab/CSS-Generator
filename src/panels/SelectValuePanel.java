@@ -48,7 +48,8 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 		bagConstraints.gridx++;
 		switch (valueType) {
 		case COLOR:
-			parent.setSize(800, 600);
+			// increase size of frame to fit color chooser
+			parent.setSize(800, 650);
 			chooser = new JColorChooser();
 			chooser.getSelectionModel().addChangeListener(this);
 			add(chooser, bagConstraints);
@@ -82,7 +83,7 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 		default:
 			break;
 		}
-		parent.setLocationRelativeTo(null);
+		parent.setLocationRelativeTo(parent);
 		updateUI();
 	}
 	

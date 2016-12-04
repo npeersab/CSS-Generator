@@ -1,4 +1,4 @@
-package frames;
+package res;
 
 import java.awt.Image;
 import java.io.File;
