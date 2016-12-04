@@ -25,7 +25,7 @@ public class SelectPropertyGroupPanel extends JPanel implements ActionListener {
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 								
-		add(new JLabel("Select Property group: "), bagConstraints);
+		add(new JLabel("Select Property Group: "), bagConstraints);
 				
 		// Array which will contain all property types
 		PropertyGroup[] propertyGroups = PropertyGroup.values();
