@@ -115,14 +115,12 @@ public class MainFrame extends JFrame {
 		JMenuItem newfile = new JMenuItem("New");
 		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
 		newfile.setMnemonic(KeyEvent.VK_N);
-		newfile.addActionListener(
-				e -> newFile());
+		newfile.addActionListener(e -> newFile());
 		
 		JMenuItem openfile = new JMenuItem("Open File...");
 		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
 		openfile.setMnemonic(KeyEvent.VK_O);
-		openfile.addActionListener(
-				e -> openFile());
+		openfile.addActionListener(e -> openFile());
 		
 		save = new JMenuItem("Save");
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
@@ -139,8 +137,7 @@ public class MainFrame extends JFrame {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
 		exit.setMnemonic(KeyEvent.VK_X);
-		exit.addActionListener(
-				e -> System.exit(0));
+		exit.addActionListener(e -> exit());
 		
 		JMenu file = new JMenu("File");
 		file.setMnemonic(KeyEvent.VK_F);
@@ -284,12 +281,7 @@ public class MainFrame extends JFrame {
 	class customWindowAdapter extends WindowAdapter {
 	    @Override
 	    public void windowClosing(WindowEvent windowEvent) {
-	    	if (isSaved()) {
-	    		System.exit(NORMAL);
-	    	}
-	    	else {
-	    		new MainFrameExitConfirmation(MainFrame.this);
-	    	}
+	    	exit();
 	    }
 	}    
 
@@ -317,6 +309,16 @@ public class MainFrame extends JFrame {
 		updateTitle(cssFile.getName());
 		cssFile.saveFile();
 		fileSaved();
+	}
+	
+	// exit
+	public void exit() {
+		if (isSaved()) {
+    		System.exit(NORMAL);
+    	}
+    	else {
+    		new MainFrameExitConfirmation(MainFrame.this);
+    	}
 	}
 	
 	// getter and setter for windowApdater
