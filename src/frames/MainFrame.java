@@ -201,7 +201,7 @@ public class MainFrame extends JFrame {
 	
 	// open existing file
 	public void openFile() {
-		File cssdir = Directory.getHomeDirectory();
+		File cssdir = Directory.getCSSDirectory();
 		JFileChooser filechooser = new JFileChooser(cssdir);
 		filechooser.setDialogTitle("Select File");
 		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -222,7 +222,7 @@ public class MainFrame extends JFrame {
 	
 	// create new cssFile
 	public void newFile() {
-		File cssdir = Directory.getHomeDirectory();
+		File cssdir = Directory.getCSSDirectory();
 		JFileChooser chooser = new JFileChooser(cssdir);
 		chooser.setDialogTitle("Enter File Name");
 		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
@@ -301,7 +301,7 @@ public class MainFrame extends JFrame {
 	
 	// save new file
 	public void saveAs() {
-		File cssdir = Directory.getHomeDirectory();
+		File cssdir = Directory.getCSSDirectory();
 		JFileChooser chooser = new JFileChooser(cssdir);
 		chooser.setDialogTitle("Save As...");
 		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
