@@ -22,7 +22,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.event.TreeSelectionEvent;
@@ -53,10 +52,14 @@ public class MainFrame extends JFrame {
 	private MainFrameDetailsPanel detailsPanel;
 	private MainFrameButtonPanel buttonPanel;
 	
+	// windowAdapter
 	private customWindowAdapter windowAdapter;
 	
 	// default title for the application
 	private final String TITLE = "CSS Generator";
+	
+	// keep track on file
+	private boolean saved = true;
 	
 	public MainFrame() {
 		// set layout to GridBagLayout and create GridbagConstraints
@@ -264,12 +267,14 @@ public class MainFrame extends JFrame {
 	public void fileEdited() {
 		save.setEnabled(true);
 		saveAs.setEnabled(true);
+		saved(false);
 	}
 	
 	// make changes when file is saved
 	public void fileSaved() {
 		save.setEnabled(false);
 		saveAs.setEnabled(false);
+		saved(true);
 	}
 	
 	public void updateTitle(String filename) {
@@ -279,12 +284,12 @@ public class MainFrame extends JFrame {
 	class customWindowAdapter extends WindowAdapter {
 	    @Override
 	    public void windowClosing(WindowEvent windowEvent) {
-	        if (JOptionPane.showConfirmDialog(MainFrame.this, 
-	            "Are you sure to close this window?", "Really Closing?", 
-	            JOptionPane.YES_NO_OPTION,
-	            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-	            System.exit(0);
-	        }
+	    	if (isSaved()) {
+	    		System.exit(NORMAL);
+	    	}
+	    	else {
+	    		new MainFrameExitConfirmation(MainFrame.this);
+	    	}
 	    }
 	}    
 
@@ -368,5 +373,13 @@ public class MainFrame extends JFrame {
 	}
 	public void setCssFile(CSSFile cssFile) {
 		this.cssFile = cssFile;
+	}
+	
+	// getter and setter for saved;
+	public boolean isSaved() {
+		return saved;
+	}
+	public void saved(boolean saved) {
+		this.saved = saved;
 	}
 }
