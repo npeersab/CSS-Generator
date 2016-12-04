@@ -216,7 +216,7 @@ public class MainFrame extends JFrame {
 			createTree(root);
 			treePanel.updateTree();
 			
-			updateTitle("*" + cssFile.getName());
+			updateTitle(cssFile.getName());
 		}
 	}
 	
