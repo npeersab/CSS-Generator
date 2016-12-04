@@ -83,7 +83,7 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 		default:
 			break;
 		}
-		parent.setLocationRelativeTo(parent);
+		parent.setLocationRelativeTo(null);
 		updateUI();
 	}
 	
