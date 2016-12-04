@@ -5,6 +5,9 @@ import java.io.File;
 public class Directory {
 	public static File getCSSDirectory() {
 		String home = System.getProperty("user.home");
-		return new File(home, "css_generator");
+		File file = new File(home, "CSS Generator");
+		if(!file.exists())
+			file.mkdir();
+		return file;
 	}
 }
