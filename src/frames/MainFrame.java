@@ -224,7 +224,7 @@ public class MainFrame extends JFrame {
 	public void newFile() {
 		File cssdir = Directory.getHomeDirectory();
 		JFileChooser chooser = new JFileChooser(cssdir);
-		chooser.setDialogTitle("Enter file name");
+		chooser.setDialogTitle("Enter File Name");
 		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
 		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 			cssFile = new CSSFile(chooser.getSelectedFile());
