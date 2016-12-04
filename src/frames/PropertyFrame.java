@@ -6,8 +6,8 @@ import css.PropertyGroup;
 import css.Selector;
 import panels.PropertyButtonPanel;
 import panels.PropertyDescriptionPanel;
+import panels.SelectPropertyGroupPanel;
 import panels.SelectPropertyPanel;
-import panels.SelectPropertyTypePanel;
 import panels.SelectValuePanel;
 import res.ImgSrc;
 import java.awt.Dimension;
@@ -27,7 +27,7 @@ public class PropertyFrame extends JFrame implements ActionListener {
 	// panels
 	private SelectPropertyPanel selectPropertyPanel;
 	private SelectValuePanel selectValuePanel;
-	private SelectPropertyTypePanel selectPropertyTypePanel;
+	private SelectPropertyGroupPanel selectPropertyGroupPanel;
 	private PropertyButtonPanel buttonPanel;
 	private PropertyDescriptionPanel descriptionPanel;
 	
@@ -61,8 +61,8 @@ public class PropertyFrame extends JFrame implements ActionListener {
 		bagConstraints.insets = new Insets(10, 10, 10, 10);
 					
 		// add propertyTypePanel
-		selectPropertyTypePanel = new SelectPropertyTypePanel(this);
-		add(selectPropertyTypePanel, bagConstraints);
+		selectPropertyGroupPanel = new SelectPropertyGroupPanel(this);
+		add(selectPropertyGroupPanel, bagConstraints);
 		
 		descriptionPanel = new PropertyDescriptionPanel(this);
 		

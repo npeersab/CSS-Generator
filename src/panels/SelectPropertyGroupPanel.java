@@ -14,18 +14,18 @@ import frames.PropertyFrame;
 
 
 // Panel which will display Combo Box to select Property
-public class SelectPropertyTypePanel extends JPanel implements ActionListener {	
+public class SelectPropertyGroupPanel extends JPanel implements ActionListener {	
 	private static final long serialVersionUID = 1L;
 	private PropertyFrame parent;
 
-	public SelectPropertyTypePanel(PropertyFrame parent) {
+	public SelectPropertyGroupPanel(PropertyFrame parent) {
 		this.parent = parent;
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 								
-		add(new JLabel("Select Type of the Property : "), bagConstraints);
+		add(new JLabel("Select Property group: "), bagConstraints);
 				
 		// Array which will contain all property types
 		PropertyGroup[] propertyGroups = PropertyGroup.values();
