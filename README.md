@@ -1,3 +1,3 @@
 # CSS-Generator
 
-CSS-Generator is structure editor system program developed (not yet) for building CSS Style Sheets
+CSS-Generator is structure editor program developed for building CSS Style Sheets
