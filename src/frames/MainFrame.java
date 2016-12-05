@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.event.TreeSelectionEvent;
@@ -69,31 +70,30 @@ public class MainFrame extends JFrame {
 		bagConstraints.fill = GridBagConstraints.BOTH;
 		bagConstraints.insets = new Insets(4, 4, 4, 4);
 		
-		// create and add treePanel
+		// create treePanel
 		treePanel = new TreePanel(this);
-		bagConstraints.weightx = 1;
-		bagConstraints.weighty = 3;
-		add(treePanel, bagConstraints);
-		
+				
 		// create default tree
 		root = new DefaultMutableTreeNode("No File Selected");
 		createTree(root);
 		treePanel.updateTree();
 		
-		// create and add details panel
+		// create detailsPanel
 		detailsPanel = new MainFrameDetailsPanel(this);
-		bagConstraints.weightx = 4;
-		bagConstraints.weighty = 3;
-		bagConstraints.gridx++;
-		add(detailsPanel, bagConstraints);
-		
+
+		// add treePanel and detailsPanel in splitPane
+		JSplitPane splitPane = new JSplitPane(
+				JSplitPane.HORIZONTAL_SPLIT, treePanel, detailsPanel);
+		splitPane.setDividerLocation(0.2);
+		splitPane.setResizeWeight(0.2);
+		bagConstraints.weightx = 1;
+		bagConstraints.weighty = 4;
+		add(splitPane, bagConstraints);
+
 		// create and add buttons panel
 		buttonPanel = new MainFrameButtonPanel(this);
-		bagConstraints.gridwidth = 2;
-		bagConstraints.weightx = 4;
-		bagConstraints.weighty = 2;
-		bagConstraints.gridx = 0;		
-		bagConstraints.gridy = 1;
+		bagConstraints.gridy++;
+		bagConstraints.weighty = 1;
 		add(buttonPanel, bagConstraints);
 		
 		createMenuBar();

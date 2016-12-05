@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import frames.MainFrame;
 
 public class TreePanel extends JPanel {
@@ -19,14 +20,12 @@ public class TreePanel extends JPanel {
 	}
 	
 	public void updateTree() {
-		// remove existing treePane
-		if (treePane != null) 
-			remove(treePane);
-		
+		// remove existing tree
+		removeAll();
+
 		treePane = new JScrollPane(
 				parent.getCssTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.weightx = bagConstraints.weighty = 1;
