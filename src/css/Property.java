@@ -28,6 +28,10 @@ public class Property {
 	public String toString() {
 		return name;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 	// getter and setter for description
 	public String getDescription() {

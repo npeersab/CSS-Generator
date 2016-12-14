@@ -696,41 +696,51 @@ public class PropertyDetailsList {
 	 			"column-width", "Specifies the width of the columns", ValueType.PIXEL, RANGE_0_TO_200);
 	 	}
 	
-	public static String getDescription(String name) {
+	public static PropertyDetails getDetails(Property property) {
+		String name = property.getName();
+		PropertyDetails propertyDetails;
 		
-		String description = null;
-		if((description = getDescription(name, animation)) != null)
-			return description;
-		else if((description = getDescription(name, backgroundBorder)) != null)
-			return description;
-		else if((description = getDescription(name, basicBox)) != null)
-			return description;
-		else if((description = getDescription(name, basicUserInterface)) != null)
-			return description;
-		else if((description = getDescription(name, color)) != null)
-			return description;
-		else if((description = getDescription(name, flexibleBoxLayout)) != null)
-			return description;
-		else if((description = getDescription(name, font)) != null)
-			return description;
-		else if((description = getDescription(name, multiColumnLayout)) != null)
-			return description;
-		else if((description = getDescription(name, table)) != null)
-			return description;
-		else if((description = getDescription(name, text)) != null)
-			return description;		
-		else if((description = getDescription(name, textDecoration)) != null)
-			return description;
-		else if((description = getDescription(name, writingModes)) != null)
-			return description;
+		if((propertyDetails = getDetails(name, animation)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, backgroundBorder)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, basicBox)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, basicUserInterface)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, color)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, flexibleBoxLayout)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, font)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, multiColumnLayout)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, table)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, text)) != null)
+			return propertyDetails;		
+		else if((propertyDetails = getDetails(name, textDecoration)) != null)
+			return propertyDetails;
+		else if((propertyDetails = getDetails(name, writingModes)) != null)
+			return propertyDetails;
 		return null;
 	}
 	
-	public static String getDescription(String name, PropertyDetails propertyDetailsList[]) {
-		for (PropertyDetails propertyDetails : animation) {
+	public static PropertyDetails getDetails(String name) {
+		return getDetails(new Property(name));
+	}
+		
+	public static PropertyDetails getDetails(String name, PropertyDetails propertyDetailsList[]) {
+		for (PropertyDetails propertyDetails : propertyDetailsList) {
 			if (propertyDetails.toString() == name)
-				return propertyDetails.getDescription();
+				return propertyDetails;
 		}
 		return null;
+	}
+	
+	public static String getDescription(String name) {
+		PropertyDetails propertyDetails = getDetails(name);
+		return propertyDetails.getDescription();
 	}
 }
