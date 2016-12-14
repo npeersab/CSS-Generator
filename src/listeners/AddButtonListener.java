@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import css.Selector;
+import frames.AddSelector;
 import frames.MainFrame;
-import frames.PropertyFrame;
-import frames.SelectorFrame;
+import frames.AddProperty;
 
 public class AddButtonListener implements ActionListener {
 	private TreePath path;
@@ -22,10 +22,10 @@ public class AddButtonListener implements ActionListener {
 		
 		switch (path.getPathCount()) {
 		case 1:
-			new SelectorFrame(parent);
+			new AddSelector(parent);
 			break;
 		case 2:
-			new PropertyFrame(
+			new AddProperty(
 					parent, (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject());
 			break;
 		}

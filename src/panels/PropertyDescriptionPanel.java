@@ -9,14 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import frames.PropertyFrame;
+import frames.AddProperty;
 
 public class PropertyDescriptionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextArea description;
 	JScrollPane scrollPane;
 	
-	public PropertyDescriptionPanel(PropertyFrame parent) {
+	public PropertyDescriptionPanel(AddProperty parent) {
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.anchor = GridBagConstraints.NORTHWEST;

@@ -3,7 +3,6 @@ package frames;
 import css.Selector;
 import css.SelectorType;
 import res.ImgSrc;
-
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,13 +18,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class SelectorFrame extends JFrame implements ActionListener {
+public class AddSelector extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JComboBox<SelectorType> selector;
 	private MainFrame parent;
 	
-	public SelectorFrame(MainFrame parent) {
+	public AddSelector(MainFrame parent) {
 
 		this.parent = parent;
 		enableParent(false);
@@ -114,7 +113,7 @@ public class SelectorFrame extends JFrame implements ActionListener {
 		String selectorName = textField.getText();
 		// display error if no name entered
 		if(selectorName.length() == 0) {
-			JOptionPane.showMessageDialog(SelectorFrame.this, 
+			JOptionPane.showMessageDialog(AddSelector.this, 
 					"Please enter Selector name", "No Selector name", 
 					JOptionPane.ERROR_MESSAGE);
 		}

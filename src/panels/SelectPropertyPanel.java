@@ -9,14 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
-import frames.PropertyFrame;
+import frames.AddProperty;
 
 public class SelectPropertyPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private PropertyFrame parent;
+	private AddProperty parent;
 	private JComboBox<PropertyDetails> propertyComboBox;
 		
-	public SelectPropertyPanel(PropertyFrame parent) {
+	public SelectPropertyPanel(AddProperty parent) {
 		this.parent = parent;
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();

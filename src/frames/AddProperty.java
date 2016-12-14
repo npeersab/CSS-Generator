@@ -21,7 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-public class PropertyFrame extends JFrame implements ActionListener {
+public class AddProperty extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	// panels
@@ -47,7 +47,7 @@ public class PropertyFrame extends JFrame implements ActionListener {
 	private MainFrame parent;
 
 	// Constructor
-	public PropertyFrame(MainFrame parent, Selector selector) {
+	public AddProperty(MainFrame parent, Selector selector) {
 		// store the selector in which property is to be added
 		this.selector = selector;
 		

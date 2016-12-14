@@ -15,16 +15,16 @@ import css.PropertyDetails;
 import css.PropertyDetailsList;
 import css.Range;
 import css.ValueType;
-import frames.PropertyFrame;
+import frames.AddProperty;
 
 public class SelectValuePanel extends JPanel implements ChangeListener {
 	private static final long serialVersionUID = 1L;
-	private PropertyFrame parent;
+	private AddProperty parent;
 	private JSlider slider;
 	private JColorChooser chooser;
 	private JComboBox<String> comboBox;
 	
-	public SelectValuePanel(PropertyFrame parent) {
+	public SelectValuePanel(AddProperty parent) {
 		this.parent = parent;
 		
 		setLayout(new GridBagLayout());

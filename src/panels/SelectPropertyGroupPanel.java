@@ -10,15 +10,15 @@ import javax.swing.JPanel;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
 import css.PropertyGroup;
-import frames.PropertyFrame;
+import frames.AddProperty;
 
 
 // Panel which will display Combo Box to select Property
 public class SelectPropertyGroupPanel extends JPanel implements ActionListener {	
 	private static final long serialVersionUID = 1L;
-	private PropertyFrame parent;
+	private AddProperty parent;
 
-	public SelectPropertyGroupPanel(PropertyFrame parent) {
+	public SelectPropertyGroupPanel(AddProperty parent) {
 		this.parent = parent;
 		
 		setLayout(new GridBagLayout());
