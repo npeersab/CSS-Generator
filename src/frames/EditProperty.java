@@ -42,13 +42,13 @@ public class EditProperty extends JFrame {
 			setSlider(propertyDetails);
 			bagConstraints.gridx++;
 			add(slider, bagConstraints);
-			setSize(300, 300);
+			setSize(300, 500);
 			break;
 		case PIXEL:
 			setSlider(propertyDetails);
 			bagConstraints.gridx++;
 			add(slider, bagConstraints);
-			setSize(300, 300);
+			setSize(300, 500);
 			break;
 		case STRING:
 			bagConstraints.gridx++;
@@ -61,12 +61,14 @@ public class EditProperty extends JFrame {
 			setSlider(propertyDetails);
 			bagConstraints.gridx++;
 			add(slider, bagConstraints);
-			setSize(300, 300);
+			setSize(300, 500);
 			break;
 		default:
 			break;
 		}
 		
+		setTitle("Edit Property");
+		setIconImage(parent.getIconImage());
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
