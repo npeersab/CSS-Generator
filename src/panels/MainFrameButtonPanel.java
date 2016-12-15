@@ -24,23 +24,23 @@ public class MainFrameButtonPanel extends JPanel {
 		
 		
 		// create addButton
-		addButton = new JButton();
+		addButton = new JButton("Add Selector");
 		parent.setAddButton(addButton);
 		
 		addButtonListener = new AddButtonListener(parent);		
 		addButton.addActionListener(addButtonListener);
 		parent.setAddButtonListener(addButtonListener);
-		addButton.setVisible(false);
+		addButton.setEnabled(false);
 
 		// create removeButton
-		removeButton = new JButton();
+		removeButton = new JButton("Remove Selector");
 		parent.setRemoveButton(removeButton);
 		
 		removeButton.setMnemonic(KeyEvent.VK_DELETE);
 		removeButtonListener = new RemoveButtonListener(parent);
 		parent.setRemoveButtonListener(removeButtonListener);
 		removeButton.addActionListener(removeButtonListener);
-		removeButton.setVisible(false);
+		removeButton.setEnabled(false);
 		
 		// set layout and add buttons
 		setLayout(new GridBagLayout());

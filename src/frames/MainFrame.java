@@ -169,7 +169,7 @@ public class MainFrame extends JFrame {
 				case 1 :
 					addButton.setText("Add Selector");
 					addButton.setToolTipText("add new Selector in the File");
-					removeButton.setVisible(false);
+					removeButton.setEnabled(false);
 					break;
 					
 				case 2 :
@@ -178,7 +178,7 @@ public class MainFrame extends JFrame {
 					
 					removeButton.setText("Remove Selector");
 					removeButton.setToolTipText("remove selected Selector");
-					removeButton.setVisible(true);
+					removeButton.setEnabled(true);
 					break;
 					
 				case 3 :
@@ -187,13 +187,13 @@ public class MainFrame extends JFrame {
 					
 					removeButton.setText("Remove Property");
 					removeButton.setToolTipText("remove selected Property");
-					removeButton.setVisible(true);
+					removeButton.setEnabled(true);
 					break;
 				}
 				
 				addButtonListener.setPath(path);
 				removeButtonListener.setPath(path);
-				addButton.setVisible(true);
+				addButton.setEnabled(true);
 				
 			}
 		});
