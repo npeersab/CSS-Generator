@@ -4,8 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+
+import css.Property;
 import css.Selector;
 import frames.AddSelector;
+import frames.EditProperty;
 import frames.MainFrame;
 import frames.AddProperty;
 
@@ -28,6 +31,9 @@ public class AddButtonListener implements ActionListener {
 			new AddProperty(
 					parent, (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject());
 			break;
+		case 3:
+			new EditProperty(
+					parent, (Property) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject());
 		}
 	}
 	

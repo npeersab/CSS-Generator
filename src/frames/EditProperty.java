@@ -19,7 +19,7 @@ public class EditProperty extends JFrame {
 	private JSlider slider;
 	private JComboBox<?> comboBox;
 
-	public EditProperty(Property property) {
+	public EditProperty(MainFrame parent, Property property) {
 		// set layout to GridBaglayout and create GridBagConstraints
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
@@ -52,7 +52,8 @@ public class EditProperty extends JFrame {
 			break;
 		case STRING:
 			bagConstraints.gridx++;
-			comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
+			comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());
+			comboBox.setSelectedItem(property.getValue());
 			add(comboBox, bagConstraints);
 			setSize(300, 300);
 			break;
@@ -65,6 +66,10 @@ public class EditProperty extends JFrame {
 		default:
 			break;
 		}
+		
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	public void setSlider(PropertyDetails propertyDetails) {

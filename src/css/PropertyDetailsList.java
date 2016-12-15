@@ -733,7 +733,7 @@ public class PropertyDetailsList {
 		
 	public static PropertyDetails getDetails(String name, PropertyDetails propertyDetailsList[]) {
 		for (PropertyDetails propertyDetails : propertyDetailsList) {
-			if (propertyDetails.toString() == name)
+			if (propertyDetails.getName().equals(name))
 				return propertyDetails;
 		}
 		return null;

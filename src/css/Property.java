@@ -21,6 +21,10 @@ public class Property {
 		this.value = value;
 	}
 	
+	public String getValue() {
+		return value;
+	}
+	
 	public String getCode() {
 		return "\n\t" + name + ": " + value + ";";
 	}
