@@ -87,7 +87,7 @@ public class AddProperty extends JFrame implements ActionListener {
 		add(buttonPanel, bagConstraints);
 		
 					
-		setTitle("Select Property Type");
+		setTitle("Add new Property");
 		setIconImage(ImgSrc.getImageIcon());
 		setSize(FRAME_SIZE);
 		setLocationRelativeTo(parent);
