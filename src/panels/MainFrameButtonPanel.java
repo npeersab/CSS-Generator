@@ -12,7 +12,6 @@ import listeners.RemoveButtonListener;
 
 public class MainFrameButtonPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
 	// buttons
 	private JButton addButton, removeButton;
 	
@@ -21,8 +20,6 @@ public class MainFrameButtonPanel extends JPanel {
 	private RemoveButtonListener removeButtonListener;
 
 	public MainFrameButtonPanel(MainFrame parent) {
-		
-		
 		// create addButton
 		addButton = new JButton("Add Selector");
 		parent.setAddButton(addButton);

@@ -260,6 +260,12 @@ public class MainFrame extends JFrame {
 		fileEdited();
 	}
 	
+	// make changes after editing a property
+	public void editProperty() {
+		updateTitle("*" + cssFile.getName());
+		fileEdited();
+	}
+	
 	// make changes when file is edited
 	public void fileEdited() {
 		save.setEnabled(true);
@@ -274,6 +280,7 @@ public class MainFrame extends JFrame {
 		saved(true);
 	}
 	
+	// update title of frame
 	public void updateTitle(String filename) {
 		setTitle(filename + " - " + TITLE);
 	}
@@ -296,7 +303,7 @@ public class MainFrame extends JFrame {
 			saveAs();
 	}
 	
-	// save new file
+	// save as new file
 	public void saveAs() {
 		File cssdir = Directory.getCSSDirectory();
 		JFileChooser chooser = new JFileChooser(cssdir);

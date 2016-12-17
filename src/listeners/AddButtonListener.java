@@ -34,6 +34,7 @@ public class AddButtonListener implements ActionListener {
 		case 3:
 			new EditProperty(
 					parent, (Property) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject());
+			break;
 		}
 	}
 	
