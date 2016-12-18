@@ -44,7 +44,7 @@ public class AddProperty extends JFrame implements ActionListener {
 	private Selector selector;
 	
 	// default frame size;
-	public final Dimension FRAME_SIZE = new Dimension(600, 450);
+	public final Dimension FRAME_SIZE = new Dimension(550, 400);
 	
 	// reference to parent
 	private MainFrame parent;
