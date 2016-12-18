@@ -96,15 +96,18 @@ public class EditProperty extends JFrame implements ActionListener {
 			break;
 		}
 		
-		// create and add updatebutton
+		// create and add updateButton
 		updateButton = new JButton("Update Value");
 		updateButton.addActionListener(this);
 		bagConstraints.anchor = GridBagConstraints.NORTHEAST;
 		bagConstraints.gridy++;
 		add(updateButton, bagConstraints);
 		
-		// create and add cancelbutton
+		// create and add cancelButton
 		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(e -> {
+			dispose();
+		});
 		bagConstraints.gridx++;
 		add(cancelButton, bagConstraints);
 		
