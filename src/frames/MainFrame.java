@@ -233,7 +233,6 @@ public class MainFrame extends JFrame {
 			createTree(root);
 			treePanel.updateTree();
 			fileEdited();
-			updateTitle("*" + cssFile.getName());
 		}
 	}
 
@@ -245,7 +244,6 @@ public class MainFrame extends JFrame {
 		node.add(new DefaultMutableTreeNode(selector));
 		cssTree.updateUI();
 		cssFile.addSelector(selector);
-		
 		fileEdited();
 	}
 	
@@ -256,18 +254,17 @@ public class MainFrame extends JFrame {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 		node.add(new DefaultMutableTreeNode(property));
 		cssTree.updateUI();
-		
 		fileEdited();
 	}
 	
 	// make changes after editing a property
 	public void editProperty() {
-		updateTitle("*" + cssFile.getName());
 		fileEdited();
 	}
 	
 	// make changes when file is edited
 	public void fileEdited() {
+		updateTitle("*" + cssFile.getName());
 		save.setEnabled(true);
 		saveAs.setEnabled(true);
 		saved(false);
@@ -328,12 +325,15 @@ public class MainFrame extends JFrame {
     	}
 	}
 	
-	// getter and setter for windowApdater
-	public customWindowAdapter getWindowAdapter() {
-		return windowAdapter;
-	}
-	public void setWindowAdapter(customWindowAdapter windowAdapter) {
-		this.windowAdapter = windowAdapter;
+	// enable or disable MainFrame
+	public void enableWindow(boolean b) {
+		setFocusableWindowState(b);
+		setEnabled(b);
+		setAlwaysOnTop(b);
+		removeWindowListener(windowAdapter);
+		if (b)
+			addWindowListener(windowAdapter);
+		revalidate();	
 	}
 	
 	// getter and setter for cssTree

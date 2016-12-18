@@ -3,6 +3,8 @@ package frames;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,9 +12,20 @@ import javax.swing.JLabel;
 
 public class MainFrameExitConfirmation extends JFrame {
 	private static final long serialVersionUID = 1L;
+	// components
 	private JButton noButton, cancelButton, yesButton;
+	
+	// reference to main frame
+	private MainFrame parent;
 
 	public MainFrameExitConfirmation(MainFrame parent) {
+		// store reference
+		this.parent = parent;
+		
+		// disable main frame
+		enableParent(false);
+		
+		// set layout and create bagConstraints
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
@@ -33,7 +46,10 @@ public class MainFrameExitConfirmation extends JFrame {
 		add(noButton, bagConstraints);
 		
 		cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(e -> dispose());
+		cancelButton.addActionListener(e -> {
+			dispose();
+			enableParent(true);
+		});
 		bagConstraints.gridx++;
 		add(cancelButton, bagConstraints);
 		
@@ -50,7 +66,19 @@ public class MainFrameExitConfirmation extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setIconImage(parent.getIconImage());
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				enableParent(true);
+				dispose();
+			}
+		});
 		setVisible(true);
+	}
+	
+	// disable/enable parent window
+	private void enableParent(boolean b) {
+		parent.enableWindow(b);
+		setAlwaysOnTop(!b);
 	}
 }

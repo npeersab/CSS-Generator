@@ -14,9 +14,6 @@ public class PropertyButtonPanel extends JPanel {
 		add(addButton);
 		
 		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(
-				e -> parent.dispose()
-		);
 		parent.setCancelButton(cancelButton);
 		add(cancelButton);
 	}

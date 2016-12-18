@@ -27,6 +27,8 @@ public class AddSelector extends JFrame implements ActionListener {
 	public AddSelector(MainFrame parent) {
 
 		this.parent = parent;
+		
+		// disable parent window
 		enableParent(false);
 		
 		// set layout and GridBagConstraints
@@ -98,14 +100,10 @@ public class AddSelector extends JFrame implements ActionListener {
 		setAlwaysOnTop(true);
 	}
 	
-	// enable or disable MainFrame
-	public void enableParent(boolean b) {
-		parent.setFocusableWindowState(b);
-		parent.setEnabled(b);
-		parent.removeWindowListener(parent.getWindowAdapter());
-		if (b)
-			parent.addWindowListener(parent.getWindowAdapter());
-		parent.revalidate();	
+	// disable/enable parent window
+		private void enableParent(boolean b) {
+			parent.enableWindow(b);
+			setAlwaysOnTop(!b);
 	}
 
 	@Override

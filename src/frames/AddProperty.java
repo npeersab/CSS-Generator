@@ -16,6 +16,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -48,10 +51,12 @@ public class AddProperty extends JFrame implements ActionListener {
 
 	// Constructor
 	public AddProperty(MainFrame parent, Selector selector) {
-		// store the selector in which property is to be added
+		// store the references
 		this.selector = selector;
-		
 		this.parent = parent;
+		
+		// disable parent
+		enableParent(false);
 		
 		// set layout to GridBaglayout and create GridBagConstraints
 		setLayout(new GridBagLayout());
@@ -86,13 +91,24 @@ public class AddProperty extends JFrame implements ActionListener {
 		bagConstraints.gridy++;
 		add(buttonPanel, bagConstraints);
 		
+		// action listener for cancel button
+		cancelButton.addActionListener(e -> {
+			enableParent(true);
+			dispose();
+		});
 					
 		setTitle("Add new Property");
 		setIconImage(ImgSrc.getImageIcon());
 		setSize(FRAME_SIZE);
 		setLocationRelativeTo(parent);
 		setResizable(false);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				enableParent(true);
+				dispose();
+			}
+		});
 		setVisible(true);
 	}
 
@@ -105,7 +121,14 @@ public class AddProperty extends JFrame implements ActionListener {
 				propertyDetails.toString(), value, propertyDetails.getDescription()); 
 		selector.addProperty(property);	
 		parent.addProperty(property);
+		enableParent(true);
 		dispose();
+	}
+	
+	// disable/enable parent window
+	private void enableParent(boolean b) {
+		parent.enableWindow(b);
+		setAlwaysOnTop(!b);
 	}
 
 	// getter and setter for property description
