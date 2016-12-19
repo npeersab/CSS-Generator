@@ -18,6 +18,8 @@ public class IntroFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
 		setResizable(false);
+		setIconImage(ImgSrc.getImageIcon());
+		setTitle("CSS Generator");
 		setVisible (true);
 	}
 }
