@@ -1,5 +1,6 @@
 package panels;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -47,6 +48,8 @@ public class MainFrameButtonPanel extends JPanel {
 		add(addButton, bagConstraints);
 		bagConstraints.gridy++;
 		add(removeButton, bagConstraints);
+		
+		setBackground(Color.GRAY);
 	}
 }
 

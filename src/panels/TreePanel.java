@@ -1,7 +1,10 @@
 package panels;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -30,7 +33,9 @@ public class TreePanel extends JPanel {
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.weightx = bagConstraints.weighty = 1;
 		bagConstraints.fill = GridBagConstraints.BOTH;
+		bagConstraints.insets = new Insets(5, 5, 5, 5);
 		add(treePane, bagConstraints);
+		setBackground(Color.DARK_GRAY);
 		revalidate();
 	}
 }

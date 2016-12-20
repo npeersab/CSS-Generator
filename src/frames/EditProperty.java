@@ -85,7 +85,7 @@ public class EditProperty extends JFrame implements ActionListener {
 			comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());
 			comboBox.setSelectedItem(property.getValue());
 			add(comboBox, bagConstraints);
-			setSize(450, 200);
+			setSize(500, 200);
 			break;
 		case TIME:
 			setSlider(propertyDetails);

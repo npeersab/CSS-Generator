@@ -37,8 +37,8 @@ public class RemoveButtonListener implements ActionListener {
 		DefaultTreeModel model = (DefaultTreeModel) parent.getCssTree().getModel();
 		if (node.getParent() != null)
 			model.removeNodeFromParent(node);
-		parent.getAddButton().setVisible(false);
-		parent.getRemoveButton().setVisible(false);
+		parent.getAddButton().setEnabled(false);
+		parent.getRemoveButton().setEnabled(false);
 		
 		parent.fileEdited();
 	}

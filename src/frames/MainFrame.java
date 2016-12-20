@@ -7,13 +7,12 @@ import listeners.AddButtonListener;
 import listeners.RemoveButtonListener;
 import res.Directory;
 import res.ImgSrc;
-import panels.MainFrameButtonPanel;
-import panels.MainFrameDetailsPanel;
+import panels.CodePanel;
+import panels.MainFrameLeftPanel;
 import panels.TreePanel;
 import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
@@ -50,9 +49,9 @@ public class MainFrame extends JFrame {
 	
 	// Panels
 	private TreePanel treePanel;
-	private MainFrameDetailsPanel detailsPanel;
-	private MainFrameButtonPanel buttonPanel;
-	
+	private MainFrameLeftPanel leftPanel;
+	private CodePanel codePanel;
+		
 	// windowAdapter
 	private customWindowAdapter windowAdapter;
 	
@@ -68,7 +67,6 @@ public class MainFrame extends JFrame {
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.fill = GridBagConstraints.BOTH;
-		bagConstraints.insets = new Insets(4, 4, 4, 4);
 		
 		// create treePanel
 		treePanel = new TreePanel(this);
@@ -78,24 +76,19 @@ public class MainFrame extends JFrame {
 		createTree(root);
 		treePanel.updateTree();
 		
-		// create detailsPanel
-		detailsPanel = new MainFrameDetailsPanel(this);
+		// create leftPanel
+		leftPanel = new MainFrameLeftPanel(this);
 
 		// add treePanel and detailsPanel in splitPane
 		JSplitPane splitPane = new JSplitPane(
-				JSplitPane.HORIZONTAL_SPLIT, treePanel, detailsPanel);
+				JSplitPane.HORIZONTAL_SPLIT, treePanel, leftPanel);
 		splitPane.setDividerLocation(0.2);
 		splitPane.setResizeWeight(0.2);
 		bagConstraints.weightx = 1;
 		bagConstraints.weighty = 4;
 		add(splitPane, bagConstraints);
 
-		// create and add buttons panel
-		buttonPanel = new MainFrameButtonPanel(this);
-		bagConstraints.gridy++;
-		bagConstraints.weighty = 1;
-		add(buttonPanel, bagConstraints);
-		
+		// create menu bar
 		createMenuBar();
 		
 		// set frame properties
@@ -390,5 +383,13 @@ public class MainFrame extends JFrame {
 	}
 	public void saved(boolean saved) {
 		this.saved = saved;
+	}
+	
+	// getter and setter for codePanel
+	public CodePanel getCodePanel() {
+		return codePanel;
+	}
+	public void setCodePanel(CodePanel codePanel) {
+		this.codePanel = codePanel;
 	}
 }

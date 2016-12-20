@@ -28,6 +28,7 @@ public class MainFrameExitConfirmation extends JFrame {
 		// set layout and create bagConstraints
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
+		bagConstraints.anchor = GridBagConstraints.EAST;
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.insets = new Insets(10, 0, 10, 0);
 		
@@ -41,7 +42,7 @@ public class MainFrameExitConfirmation extends JFrame {
 			parent.dispose();
 			dispose();
 		});
-		bagConstraints.gridx++;
+		//bagConstraints.gridx++;
 		bagConstraints.gridy++;
 		add(noButton, bagConstraints);
 		
@@ -62,7 +63,8 @@ public class MainFrameExitConfirmation extends JFrame {
 		bagConstraints.gridx++;
 		add(yesButton, bagConstraints);
 		
-		setSize(700, 160);
+		setSize(600, 160);
+		setTitle("Exit Confirmation");
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setIconImage(parent.getIconImage());
