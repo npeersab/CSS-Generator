@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -40,6 +42,9 @@ public class EditProperty extends JFrame implements ActionListener {
 		// store reference
 		this.property = property;
 		this.parent = parent;
+		
+		// disable parent
+		enableParent(false);
 		
 		// set layout to GridBaglayout and create GridBagConstraints
 		setLayout(new GridBagLayout());
@@ -106,6 +111,7 @@ public class EditProperty extends JFrame implements ActionListener {
 		// create and add cancelButton
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(e -> {
+			enableParent(true);
 			dispose();
 		});
 		bagConstraints.gridx++;
@@ -114,8 +120,14 @@ public class EditProperty extends JFrame implements ActionListener {
 		setTitle("Edit Property");
 		setIconImage(parent.getIconImage());
 		setLocationRelativeTo(null);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				enableParent(true);
+				dispose();
+			}
+		});
 		setVisible(true);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	// set slider according to property type
@@ -138,6 +150,7 @@ public class EditProperty extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		property.setValue(getValue());
+		enableParent(true);
 		parent.editProperty();
 		dispose();
 	}
@@ -169,5 +182,11 @@ public class EditProperty extends JFrame implements ActionListener {
 
 		}
 		return value;
+	}
+	
+	// disable/enable parent window
+	private void enableParent(boolean b) {
+		parent.enableWindow(b);
+		setAlwaysOnTop(!b);
 	}
 }

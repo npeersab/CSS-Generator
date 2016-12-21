@@ -36,23 +36,13 @@ public class AddSelector extends JFrame implements ActionListener {
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 		bagConstraints.gridx = bagConstraints.gridy = 0;
-		bagConstraints.insets = new Insets(10, 5, 10, 0);
+		bagConstraints.insets = new Insets(10, 5, 10, 10);
 		
 		// add labels
 		add(new JLabel("Select Selector Type : "), bagConstraints);
 		bagConstraints.gridy++;
 		add(new JLabel("Enter Selector name : "), bagConstraints);
-		
-		// add cancel button
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(e -> {
-			dispose();
-			enableParent(true);
-			});
-		bagConstraints.fill = GridBagConstraints.NONE;
-		bagConstraints.gridy++;
-		add(cancelButton, bagConstraints);
-		
+				
 		// add selector type comboBox
 		SelectorType selectorType[] = SelectorType.values();
 		selector = new JComboBox<SelectorType>(selectorType);
@@ -78,15 +68,25 @@ public class AddSelector extends JFrame implements ActionListener {
 		add(textField, bagConstraints);
 		
 		//  add addButton
-		bagConstraints.fill = GridBagConstraints.NONE;
 		JButton addButton = new JButton("Add Selector");
 		addButton.addActionListener(this);
+		bagConstraints.anchor = GridBagConstraints.EAST;
+		bagConstraints.fill = GridBagConstraints.NONE;
 		bagConstraints.gridy++;
 		add(addButton, bagConstraints);
+		
+		// add cancel button
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(e -> {
+			dispose();
+			enableParent(true);
+			});
+		bagConstraints.gridx++;
+		add(cancelButton, bagConstraints);
 					
 		setTitle("Add new Selector");
 		setIconImage(ImgSrc.getImageIcon());
-		setSize(400, 200);
+		setSize(600, 200);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		addWindowListener(new WindowAdapter() {

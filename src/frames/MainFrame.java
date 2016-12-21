@@ -128,7 +128,7 @@ public class MainFrame extends JFrame {
 		saveAs.setMnemonic(KeyEvent.VK_S);
 				
 		JMenuItem exit = new JMenuItem("Exit");
-		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
+		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK));
 		exit.setMnemonic(KeyEvent.VK_X);
 		exit.addActionListener(e -> exit());
 		

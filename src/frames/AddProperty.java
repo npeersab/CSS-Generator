@@ -87,7 +87,7 @@ public class AddProperty extends JFrame implements ActionListener {
 		
 		// add buttonPanel
 		buttonPanel = new PropertyButtonPanel(this);
-		bagConstraints.anchor = GridBagConstraints.CENTER;
+		bagConstraints.anchor = GridBagConstraints.EAST;
 		bagConstraints.gridy++;
 		add(buttonPanel, bagConstraints);
 		
