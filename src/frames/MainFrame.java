@@ -144,7 +144,7 @@ public class MainFrame extends JFrame {
 		
 		menubar = new JMenuBar();
 		menubar.add(file);
-	} // CreateMenuBar
+	}
 	
 	// create cssTree
 	private void createTree(DefaultMutableTreeNode root) {
@@ -210,6 +210,7 @@ public class MainFrame extends JFrame {
 			treePanel.updateTree();
 			
 			updateTitle(cssFile.getName());
+			codePanel.updatePanel(cssFile);
 		}
 	}
 	

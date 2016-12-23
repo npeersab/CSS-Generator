@@ -166,4 +166,9 @@ public class CSSFile {
 	public void setFile(File file) {
 		this.file = file;
 	}
+	
+	// getter for selectorList
+	public LinkedList<Selector> getSelectorsList() {
+		return selectorsList;
+	}
 }

@@ -20,7 +20,7 @@ public class MainFrameLeftPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
-		bagConstraints.insets = new Insets(5, 20, 0, 5);
+		bagConstraints.insets = new Insets(10, 20, 10, 5);
 		bagConstraints.fill = GridBagConstraints.BOTH;
 		bagConstraints.weightx = bagConstraints.weighty = 0.1;
 		
@@ -33,7 +33,9 @@ public class MainFrameLeftPanel extends JPanel {
 		// add code panel
 		codePanel = new CodePanel();
 		parent.setCodePanel(codePanel);
-		JScrollPane scrollPane = new JScrollPane(codePanel);
+		JScrollPane scrollPane = new JScrollPane(
+				codePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		bagConstraints.weighty = 1;
 		bagConstraints.gridy++;
 		bagConstraints.insets = new Insets(0, 5, 5, 5);
