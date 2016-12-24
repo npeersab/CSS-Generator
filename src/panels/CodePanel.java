@@ -15,7 +15,10 @@ import css.Selector;
 public class CodePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private HashMap<Selector, SelectorCodePanel> selectorHashMap;
+	GridBagConstraints bagConstraints;
+	JLabel emptyLabel;
 
+	// constructor
 	public CodePanel() {
 		// set layout and create constraints
 		setLayout(new GridBagLayout());
@@ -49,11 +52,12 @@ public class CodePanel extends JPanel {
 		// create hash map to store selector and corresponding code panel
 		selectorHashMap = new HashMap<Selector, SelectorCodePanel>();
 		
-		GridBagConstraints bagConstraints = new GridBagConstraints();
+		bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = 0;
 		bagConstraints.weightx = bagConstraints.weighty = 1;
 		bagConstraints.anchor = GridBagConstraints.NORTHWEST;
 		
+		// add all selector panels
 		while (iterator.hasNext()) {
 			Selector selector = iterator.next();
 			SelectorCodePanel selectorCodePanel = new SelectorCodePanel(selector);
@@ -62,9 +66,33 @@ public class CodePanel extends JPanel {
 			selectorHashMap.put(selector, selectorCodePanel);
 		}
 		
+		// add extra label to cover remaining space
 		bagConstraints.gridy++;
-	//	bagConstraints.fill = GridBagConstraints.VERTICAL;
 		bagConstraints.weighty = 50;
-		add(new JLabel(), bagConstraints);
+		emptyLabel = new JLabel();
+		add(emptyLabel, bagConstraints);
+	}
+	
+	public void addSelector(Selector selector) {
+		// remove empty space
+		remove(emptyLabel);
+		
+		// add new selector panel
+		SelectorCodePanel selectorCodePanel = new SelectorCodePanel(selector);
+		selectorHashMap.put(selector, selectorCodePanel);
+		bagConstraints.weighty = 1;
+		bagConstraints.gridy++;
+		add(selectorCodePanel, bagConstraints);
+		
+		// cover remaining space
+		bagConstraints.gridy++;
+		bagConstraints.weighty = 50;
+		add(emptyLabel, bagConstraints);
+	}
+	
+	// remove selector from panel
+	public void removeSelector(Selector selector) {
+		remove(selectorHashMap.get(selector));
+		revalidate();
 	}
 }

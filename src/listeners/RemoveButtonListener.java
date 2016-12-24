@@ -24,8 +24,9 @@ public class RemoveButtonListener implements ActionListener {
 		DefaultMutableTreeNode node = 
 				(DefaultMutableTreeNode) path.getLastPathComponent();
 		if (path.getPathCount() == 2) {
-			parent.getCssFile().removeSelector(
-					(Selector) node.getUserObject());
+			Selector selector = (Selector) node.getUserObject();
+			parent.getCssFile().removeSelector(selector);
+			parent.getCodePanel().removeSelector(selector);
 		}
 
 		if (path.getPathCount() == 3) {

@@ -8,7 +8,6 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import frames.MainFrame;
 
 public class MainFrameLeftPanel extends JPanel {
@@ -36,6 +35,7 @@ public class MainFrameLeftPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(
 				codePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(7);
 		bagConstraints.weighty = 1;
 		bagConstraints.gridy++;
 		bagConstraints.insets = new Insets(0, 5, 5, 5);

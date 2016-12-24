@@ -227,6 +227,7 @@ public class MainFrame extends JFrame {
 			createTree(root);
 			treePanel.updateTree();
 			fileEdited();
+			codePanel.updatePanel(cssFile);
 		}
 	}
 
@@ -238,6 +239,7 @@ public class MainFrame extends JFrame {
 		node.add(new DefaultMutableTreeNode(selector));
 		cssTree.updateUI();
 		cssFile.addSelector(selector);
+		codePanel.addSelector(selector);
 		fileEdited();
 	}
 	
