@@ -9,9 +9,10 @@ public class MainClass {
 	
 	public static void main(String[] args) throws Exception {
 		IntroFrame introFrame = new IntroFrame();
+		Thread.sleep(1000);
 		new PropertyDetailsList();
 		frame = new MainFrame();
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		introFrame.dispose();
 	}
 }

@@ -19,7 +19,7 @@ public class IntroFrame extends JFrame {
 		setAlwaysOnTop(true);
 		setResizable(false);
 		setIconImage(ImgSrc.getImageIcon());
-		setTitle("CSS Generator");
-		setVisible (true);
+		setTitle("Starting CSS Generator");
+		setVisible(true);
 	}
 }
