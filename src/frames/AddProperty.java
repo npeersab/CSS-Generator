@@ -96,12 +96,13 @@ public class AddProperty extends JFrame implements ActionListener {
 			enableParent(true);
 			dispose();
 		});
-					
+			
+		// set frame properties
 		setTitle("Add new Property");
 		setIconImage(ImgSrc.getImageIcon());
 		setSize(FRAME_SIZE);
 		setLocationRelativeTo(parent);
-		setResizable(false);
+		//setResizable(false);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

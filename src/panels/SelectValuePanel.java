@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Hashtable;
+
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,14 +21,19 @@ import frames.AddProperty;
 
 public class SelectValuePanel extends JPanel implements ChangeListener {
 	private static final long serialVersionUID = 1L;
+	// reference to parent
 	private AddProperty parent;
+	
+	// components
 	private JSlider slider;
 	private JColorChooser chooser;
 	private JComboBox<String> comboBox;
 	
 	public SelectValuePanel(AddProperty parent) {
+		// store reference to parent
 		this.parent = parent;
 		
+		// set layout
 		setLayout(new GridBagLayout());
 		
 		// set value chooser for first property in the list
@@ -34,18 +41,21 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 	}
 	
 	public void setValueChooser(ValueType valueType) {
+		// remove all existing components
 		removeAll();
 		
+		// create constraints
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 		bagConstraints.anchor = GridBagConstraints.NORTHWEST;
 		bagConstraints.gridx = bagConstraints.gridy = 0;
-		add(new JLabel("Select Value : "), bagConstraints);
 		
+		add(new JLabel("Select Value: "), bagConstraints);
 		PropertyDetails propertyDetails = 
 				(PropertyDetails) parent.getPropertyComboBox().getSelectedItem(); 
-		
 		bagConstraints.gridx++;
+		
+		// add value selector according to value to type
 		switch (valueType) {
 		case COLOR:
 			// increase size of frame to fit color chooser
@@ -57,32 +67,23 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 		case DOUBLE:
 			break;
 		case INTEGER:			
-			setSlider(propertyDetails);
-			bagConstraints.gridx++;
-			add(slider, bagConstraints);
-			parent.setSize(parent.FRAME_SIZE);
+			addSlider(propertyDetails, bagConstraints);
 			break;
 		case PIXEL:
-			setSlider(propertyDetails);
-			bagConstraints.gridx++;
-			add(slider, bagConstraints);
-			parent.setSize(parent.FRAME_SIZE);
+			addSlider(propertyDetails, bagConstraints);
 			break;
 		case STRING:
-			bagConstraints.gridx++;
 			comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
 			add(comboBox, bagConstraints);
 			parent.setSize(parent.FRAME_SIZE);
 			break;
 		case TIME:
-			setSlider(propertyDetails);
-			bagConstraints.gridx++;
-			add(slider, bagConstraints);
-			parent.setSize(parent.FRAME_SIZE);
+			addSlider(propertyDetails, bagConstraints);
 			break;
 		default:
 			break;
 		}
+		// set parent location to center
 		parent.setLocationRelativeTo(null);
 		updateUI();
 	}
@@ -118,20 +119,45 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 		return value;
 	}
 	
-	public void setSlider(PropertyDetails propertyDetails) {
-		
+	public void addSlider(PropertyDetails propertyDetails, GridBagConstraints bagConstraints) {
+		// get range of property value
 		Range<?> range =  propertyDetails.getRange();
 		Integer min = (Integer) range.getMin(),
 				max = (Integer) range.getMax();
+		
+		// create slider according to range
 		slider = new JSlider(min, max, ((min + max) / 2));
 		Dimension dimension = slider.getPreferredSize();
-		dimension.width += 120;
+		
+		// increase size of slider
+		dimension.width += 150;
 		dimension.height += 27;
 		slider.setPreferredSize(dimension);
+		
+		// set slider paint ticks
 		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(max/5);
-		slider.setMinorTickSpacing(max/10);
+		slider.setMajorTickSpacing(max/4);
+		slider.setMinorTickSpacing(max/20);
+		
+		// add custom label to slider
+		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
+		String unit = propertyDetails.getType().getUnit();
+		hashtable.put(new Integer(min), new JLabel(min + unit));
+		int n = min < 0 ? min / 2 : max / 4;
+		hashtable.put(new Integer(n), new JLabel(n + unit));
+		n = min < 0 ? 0 : max / 2;
+		hashtable.put(new Integer(n), new JLabel((n) + unit));
+		n = min < 0 ? max / 2 : (max * 3) / 4;
+		hashtable.put(new Integer(n), new JLabel(n + unit));
+		hashtable.put(new Integer(max), new JLabel(max + unit));
+		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
+		
+		// add slider to panel
+		add(slider, bagConstraints);
+		
+		// update parent frame size
+		parent.setSize(parent.FRAME_SIZE);
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class PropertyDescriptionPanel extends JPanel {
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.insets = new Insets(5, 0, 5, 0);
 		
-		add(new JLabel("Description : "), bagConstraints);
+		add(new JLabel("Description: "), bagConstraints);
 		
 		// add description in the panel
 		description = new JTextArea(3, 30);
