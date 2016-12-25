@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Hashtable;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -30,17 +31,16 @@ public class EditProperty extends JFrame implements ActionListener {
 	private JComboBox<?> comboBox;
 	private JButton updateButton, cancelButton;
 	
-	// reference to property
+	// reference to parent objects
 	private Property property;
-	
-	// reference to selector
 	private Selector selector;
-	
-	// reference to parent frame
 	private MainFrame parent;
 	
 	// details of property
-	PropertyDetails propertyDetails;
+	private PropertyDetails propertyDetails;
+	
+	// default frame size
+	private final Dimension DEFAULT_SIZE = new Dimension(600, 200); 
 
 	public EditProperty(MainFrame parent, Selector selector, Property property) {
 		// store reference
@@ -81,26 +81,22 @@ public class EditProperty extends JFrame implements ActionListener {
 		case DOUBLE:
 			break;
 		case INTEGER:			
-			setSlider(propertyDetails);
-			bagConstraints.gridy++;
-			add(slider, bagConstraints);
-			setSize(600, 200);
+			addSlider(propertyDetails, bagConstraints);
+			setSize(DEFAULT_SIZE);
 			break;
 		case PIXEL:
-			setSlider(propertyDetails);
-			add(slider, bagConstraints);
-			setSize(600, 200);
+			addSlider(propertyDetails, bagConstraints);
+			setSize(DEFAULT_SIZE);
 			break;
 		case STRING:
 			comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());
 			comboBox.setSelectedItem(property.getValue());
 			add(comboBox, bagConstraints);
-			setSize(500, 200);
+			setSize(DEFAULT_SIZE);
 			break;
 		case TIME:
-			setSlider(propertyDetails);
-			add(slider, bagConstraints);
-			setSize(600, 200);
+			addSlider(propertyDetails, bagConstraints);
+			setSize(DEFAULT_SIZE);
 			break;
 		default:
 			break;
@@ -134,21 +130,44 @@ public class EditProperty extends JFrame implements ActionListener {
 		});
 		setVisible(true);
 	}
-	
+
 	// set slider according to property type
-	public void setSlider(PropertyDetails propertyDetails) {
+	public void addSlider(PropertyDetails propertyDetails, GridBagConstraints bagConstraints) {
+		// get range of property value
 		Range<?> range =  propertyDetails.getRange();
 		Integer min = (Integer) range.getMin(),
 				max = (Integer) range.getMax();
+
+		// create slider according to range
 		slider = new JSlider(min, max, ((min + max) / 2));
 		Dimension dimension = slider.getPreferredSize();
-		dimension.width += 120;
+
+		// increase size of slider
+		dimension.width += 150;
 		dimension.height += 27;
 		slider.setPreferredSize(dimension);
+
+		// set slider paint ticks
 		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(max/5);
-		slider.setMinorTickSpacing(max/10);
+		slider.setMajorTickSpacing(max/4);
+		slider.setMinorTickSpacing(max/20);
+
+		// add custom label to slider
+		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
+		String unit = propertyDetails.getType().getUnit();
+		hashtable.put(new Integer(min), new JLabel(min + unit));
+		int n = min < 0 ? min / 2 : max / 4;
+		hashtable.put(new Integer(n), new JLabel(n + unit));
+		n = min < 0 ? 0 : max / 2;
+		hashtable.put(new Integer(n), new JLabel((n) + unit));
+		n = min < 0 ? max / 2 : (max * 3) / 4;
+		hashtable.put(new Integer(n), new JLabel(n + unit));
+		hashtable.put(new Integer(max), new JLabel(max + unit));
+		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
+
+		// add slider to panel
+		add(slider, bagConstraints);
 	}
 
 	// after pressing update button
