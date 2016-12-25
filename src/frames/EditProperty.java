@@ -20,6 +20,7 @@ import css.Property;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
 import css.Range;
+import css.Selector;
 
 public class EditProperty extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -32,16 +33,20 @@ public class EditProperty extends JFrame implements ActionListener {
 	// reference to property
 	private Property property;
 	
+	// reference to selector
+	private Selector selector;
+	
 	// reference to parent frame
 	private MainFrame parent;
 	
 	// details of property
 	PropertyDetails propertyDetails;
 
-	public EditProperty(MainFrame parent, Property property) {
+	public EditProperty(MainFrame parent, Selector selector, Property property) {
 		// store reference
 		this.property = property;
 		this.parent = parent;
+		this.selector = selector;
 		
 		// disable parent
 		enableParent(false);
@@ -151,7 +156,7 @@ public class EditProperty extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		property.setValue(getValue());
 		enableParent(true);
-		parent.editProperty();
+		parent.editProperty(selector);
 		dispose();
 	}
 

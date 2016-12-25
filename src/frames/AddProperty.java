@@ -121,7 +121,7 @@ public class AddProperty extends JFrame implements ActionListener {
 		Property property = new Property(
 				propertyDetails.toString(), value, propertyDetails.getDescription()); 
 		selector.addProperty(property);	
-		parent.addProperty(property);
+		parent.addProperty(selector, property);
 		enableParent(true);
 		dispose();
 	}

@@ -13,11 +13,26 @@ import css.Selector;
 
 public class SelectorCodePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private JLabel selectorName;
-
+	
+	// reference to selector
+	private Selector selector;
+	
 	public SelectorCodePanel(Selector selector) {
-		// set layout and create bag constraints
+		// set layout 
 		setLayout(new GridBagLayout());
+		
+		// store reference to selector
+		this.selector = selector;
+		
+		// update the panel
+		updatePanel();
+	}
+	
+	public void updatePanel() {
+		// remove all existing code
+		removeAll();
+		
+		// create constraint
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.anchor = GridBagConstraints.WEST;
@@ -25,7 +40,7 @@ public class SelectorCodePanel extends JPanel {
 		bagConstraints.insets = new Insets(10, 5, 0, 0);
 
 		// add selector name
-		selectorName = new JLabel(selector.toString());
+		JLabel selectorName = new JLabel(selector.toString());
 		selectorName.setForeground(Color.WHITE);
 		add(selectorName, bagConstraints);
 		
@@ -33,6 +48,7 @@ public class SelectorCodePanel extends JPanel {
 		bagConstraints.gridx++;
 		JLabel label = new JLabel(" {");
 		label.setForeground(Color.CYAN);
+		bagConstraints.insets = new Insets(10, 5, 2, 0);
 		add(label, bagConstraints);
 		
 		// get list of all properties

@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import css.PropertyDetails;
@@ -28,6 +29,7 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 	private JSlider slider;
 	private JColorChooser chooser;
 	private JComboBox<String> comboBox;
+	private JTextField valueTextField;
 	
 	public SelectValuePanel(AddProperty parent) {
 		// store reference to parent
@@ -50,7 +52,7 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 		bagConstraints.anchor = GridBagConstraints.NORTHWEST;
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		
-		add(new JLabel("Select Value: "), bagConstraints);
+		add(new JLabel("Value: "), bagConstraints);
 		PropertyDetails propertyDetails = 
 				(PropertyDetails) parent.getPropertyComboBox().getSelectedItem(); 
 		bagConstraints.gridx++;
@@ -73,8 +75,15 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 			addSlider(propertyDetails, bagConstraints);
 			break;
 		case STRING:
-			comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
-			add(comboBox, bagConstraints);
+			String possibleValue[] = propertyDetails.getPossibleValues();
+			if (possibleValue != null) {
+				comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
+				add(comboBox, bagConstraints);
+			}
+			else {
+				valueTextField = new JTextField(10);
+				add(valueTextField, bagConstraints);
+			}
 			parent.setSize(parent.FRAME_SIZE);
 			break;
 		case TIME:
@@ -107,7 +116,10 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 			value = slider.getValue() + "px";
 			break;
 		case STRING:
-			value = (String) comboBox.getSelectedItem();
+			if (propertyDetails.getPossibleValues() != null)
+				value = (String) comboBox.getSelectedItem();
+			else
+				value = valueTextField.getText();
 			break;
 		case TIME:
 			value = slider.getValue() + "s";

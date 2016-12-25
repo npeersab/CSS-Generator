@@ -73,6 +73,7 @@ public class CodePanel extends JPanel {
 		add(emptyLabel, bagConstraints);
 	}
 	
+	// add new selector in code
 	public void addSelector(Selector selector) {
 		// remove empty space
 		remove(emptyLabel);
@@ -93,6 +94,13 @@ public class CodePanel extends JPanel {
 	// remove selector from panel
 	public void removeSelector(Selector selector) {
 		remove(selectorHashMap.get(selector));
+		revalidate();
+	}
+	
+	// update selector panel
+	public void updateSelectorPanel(Selector selector) {
+		SelectorCodePanel selectorCodePanel = selectorHashMap.get(selector);
+		selectorCodePanel.updatePanel();
 		revalidate();
 	}
 }

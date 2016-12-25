@@ -244,17 +244,19 @@ public class MainFrame extends JFrame {
 	}
 	
 	// add new Property
-	public void addProperty(Property property) {
+	public void addProperty(Selector selector, Property property) {
 		TreePath path = cssTree.getSelectionPath();
 		
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 		node.add(new DefaultMutableTreeNode(property));
 		cssTree.updateUI();
+		codePanel.updateSelectorPanel(selector);
 		fileEdited();
 	}
 	
 	// make changes after editing a property
-	public void editProperty() {
+	public void editProperty(Selector selector) {
+		codePanel.updateSelectorPanel(selector);
 		fileEdited();
 	}
 	
