@@ -140,6 +140,26 @@ public class AddProperty extends JFrame implements ActionListener {
 		this.description = description;
 	}
 	
+	// update description
+	public void updateDescription(String description) {
+		StringBuffer stringBuffer = new StringBuffer(description);
+		test: if (stringBuffer.length() > 41) {
+			int n = stringBuffer.indexOf(" ", 40);
+			try {
+				stringBuffer.insert(n, '\n');
+
+				if (stringBuffer.length() > 41) {
+					n = stringBuffer.indexOf(" ", 70);
+					stringBuffer.insert(n, '\n');
+				}
+			} catch (ArrayIndexOutOfBoundsException exe) {
+				break test;
+			}
+		}
+		stringBuffer.insert(0, ' ');
+		this.description.setText(stringBuffer.toString());
+	}
+	
 	//getter and setter for cancelButton
 	public JButton getCancelButton() {
 		return cancelButton;

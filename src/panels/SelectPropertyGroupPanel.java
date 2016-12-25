@@ -83,6 +83,6 @@ public class SelectPropertyGroupPanel extends JPanel implements ActionListener {
 		}
 		parent.getSelectPropertyPanel().setPropertyComboBox(propertyDetails);
 		parent.getSelectValuePanel().setValueChooser(propertyDetails[0].getType());
-		parent.getDescription().setText(propertyDetails[0].getDescription());
+		parent.updateDescription(propertyDetails[0].getDescription());
 	}		
 }
