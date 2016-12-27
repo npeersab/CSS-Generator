@@ -95,6 +95,7 @@ public class CodePanel extends JPanel {
 	public void removeSelector(Selector selector) {
 		remove(selectorHashMap.get(selector));
 		revalidate();
+		repaint();
 	}
 	
 	// update selector panel
@@ -102,5 +103,6 @@ public class CodePanel extends JPanel {
 		SelectorCodePanel selectorCodePanel = selectorHashMap.get(selector);
 		selectorCodePanel.updatePanel();
 		revalidate();
+		repaint();
 	}
 }
