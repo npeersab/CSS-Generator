@@ -17,12 +17,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-
 import css.Property;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
 import css.Range;
 import css.Selector;
+import css.ValueType;
 
 public class EditProperty extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +31,7 @@ public class EditProperty extends JFrame implements ActionListener {
 	private JSlider slider;
 	private JComboBox<?> comboBox;
 	private JButton updateButton, cancelButton;
+	private JTextField valueTextField; 
 	
 	// reference to parent objects
 	private Property property;
@@ -42,7 +43,6 @@ public class EditProperty extends JFrame implements ActionListener {
 	
 	// default frame size
 	private final Dimension DEFAULT_SIZE = new Dimension(600, 200);
-	private JTextField valueTextField; 
 
 	public EditProperty(MainFrame parent, Selector selector, Property property) {
 		// store reference
@@ -97,6 +97,7 @@ public class EditProperty extends JFrame implements ActionListener {
 			if (possibleValue != null) {
 				comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
 				add(comboBox, bagConstraints);
+				comboBox.setSelectedItem(property.getValue());
 			}
 			else {
 				valueTextField = new JTextField(20);
@@ -128,6 +129,7 @@ public class EditProperty extends JFrame implements ActionListener {
 		bagConstraints.gridx++;
 		add(cancelButton, bagConstraints);
 		
+		// set frame properties
 		setTitle("Edit Property");
 		setIconImage(parent.getIconImage());
 		setLocationRelativeTo(null);
@@ -145,13 +147,36 @@ public class EditProperty extends JFrame implements ActionListener {
 	public void addSlider(PropertyDetails propertyDetails, GridBagConstraints bagConstraints, Boolean d) {
 		// get range of property value
 		Range<?> range =  propertyDetails.getRange();
-		Integer min = (Integer) range.getMin(),
-				max = (Integer) range.getMax();
+		int min = 0, max = 0;
+		if (d) {
+			min = (int) (((Double) range.getMin()) * 100);
+			max = (int) (((Double) range.getMax()) * 100);
+		}
+		else {
+			min = (Integer) range.getMin();
+			max = (Integer) range.getMax();
+		}
 
 		// create slider according to range
+		slider = new JSlider(min, max, getOldValue(property));
+		Dimension dimension = slider.getPreferredSize();
+
+		// increase size of slider
+		dimension.width += 150;
+		dimension.height += 27;
+		slider.setPreferredSize(dimension);
+
+		// set slider paint ticks
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(max/4);
+		slider.setMinorTickSpacing(max/20);
+
+		// add custom label to slider
 		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
 		String unit = propertyDetails.getType().getUnit();
 		String label1 = null, label2 = null, label3 = null, label4 = null, label5 = null;
+		
+		// calculate different points to be displayed on slider
 		int num1 = min,
 			num2 = min < 0 ? min / 2 : max / 4,
 			num3 = min < 0 ? 0 : max / 2,
@@ -174,11 +199,14 @@ public class EditProperty extends JFrame implements ActionListener {
 			label5 = max + unit;
 		}
 		
+		// map values with labels
 		hashtable.put(new Integer(num1), new JLabel(label1));
 		hashtable.put(new Integer(num2), new JLabel(label2));
 		hashtable.put(new Integer(num3), new JLabel(label3));
 		hashtable.put(new Integer(num4), new JLabel(label4));
 		hashtable.put(new Integer(num5), new JLabel(label5));
+		
+		// set labels to slider
 		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
 
@@ -198,6 +226,7 @@ public class EditProperty extends JFrame implements ActionListener {
 	// return selected value
 	public String getValue() {
 		String value = null;
+		// convert the value into string
 		switch(propertyDetails.getType()) {
 		case COLOR:
 			Color color = chooser.getColor();
@@ -210,7 +239,7 @@ public class EditProperty extends JFrame implements ActionListener {
 			value = Integer.toString(slider.getValue());
 			break;
 		case PIXEL:
-			value = slider.getValue() + "px";
+			value = slider.getValue() + ValueType.PIXEL.getUnit();
 			break;
 		case STRING:
 			if (propertyDetails.getPossibleValues() != null)
@@ -219,7 +248,7 @@ public class EditProperty extends JFrame implements ActionListener {
 				value = valueTextField.getText();
 			break;
 		case TIME:
-			value = slider.getValue() + "s";
+			value = slider.getValue() + ValueType.TIME.getUnit();
 			break;
 		default:
 			break;
@@ -232,5 +261,68 @@ public class EditProperty extends JFrame implements ActionListener {
 	private void enableParent(boolean b) {
 		parent.enableWindow(b);
 		setAlwaysOnTop(!b);
+	}
+	
+	// return previous value of property
+	public int getOldValue(Property property) {
+		String value = property.getValue();
+		int num;
+		Range<?> range = propertyDetails.getRange();
+		
+		switch(propertyDetails.getType()) {
+		case COLOR:
+			break;
+		case DOUBLE:
+			// get previous value
+			double doubleValue = Float.parseFloat(property.getValue());
+			
+			// get range of property
+			double doubleMin = (double) range.getMin(),
+					doubleMax = (double) range.getMax();
+			
+			// if value is small than minValue return minValue
+			if (doubleValue < doubleMin)
+				return (int) (doubleMin * 100);
+			
+			// if value is large than maxValue return maxValue
+			if (doubleValue > doubleMax)
+				return (int) (doubleMax * 100);
+			
+			// return value if it is range
+			return (int) (doubleValue * 100);
+		case INTEGER:
+			num = Integer.parseInt(value);
+			return getValueFromRange(num, range);
+		case PIXEL:
+			num = Integer.parseInt(value.substring(0, value.indexOf(ValueType.PIXEL.getUnit())));
+			return getValueFromRange(num, range);
+		case STRING:
+			break;
+		case TIME:
+			num = Integer.parseInt(value.substring(0, value.indexOf('s')));
+			return getValueFromRange(num, range);
+		default:
+			break;
+		}
+		return 0;
+	}
+	
+	public int getValueFromRange(int num, Range<?> range) {
+		int min, max;
+		
+		// get min and max values
+		min = (int) range.getMin();
+		max = (int) range.getMax();
+		
+		// if value is small than minValue return minValue
+		if (num < min)
+			return min;
+		
+		// if value is large than maxValue return maxValue
+		if (num > max)
+			return max;
+		
+		// return value if it is range
+		return num;
 	}
 }

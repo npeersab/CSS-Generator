@@ -5,22 +5,19 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Hashtable;
-
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
 import css.Range;
 import css.ValueType;
 import frames.AddProperty;
 
-public class SelectValuePanel extends JPanel implements ChangeListener {
+public class SelectValuePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// reference to parent
 	private AddProperty parent;
@@ -31,6 +28,7 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 	private JComboBox<String> comboBox;
 	private JTextField valueTextField;
 
+	// constructor
 	public SelectValuePanel(AddProperty parent) {
 		// store reference to parent
 		this.parent = parent;
@@ -63,7 +61,6 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 			// increase size of frame to fit color chooser
 			parent.setSize(800, 650);
 			chooser = new JColorChooser();
-			chooser.getSelectionModel().addChangeListener(this);
 			add(chooser, bagConstraints);
 			break;
 		case DOUBLE:
@@ -77,6 +74,7 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 			break;
 		case STRING:
 			String possibleValue[] = propertyDetails.getPossibleValues();
+			// add combo box is property has possible values 
 			if (possibleValue != null) {
 				comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
 				add(comboBox, bagConstraints);
@@ -164,6 +162,8 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
 		String unit = propertyDetails.getType().getUnit();
 		String label1 = null, label2 = null, label3 = null, label4 = null, label5 = null;
+		
+		// calculate different points to be displayed on slider
 		int num1 = min,
 			num2 = min < 0 ? min / 2 : max / 4,
 			num3 = min < 0 ? 0 : max / 2,
@@ -186,11 +186,14 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 			label5 = max + unit;
 		}
 		
+		// map values with labels
 		hashtable.put(new Integer(num1), new JLabel(label1));
 		hashtable.put(new Integer(num2), new JLabel(label2));
 		hashtable.put(new Integer(num3), new JLabel(label3));
 		hashtable.put(new Integer(num4), new JLabel(label4));
 		hashtable.put(new Integer(num5), new JLabel(label5));
+		
+		// set labels to slider
 		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
 
@@ -199,11 +202,5 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 
 		// update parent frame size
 		parent.setSize(parent.FRAME_SIZE);
-	}
-
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 }
