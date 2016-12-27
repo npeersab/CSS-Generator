@@ -1,17 +1,16 @@
 package panels;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import abstractClass.ThemedJPanel;
 import frames.MainFrame;
 import listeners.AddButtonListener;
 import listeners.RemoveButtonListener;
 
-public class MainFrameButtonPanel extends JPanel {
+public class MainFrameButtonPanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	// buttons
 	private JButton addButton, removeButton;
@@ -20,7 +19,7 @@ public class MainFrameButtonPanel extends JPanel {
 	private AddButtonListener addButtonListener;
 	private RemoveButtonListener removeButtonListener;
 
-	public MainFrameButtonPanel(MainFrame parent) {
+	public MainFrameButtonPanel(MainFrame parent) {		
 		// create addButton
 		addButton = new JButton("Add Selector");
 		parent.setAddButton(addButton);
@@ -49,7 +48,10 @@ public class MainFrameButtonPanel extends JPanel {
 		bagConstraints.gridy++;
 		add(removeButton, bagConstraints);
 		
-		setBackground(Color.GRAY);
+		// get theme
+		themeColor = parent.getThemeColor();
+		
+		setBackground(themeColor.backGroundLight);
 	}
 }
 

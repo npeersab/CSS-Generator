@@ -1,44 +1,48 @@
 package panels;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import abstractClass.ThemedJPanel;
 import css.Property;
 
-public class PropertyCodePanel extends JPanel {
+public class PropertyCodePanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	
-	public PropertyCodePanel(Property property) {
+	public PropertyCodePanel(SelectorCodePanel parent, Property property) {
+		// set layout
 		setLayout(new GridBagLayout());
 		
+		// create constraints
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		
+		// get theme
+		themeColor = parent.getThemeColor();
+		
 		// add property name
 		JLabel label = new JLabel(property.getName());
-		label.setForeground(Color.GREEN);
+		label.setForeground(themeColor.property);
 		add(label, bagConstraints);
 		
 		// add :
 		label = new JLabel(": ");
-		label.setForeground(Color.WHITE);
+		label.setForeground(themeColor.font);
 		bagConstraints.gridx++;
 		add(label, bagConstraints);
 					
 		// add value
 		label = new JLabel(property.getValue());
-		label.setForeground(Color.MAGENTA);
+		label.setForeground(themeColor.value);
 		bagConstraints.gridx++;
 		add(label, bagConstraints);
 		
 		// add ;
 		label = new JLabel(";");
-		label.setForeground(Color.WHITE);
+		label.setForeground(themeColor.font);
 		bagConstraints.gridx++;
 		add(label, bagConstraints);
 		
-		setBackground(Color.GRAY);
+		setBackground(themeColor.backGroundLight);
 	}
 }

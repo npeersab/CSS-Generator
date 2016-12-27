@@ -1,31 +1,35 @@
 package panels;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import abstractClass.ThemedJPanel;
 import css.Property;
 import css.Selector;
 
-public class SelectorCodePanel extends JPanel {
+public class SelectorCodePanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	
 	// reference to selector
 	private Selector selector;
-	
-	public SelectorCodePanel(Selector selector) {
+		
+	public SelectorCodePanel(CodePanel parent, Selector selector) {
 		// set layout 
 		setLayout(new GridBagLayout());
 		
 		// store reference to selector
 		this.selector = selector;
 		
+		// get theme
+		themeColor = parent.getThemeColor();
+		
 		// update the panel
 		updatePanel();
+		
+		setBackground(themeColor.backGroundLight);
 	}
 	
 	public void updatePanel() {
@@ -41,13 +45,13 @@ public class SelectorCodePanel extends JPanel {
 
 		// add selector name
 		JLabel selectorName = new JLabel(selector.toString());
-		selectorName.setForeground(Color.WHITE);
+		selectorName.setForeground(themeColor.font);
 		add(selectorName, bagConstraints);
 		
 		// add {
 		bagConstraints.gridx++;
 		JLabel label = new JLabel(" {");
-		label.setForeground(Color.CYAN);
+		label.setForeground(themeColor.brace);
 		bagConstraints.insets = new Insets(10, 5, 2, 0);
 		add(label, bagConstraints);
 		
@@ -61,7 +65,7 @@ public class SelectorCodePanel extends JPanel {
 		// add all property panels
 		while (iterator.hasNext()) {
 			Property property = iterator.next();
-			PropertyCodePanel propertyCodePanel = new PropertyCodePanel(property);
+			PropertyCodePanel propertyCodePanel = new PropertyCodePanel(this, property);
 			bagConstraints.gridy++;
 			add(propertyCodePanel, bagConstraints);
 		}
@@ -70,9 +74,10 @@ public class SelectorCodePanel extends JPanel {
 		bagConstraints.insets = new Insets(0, 5, 0, 0);
 		bagConstraints.gridy++;
 		label = new JLabel("}");
-		label.setForeground(Color.CYAN);
+		label.setForeground(themeColor.brace);
 		add(label, bagConstraints);
 		
-		setBackground(Color.GRAY);
+		revalidate();
+		repaint();
 	}
 }

@@ -7,6 +7,7 @@ import listeners.AddButtonListener;
 import listeners.RemoveButtonListener;
 import res.Directory;
 import res.ImgSrc;
+import theme.ThemeColor;
 import panels.CodePanel;
 import panels.MainFrameLeftPanel;
 import panels.TreePanel;
@@ -17,7 +18,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.io.File;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,10 +29,13 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+
+import abstractClass.ThemedJFrame;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends ThemedJFrame {
 	private static final long serialVersionUID = 1L;
 	
 	// components
@@ -62,11 +65,16 @@ public class MainFrame extends JFrame {
 	private boolean saved = true;
 	
 	public MainFrame() {
-		// set layout to GridBagLayout and create GridbagConstraints
-		setLayout(new GridBagLayout());			
+		// set layout to GridBagLayout
+		setLayout(new GridBagLayout());
+		
+		// create GridbagConstraints
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.fill = GridBagConstraints.BOTH;
+		
+		// set theme
+		themeColor = ThemeColor.black;
 		
 		// create treePanel
 		treePanel = new TreePanel(this);

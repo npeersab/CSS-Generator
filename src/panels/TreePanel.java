@@ -1,16 +1,13 @@
 package panels;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
+import abstractClass.ThemedJPanel;
 import frames.MainFrame;
 
-public class TreePanel extends JPanel {
+public class TreePanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	// reference to parent frame
 	private MainFrame parent;
@@ -20,6 +17,9 @@ public class TreePanel extends JPanel {
 	public TreePanel(MainFrame parent) {
 		setLayout(new GridBagLayout());
 		this.parent = parent;
+		
+		// get theme
+		themeColor = parent.getThemeColor();
 	}
 	
 	public void updateTree() {
@@ -35,7 +35,7 @@ public class TreePanel extends JPanel {
 		bagConstraints.fill = GridBagConstraints.BOTH;
 		bagConstraints.insets = new Insets(5, 5, 5, 5);
 		add(treePane, bagConstraints);
-		setBackground(Color.DARK_GRAY);
+		setBackground(themeColor.backGroundDark);
 		revalidate();
 	}
 }

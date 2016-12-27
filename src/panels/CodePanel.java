@@ -1,6 +1,5 @@
 package panels;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,34 +7,39 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import abstractClass.ThemedJPanel;
 import css.CSSFile;
 import css.Selector;
 
-public class CodePanel extends JPanel {
+public class CodePanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	private HashMap<Selector, SelectorCodePanel> selectorHashMap;
 	private GridBagConstraints bagConstraints;
 	private JLabel emptyLabel;
-
+	
 	// constructor
-	public CodePanel() {
+	public CodePanel(MainFrameLeftPanel parent) {
 		// set layout and create constraints
 		setLayout(new GridBagLayout());
+		
+		// create constraints
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.anchor = GridBagConstraints.NORTHWEST;
 		bagConstraints.weightx = bagConstraints.weighty = 1;
 		bagConstraints.insets = new Insets(5, 5, 0, 0);
 		
+		// get theme
+		themeColor = parent.getThemeColor();
+		
 		JLabel label = new JLabel("No file selected");
-		label.setForeground(Color.WHITE);
+		label.setForeground(themeColor.font);
 		add(label, bagConstraints);
 		label = new JLabel("Create or open existing file from file menu");
-		label.setForeground(Color.WHITE);
+		label.setForeground(themeColor.font);
 		bagConstraints.gridy++;
 		add(label, bagConstraints);
-		setBackground(Color.GRAY);
+		setBackground(themeColor.backGroundLight);
 		
 		bagConstraints.weighty = 50;
 		add(new JLabel(), bagConstraints);
@@ -60,7 +64,7 @@ public class CodePanel extends JPanel {
 		// add all selector panels
 		while (iterator.hasNext()) {
 			Selector selector = iterator.next();
-			SelectorCodePanel selectorCodePanel = new SelectorCodePanel(selector);
+			SelectorCodePanel selectorCodePanel = new SelectorCodePanel(this, selector);
 			bagConstraints.gridy++;
 			add(selectorCodePanel, bagConstraints);
 			selectorHashMap.put(selector, selectorCodePanel);
@@ -79,7 +83,7 @@ public class CodePanel extends JPanel {
 		remove(emptyLabel);
 		
 		// add new selector panel
-		SelectorCodePanel selectorCodePanel = new SelectorCodePanel(selector);
+		SelectorCodePanel selectorCodePanel = new SelectorCodePanel(this, selector);
 		selectorHashMap.put(selector, selectorCodePanel);
 		bagConstraints.weighty = 1;
 		bagConstraints.gridy++;
@@ -102,7 +106,5 @@ public class CodePanel extends JPanel {
 	public void updateSelectorPanel(Selector selector) {
 		SelectorCodePanel selectorCodePanel = selectorHashMap.get(selector);
 		selectorCodePanel.updatePanel();
-		revalidate();
-		repaint();
 	}
 }

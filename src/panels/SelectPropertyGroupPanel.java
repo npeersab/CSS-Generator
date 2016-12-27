@@ -12,7 +12,6 @@ import css.PropertyDetailsList;
 import css.PropertyGroup;
 import frames.AddProperty;
 
-
 // Panel which will display Combo Box to select Property
 public class SelectPropertyGroupPanel extends JPanel implements ActionListener {	
 	private static final long serialVersionUID = 1L;
