@@ -81,7 +81,7 @@ public class SelectValuePanel extends JPanel implements ChangeListener {
 				add(comboBox, bagConstraints);
 			}
 			else {
-				valueTextField = new JTextField(10);
+				valueTextField = new JTextField(20);
 				add(valueTextField, bagConstraints);
 			}
 			parent.setSize(parent.FRAME_SIZE);
