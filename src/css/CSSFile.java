@@ -105,14 +105,13 @@ public class CSSFile {
 			filewriter.write(this.toString());
 			filewriter.close();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(MainClass.frame,
-					"Error While Saving file",
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainClass.frame, "Error While Saving file",
+					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	} 
 	
+	// add new selector
 	public void addSelector(Selector selector) {
 		selectorsList.add(selector);
 	}
@@ -120,18 +119,7 @@ public class CSSFile {
 	// removes selector from the list
 	public void removeSelector(Selector selector) {
 			selectorsList.remove(selector);
-	}
-	
-	// adds a property to the selector
-	public void addProperty(String selector, String property, String value) {	
-		Iterator<Selector> iterator = selectorsList.iterator();
-		
-		while (iterator.hasNext()) {
-			if (iterator.next().toString() == selector) {
-				
-			}
-		}
-	}
+	}	
 
 	// returns the selectors in the form of string
 	public String toString() {
@@ -162,7 +150,6 @@ public class CSSFile {
 	public File getFile() {
 		return file;
 	}
-	
 	public void setFile(File file) {
 		this.file = file;
 	}

@@ -15,8 +15,8 @@ import css.Selector;
 public class CodePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private HashMap<Selector, SelectorCodePanel> selectorHashMap;
-	GridBagConstraints bagConstraints;
-	JLabel emptyLabel;
+	private GridBagConstraints bagConstraints;
+	private JLabel emptyLabel;
 
 	// constructor
 	public CodePanel() {
