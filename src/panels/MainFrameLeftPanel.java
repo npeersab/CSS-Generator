@@ -49,4 +49,8 @@ public class MainFrameLeftPanel extends JPanel {
 		
 		setBackground(Color.DARK_GRAY);
 	}
+	
+	public void setHeader(String header) {
+		this.header.setText(header);
+	}
 }

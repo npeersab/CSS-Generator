@@ -210,6 +210,7 @@ public class MainFrame extends JFrame {
 			treePanel.updateTree();
 			
 			updateTitle(cssFile.getName());
+			leftPanel.setHeader(cssFile.getName());
 			codePanel.updatePanel(cssFile);
 		}
 	}
@@ -227,6 +228,7 @@ public class MainFrame extends JFrame {
 			createTree(root);
 			treePanel.updateTree();
 			fileEdited();
+			leftPanel.setHeader(cssFile.getName());
 			codePanel.updatePanel(cssFile);
 		}
 	}
