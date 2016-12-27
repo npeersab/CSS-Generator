@@ -81,13 +81,15 @@ public class EditProperty extends JFrame implements ActionListener {
 			add(chooser, bagConstraints);
 			break;
 		case DOUBLE:
+			addSlider(propertyDetails, bagConstraints, true);
+			setSize(DEFAULT_SIZE);
 			break;
 		case INTEGER:			
-			addSlider(propertyDetails, bagConstraints);
+			addSlider(propertyDetails, bagConstraints, false);
 			setSize(DEFAULT_SIZE);
 			break;
 		case PIXEL:
-			addSlider(propertyDetails, bagConstraints);
+			addSlider(propertyDetails, bagConstraints, false);
 			setSize(DEFAULT_SIZE);
 			break;
 		case STRING:
@@ -103,7 +105,7 @@ public class EditProperty extends JFrame implements ActionListener {
 			setSize(DEFAULT_SIZE);
 			break;
 		case TIME:
-			addSlider(propertyDetails, bagConstraints);
+			addSlider(propertyDetails, bagConstraints, false);
 			setSize(DEFAULT_SIZE);
 			break;
 		default:
@@ -140,37 +142,43 @@ public class EditProperty extends JFrame implements ActionListener {
 	}
 
 	// set slider according to property type
-	public void addSlider(PropertyDetails propertyDetails, GridBagConstraints bagConstraints) {
+	public void addSlider(PropertyDetails propertyDetails, GridBagConstraints bagConstraints, Boolean d) {
 		// get range of property value
 		Range<?> range =  propertyDetails.getRange();
 		Integer min = (Integer) range.getMin(),
 				max = (Integer) range.getMax();
 
 		// create slider according to range
-		slider = new JSlider(min, max, ((min + max) / 2));
-		Dimension dimension = slider.getPreferredSize();
-
-		// increase size of slider
-		dimension.width += 150;
-		dimension.height += 27;
-		slider.setPreferredSize(dimension);
-
-		// set slider paint ticks
-		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(max/4);
-		slider.setMinorTickSpacing(max/20);
-
-		// add custom label to slider
 		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
 		String unit = propertyDetails.getType().getUnit();
-		hashtable.put(new Integer(min), new JLabel(min + unit));
-		int n = min < 0 ? min / 2 : max / 4;
-		hashtable.put(new Integer(n), new JLabel(n + unit));
-		n = min < 0 ? 0 : max / 2;
-		hashtable.put(new Integer(n), new JLabel((n) + unit));
-		n = min < 0 ? max / 2 : (max * 3) / 4;
-		hashtable.put(new Integer(n), new JLabel(n + unit));
-		hashtable.put(new Integer(max), new JLabel(max + unit));
+		String label1 = null, label2 = null, label3 = null, label4 = null, label5 = null;
+		int num1 = min,
+			num2 = min < 0 ? min / 2 : max / 4,
+			num3 = min < 0 ? 0 : max / 2,
+			num4 = min < 0 ? max / 2 : (max * 3) / 4,
+			num5 = max;
+		
+		// create labels
+		if (d) {
+			label1 = ((double) num1 / 100) + unit;
+			label2 = ((double) num2 / 100) + unit;
+			label3 = ((double) num3 / 100) + unit;
+			label4 = ((double) num4 / 100) + unit;
+			label5 = ((double) num5 / 100) + unit;
+		}
+		else {	
+			label1 = num1 + unit;
+			label2 = num2 + unit;
+			label3 = num3 + unit;
+			label4 = num4 + unit;
+			label5 = max + unit;
+		}
+		
+		hashtable.put(new Integer(num1), new JLabel(label1));
+		hashtable.put(new Integer(num2), new JLabel(label2));
+		hashtable.put(new Integer(num3), new JLabel(label3));
+		hashtable.put(new Integer(num4), new JLabel(label4));
+		hashtable.put(new Integer(num5), new JLabel(label5));
 		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
 
@@ -196,6 +204,7 @@ public class EditProperty extends JFrame implements ActionListener {
 			value = String.format("#%02x%02x%02x", color.getRed(), color.getBlue(), color.getGreen());
 			break;
 		case DOUBLE:
+			value = Double.toString(((double) slider.getValue()) / 100); 
 			break;
 		case INTEGER:
 			value = Integer.toString(slider.getValue());
@@ -204,7 +213,10 @@ public class EditProperty extends JFrame implements ActionListener {
 			value = slider.getValue() + "px";
 			break;
 		case STRING:
-			value = (String) comboBox.getSelectedItem();
+			if (propertyDetails.getPossibleValues() != null)
+				value = (String) comboBox.getSelectedItem();
+			else
+				value = valueTextField.getText();
 			break;
 		case TIME:
 			value = slider.getValue() + "s";
