@@ -10,13 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Hashtable;
-
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
+
 import css.Property;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
@@ -40,7 +41,8 @@ public class EditProperty extends JFrame implements ActionListener {
 	private PropertyDetails propertyDetails;
 	
 	// default frame size
-	private final Dimension DEFAULT_SIZE = new Dimension(600, 200); 
+	private final Dimension DEFAULT_SIZE = new Dimension(600, 200);
+	private JTextField valueTextField; 
 
 	public EditProperty(MainFrame parent, Selector selector, Property property) {
 		// store reference
@@ -89,9 +91,15 @@ public class EditProperty extends JFrame implements ActionListener {
 			setSize(DEFAULT_SIZE);
 			break;
 		case STRING:
-			comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());
-			comboBox.setSelectedItem(property.getValue());
-			add(comboBox, bagConstraints);
+			String possibleValue[] = propertyDetails.getPossibleValues();
+			if (possibleValue != null) {
+				comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
+				add(comboBox, bagConstraints);
+			}
+			else {
+				valueTextField = new JTextField(20);
+				add(valueTextField, bagConstraints);
+			}
 			setSize(DEFAULT_SIZE);
 			break;
 		case TIME:
