@@ -33,6 +33,7 @@ public class RemoveButtonListener implements ActionListener {
 			Selector selector = (Selector) (
 					(DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			selector.removeProperty((Property) node.getUserObject());
+			parent.getCodePanel().updateSelectorPanel(selector);
 		}
 		
 		DefaultTreeModel model = (DefaultTreeModel) parent.getCssTree().getModel();
