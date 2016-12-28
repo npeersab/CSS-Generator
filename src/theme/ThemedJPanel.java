@@ -3,7 +3,7 @@ package theme;
 import javax.swing.JPanel;
 import theme.ThemeColor;
 
-public class ThemedJPanel extends JPanel {
+public abstract class ThemedJPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	protected ThemeColor themeColor;
 	
@@ -14,4 +14,6 @@ public class ThemedJPanel extends JPanel {
 	public void setThemeColor(ThemeColor themeColor) {
 		this.themeColor = themeColor;
 	}
+	
+	public abstract void applyTheme(ThemeColor themeColor);
 }

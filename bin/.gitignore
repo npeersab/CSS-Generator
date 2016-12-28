@@ -1,13 +1,4 @@
-/panels/
-/res/
-/frames/
-/css/
-/listeners/
-/theme/
 /main/
-/abstractClass/
-/addProperty/
+/theme/
 /codePanel/
-/addSelector/
-/editProperty/
-/listener/
+/addProperty/

@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
+import theme.ThemeColor;
 import theme.ThemedJPanel;
 
 public class ButtonPanel extends ThemedJPanel {
@@ -48,6 +49,12 @@ public class ButtonPanel extends ThemedJPanel {
 		// get theme
 		themeColor = parent.getThemeColor();
 		
+		setBackground(themeColor.backGroundLight);
+	}
+
+	@Override
+	public void applyTheme(ThemeColor themeColor) {
+		setThemeColor(themeColor);
 		setBackground(themeColor.backGroundLight);
 	}
 }

@@ -14,12 +14,18 @@ import css.PropertyGroup;
 // Panel which will display Combo Box to select Property
 public class PropertyGroupPanel extends JPanel implements ActionListener {	
 	private static final long serialVersionUID = 1L;
+	
+	// reference to parent frame
 	private AddProperty parent;
 
 	public PropertyGroupPanel(AddProperty parent) {
+		// store reference
 		this.parent = parent;
 		
+		// set layout
 		setLayout(new GridBagLayout());
+		
+		// create constraints
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 								
@@ -39,6 +45,7 @@ public class PropertyGroupPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		PropertyDetails propertyDetails[] = null;
 		
+		// change property list according to property group
 		switch ((PropertyGroup) parent.getPropertyGroupComboBox().getSelectedItem()) {
 		case animation:
 			propertyDetails = PropertyDetailsList.animation;

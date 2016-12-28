@@ -97,7 +97,7 @@ public class AddProperty extends JFrame implements ActionListener {
 		setIconImage(ImgSrc.getImageIcon());
 		setSize(FRAME_SIZE);
 		setLocationRelativeTo(parent);
-		//setResizable(false);
+		setResizable(false);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -126,18 +126,11 @@ public class AddProperty extends JFrame implements ActionListener {
 		parent.enableWindow(b);
 		setAlwaysOnTop(!b);
 	}
-
-	// getter and setter for property description
-	public JTextArea getDescription() {
-		return description;
-	}
-	public void setDescription(JTextArea description) {
-		this.description = description;
-	}
 	
 	// update description
 	public void updateDescription(String description) {
 		StringBuffer stringBuffer = new StringBuffer(description);
+		// resize description
 		test: if (stringBuffer.length() > 41) {
 			int n = stringBuffer.indexOf(" ", 40);
 			try {
@@ -153,6 +146,14 @@ public class AddProperty extends JFrame implements ActionListener {
 		}
 		stringBuffer.insert(0, ' ');
 		this.description.setText(stringBuffer.toString());
+	}
+	
+	// getter and setter for property description
+	public JTextArea getDescription() {
+		return description;
+	}
+	public void setDescription(JTextArea description) {
+		this.description = description;
 	}
 	
 	//getter and setter for cancelButton

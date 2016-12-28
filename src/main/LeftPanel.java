@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+
+import theme.ThemeColor;
 import theme.ThemedJPanel;
 import codePanel.CodePanel;
 
@@ -13,6 +15,7 @@ public class LeftPanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel header;
 	private CodePanel codePanel;
+	ButtonPanel buttonPanel;
 
 	public LeftPanel(MainFrame parent) {
 		// set layout
@@ -47,7 +50,7 @@ public class LeftPanel extends ThemedJPanel {
 		add(scrollPane, bagConstraints);
 		
 		// create and add buttons panel
-		ButtonPanel buttonPanel = new ButtonPanel(parent);
+		buttonPanel = new ButtonPanel(parent);
 		bagConstraints.gridy++;
 		bagConstraints.weighty = 0.01;
 		add(buttonPanel, bagConstraints);
@@ -57,5 +60,15 @@ public class LeftPanel extends ThemedJPanel {
 	
 	public void setHeader(String header) {
 		this.header.setText(header);
+	}
+
+	@Override
+	public void applyTheme(ThemeColor themeColor) {
+		setThemeColor(themeColor);
+		
+		header.setForeground(themeColor.font);
+		setBackground(themeColor.backGroundDark);
+		
+		buttonPanel.applyTheme(themeColor);
 	}
 }

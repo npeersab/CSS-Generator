@@ -290,6 +290,15 @@ public class MainFrame extends ThemedJFrame {
 		revalidate();	
 	}
 	
+	// apply theme
+	@Override
+	public void applyTheme(ThemeColor themeColor) {
+		setThemeColor(themeColor);
+		treePanel.applyTheme(themeColor);
+		leftPanel.applyTheme(themeColor);
+		codePanel.applyTheme(themeColor);
+	}
+	
 	// getter and setter for cssTree
 	public JTree getCssTree() {
 		return cssTree;

@@ -3,10 +3,13 @@ package codePanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JLabel;
+
+import theme.ThemeColor;
 import theme.ThemedJPanel;
 import css.CSSFile;
 import css.Selector;
@@ -107,5 +110,20 @@ public class CodePanel extends ThemedJPanel {
 	public void updateSelectorPanel(Selector selector) {
 		SelectorCodePanel selectorCodePanel = selectorHashMap.get(selector);
 		selectorCodePanel.updatePanel();
+	}
+
+	@Override
+	public void applyTheme(ThemeColor themeColor) {
+		setThemeColor(themeColor);
+		setBackground(themeColor.backGroundLight);
+		
+		// apply theme to children
+		if (selectorHashMap != null) {
+			Collection<SelectorCodePanel> codePanels = selectorHashMap.values();
+			Iterator<SelectorCodePanel> iterator = codePanels.iterator();
+			while (iterator.hasNext()) {
+				iterator.next().applyTheme(themeColor);
+			}
+		}
 	}
 }

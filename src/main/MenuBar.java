@@ -3,10 +3,14 @@ package main;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
+
+import theme.ThemeColor;
 
 public class MenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
@@ -50,5 +54,27 @@ public class MenuBar extends JMenuBar {
 		file.add(exit);
 		
 		add(file);
+		
+		JMenu theme = new JMenu("Theme");
+		theme.setMnemonic(KeyEvent.VK_T);
+		ButtonGroup buttonGroup = new ButtonGroup();
+		
+		JRadioButtonMenuItem black = new JRadioButtonMenuItem("Black");
+		black.addActionListener(e -> parent.applyTheme(ThemeColor.black));
+		black.setMnemonic(KeyEvent.VK_B);
+		buttonGroup.add(black);
+		theme.add(black);
+		
+		JRadioButtonMenuItem white = new JRadioButtonMenuItem("White");
+		white.addActionListener(e -> parent.applyTheme(ThemeColor.white));
+		white.setSelected(true);
+		white.setMnemonic(KeyEvent.VK_W);
+		buttonGroup.add(white);
+		theme.add(white);
+
+		JMenu view = new JMenu("View");
+		view.add(theme);
+		view.setMnemonic(KeyEvent.VK_V);
+		add(view);
 	}
 }

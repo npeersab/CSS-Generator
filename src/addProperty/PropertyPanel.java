@@ -12,12 +12,20 @@ import css.PropertyDetailsList;
 
 public class PropertyPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	
+	// reference to parent frame
 	private AddProperty parent;
+	
 	private JComboBox<PropertyDetails> propertyComboBox;
 
 	public PropertyPanel(AddProperty parent) {
+		// store reference to parent frame
 		this.parent = parent;
+		
+		// set layout
 		setLayout(new GridBagLayout());
+		
+		// create constraints
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 		bagConstraints.gridx = bagConstraints.gridy = 0;
@@ -27,6 +35,7 @@ public class PropertyPanel extends JPanel implements ActionListener {
 		parent.updateDescription(PropertyDetailsList.animation[0].getDescription());
 	}
 
+	// change property combo box
 	public void setPropertyComboBox(PropertyDetails propertyDetails[]) {
 		if (propertyComboBox != null)
 			remove(propertyComboBox);
@@ -44,6 +53,7 @@ public class PropertyPanel extends JPanel implements ActionListener {
 		updateUI();
 	}
 
+	// change value chooser according to value type of selected property
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		PropertyDetails propertyDetails = (PropertyDetails) propertyComboBox.getSelectedItem();

@@ -3,11 +3,16 @@ package codePanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+
+import theme.ThemeColor;
 import theme.ThemedJPanel;
 import css.Property;
 
 public class PropertyCodePanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
+	
+	// components
+	JLabel name, value, colon, semiColon;
 	
 	public PropertyCodePanel(SelectorCodePanel parent, Property property) {
 		// set layout
@@ -21,28 +26,39 @@ public class PropertyCodePanel extends ThemedJPanel {
 		themeColor = parent.getThemeColor();
 		
 		// add property name
-		JLabel label = new JLabel(property.getName());
-		label.setForeground(themeColor.property);
-		add(label, bagConstraints);
+		name = new JLabel(property.getName());
+		name.setForeground(themeColor.property);
+		add(name, bagConstraints);
 		
 		// add :
-		label = new JLabel(": ");
-		label.setForeground(themeColor.font);
+		colon = new JLabel(": ");
+		colon.setForeground(themeColor.font);
 		bagConstraints.gridx++;
-		add(label, bagConstraints);
+		add(colon, bagConstraints);
 					
 		// add value
-		label = new JLabel(property.getValue());
-		label.setForeground(themeColor.value);
+		value = new JLabel(property.getValue());
+		value.setForeground(themeColor.value);
 		bagConstraints.gridx++;
-		add(label, bagConstraints);
+		add(value, bagConstraints);
 		
 		// add ;
-		label = new JLabel(";");
-		label.setForeground(themeColor.font);
+		semiColon = new JLabel(";");
+		semiColon.setForeground(themeColor.font);
 		bagConstraints.gridx++;
-		add(label, bagConstraints);
+		add(semiColon, bagConstraints);
 		
+		setBackground(themeColor.backGroundLight);
+	}
+
+	@Override
+	public void applyTheme(ThemeColor themeColor) {
+		setThemeColor(themeColor);
+		
+		name.setForeground(themeColor.property);
+		colon.setForeground(themeColor.font);
+		value.setForeground(themeColor.value);
+		semiColon.setForeground(themeColor.font);
 		setBackground(themeColor.backGroundLight);
 	}
 }

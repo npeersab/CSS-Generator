@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JScrollPane;
+
+import theme.ThemeColor;
 import theme.ThemedJPanel;
 
 public class TreePanel extends ThemedJPanel {
@@ -36,5 +38,11 @@ public class TreePanel extends ThemedJPanel {
 		add(treePane, bagConstraints);
 		setBackground(themeColor.backGroundDark);
 		revalidate();
+	}
+
+	@Override
+	public void applyTheme(ThemeColor themeColor) {
+		setThemeColor(themeColor);
+		setBackground(themeColor.backGroundDark);
 	}
 }

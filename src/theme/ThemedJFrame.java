@@ -3,7 +3,7 @@ package theme;
 import javax.swing.JFrame;
 import theme.ThemeColor;
 
-public class ThemedJFrame extends JFrame {
+public abstract class ThemedJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	protected ThemeColor themeColor;
 	
@@ -14,4 +14,6 @@ public class ThemedJFrame extends JFrame {
 	public void setThemeColor(ThemeColor themeColor) {
 		this.themeColor = themeColor;
 	}
+	
+	public abstract void applyTheme(ThemeColor themeColor);
 }
