@@ -6,19 +6,14 @@ import css.Selector;
 import res.Directory;
 import res.ImgSrc;
 import theme.ThemeColor;
-import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.io.File;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.KeyStroke;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -37,8 +32,8 @@ public class MainFrame extends ThemedJFrame {
 	private CSSFile cssFile;
 	private JTree cssTree;
 	private DefaultMutableTreeNode root;
-	private JMenuBar menubar;
-	private JMenuItem save, saveAs;
+	private MenuBar menuBar;
+	JMenuItem save, saveAs;
 	
 	// Listeners
 	private AddButtonListener addButtonListener;
@@ -91,10 +86,10 @@ public class MainFrame extends ThemedJFrame {
 		add(splitPane, bagConstraints);
 
 		// create menu bar
-		createMenuBar();
+		menuBar = new MenuBar(this);
 		
 		// set frame properties
-		setJMenuBar(menubar);
+		setJMenuBar(menuBar);
 		setSize(900, 600);
 		setTitle(TITLE);
 		setIconImage(ImgSrc.getImageIcon());
@@ -104,49 +99,6 @@ public class MainFrame extends ThemedJFrame {
 		windowAdapter = new customWindowAdapter();
 		addWindowListener(windowAdapter);
 	} // Constructor
-	
-	// create new menuBar
-	private void createMenuBar() {
-		JMenuItem newfile = new JMenuItem("New");
-		newfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
-		newfile.setMnemonic(KeyEvent.VK_N);
-		newfile.addActionListener(e -> newFile());
-		
-		JMenuItem openfile = new JMenuItem("Open File...");
-		openfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
-		openfile.setMnemonic(KeyEvent.VK_O);
-		openfile.addActionListener(e -> openFile());
-		
-		save = new JMenuItem("Save");
-		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
-		save.setMnemonic(KeyEvent.VK_S);
-		save.setEnabled(false);
-		save.addActionListener(e -> save());
-		
-		saveAs  = new JMenuItem("Save As...");
-		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
-		saveAs.setEnabled(false);
-		saveAs.addActionListener(e -> saveAs());
-		saveAs.setMnemonic(KeyEvent.VK_S);
-				
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK));
-		exit.setMnemonic(KeyEvent.VK_X);
-		exit.addActionListener(e -> exit());
-		
-		JMenu file = new JMenu("File");
-		file.setMnemonic(KeyEvent.VK_F);
-		file.add(newfile);
-		file.add(openfile);
-		file.addSeparator();
-		file.add(save);
-		file.add(saveAs);
-		file.addSeparator();
-		file.add(exit);
-		
-		menubar = new JMenuBar();
-		menubar.add(file);
-	}
 	
 	// create cssTree
 	private void createTree(DefaultMutableTreeNode root) {
