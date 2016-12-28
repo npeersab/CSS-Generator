@@ -1,8 +1,6 @@
 package main;
 
 import css.PropertyDetailsList;
-import frames.IntroFrame;
-import frames.MainFrame;
 import theme.ThemeColor;
 
 public class MainClass {
