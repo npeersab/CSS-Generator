@@ -71,6 +71,20 @@ public class MenuBar extends JMenuBar {
 		white.setMnemonic(KeyEvent.VK_W);
 		buttonGroup.add(white);
 		theme.add(white);
+		
+		JRadioButtonMenuItem red = new JRadioButtonMenuItem("Red");
+		red.addActionListener(e -> parent.applyTheme(ThemeColor.red));
+		red.setSelected(true);
+		red.setMnemonic(KeyEvent.VK_R);
+		buttonGroup.add(red);
+		theme.add(red);
+		
+		JRadioButtonMenuItem blue = new JRadioButtonMenuItem("Blue");
+		blue.addActionListener(e -> parent.applyTheme(ThemeColor.blue));
+		blue.setSelected(true);
+		blue.setMnemonic(KeyEvent.VK_L);
+		buttonGroup.add(blue);
+		theme.add(blue);
 
 		JMenu view = new JMenu("View");
 		view.add(theme);

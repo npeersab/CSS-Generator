@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 import theme.ThemeColor;
 import theme.ThemedJPanel;
@@ -14,6 +16,7 @@ public class TreePanel extends ThemedJPanel {
 	private MainFrame parent;
 	
 	private JScrollPane treePane;
+	private JTree cssTree;
 	
 	public TreePanel(MainFrame parent) {
 		setLayout(new GridBagLayout());
@@ -26,9 +29,10 @@ public class TreePanel extends ThemedJPanel {
 	public void updateTree() {
 		// remove existing tree
 		removeAll();
-
+		
+		cssTree = parent.getCssTree();
 		treePane = new JScrollPane(
-				parent.getCssTree(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				cssTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
@@ -37,6 +41,7 @@ public class TreePanel extends ThemedJPanel {
 		bagConstraints.insets = new Insets(5, 5, 5, 5);
 		add(treePane, bagConstraints);
 		setBackground(themeColor.backGroundDark);
+		applyTheme(themeColor);
 		revalidate();
 	}
 
@@ -44,5 +49,15 @@ public class TreePanel extends ThemedJPanel {
 	public void applyTheme(ThemeColor themeColor) {
 		setThemeColor(themeColor);
 		setBackground(themeColor.backGroundDark);
+		cssTree.setBackground(themeColor.backGroundLight);
+		
+		DefaultTreeCellRenderer cellRenderer = (DefaultTreeCellRenderer) cssTree.getCellRenderer();
+		cellRenderer.setTextNonSelectionColor(themeColor.font);
+		cellRenderer.setTextSelectionColor(themeColor.font);
+		
+		cellRenderer.setBackgroundNonSelectionColor(themeColor.backGroundLight);
+		cellRenderer.setBackgroundSelectionColor(themeColor.backGroundDark);
+		
+		cellRenderer.setBorderSelectionColor(themeColor.backGroundDark);
 	}
 }

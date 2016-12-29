@@ -43,6 +43,7 @@ public class MainFrame extends ThemedJFrame {
 	private TreePanel treePanel;
 	private LeftPanel leftPanel;
 	private CodePanel codePanel;
+	private ButtonPanel buttonPanel;
 		
 	// windowAdapter
 	private customWindowAdapter windowAdapter;
@@ -104,6 +105,7 @@ public class MainFrame extends ThemedJFrame {
 	private void createTree(DefaultMutableTreeNode root) {
 		cssTree = new JTree(root);
 		cssTree.setSize(200, 300);
+		
 		cssTree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
@@ -166,6 +168,8 @@ public class MainFrame extends ThemedJFrame {
 			updateTitle(cssFile.getName());
 			leftPanel.setHeader(cssFile.getName());
 			codePanel.updatePanel(cssFile);
+			
+			buttonPanel.setVisible(true);
 		}
 	}
 	
@@ -184,6 +188,9 @@ public class MainFrame extends ThemedJFrame {
 			fileEdited();
 			leftPanel.setHeader(cssFile.getName());
 			codePanel.updatePanel(cssFile);
+			addButton.setVisible(true);
+			removeButton.setVisible(true);
+			buttonPanel.setVisible(true);
 		}
 	}
 
@@ -296,7 +303,7 @@ public class MainFrame extends ThemedJFrame {
 		setThemeColor(themeColor);
 		treePanel.applyTheme(themeColor);
 		leftPanel.applyTheme(themeColor);
-		codePanel.applyTheme(themeColor);
+		codePanel.applyTheme(themeColor);		
 	}
 	
 	// getter and setter for cssTree
@@ -361,5 +368,13 @@ public class MainFrame extends ThemedJFrame {
 	}
 	public void setCodePanel(CodePanel codePanel) {
 		this.codePanel = codePanel;
+	}
+
+	// getter and setter for button panel
+	public ButtonPanel getButtonPanel() {
+		return buttonPanel;
+	}
+	public void setButtonPanel(ButtonPanel buttonPanel) {
+		this.buttonPanel = buttonPanel;
 	}
 }

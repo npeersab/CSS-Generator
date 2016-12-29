@@ -49,13 +49,14 @@ public class ButtonPanel extends ThemedJPanel {
 		// get theme
 		themeColor = parent.getThemeColor();
 		
-		setBackground(themeColor.backGroundLight);
+		setBackground(themeColor.backGroundDark);
+		setVisible(false);
 	}
 
 	@Override
 	public void applyTheme(ThemeColor themeColor) {
 		setThemeColor(themeColor);
-		setBackground(themeColor.backGroundLight);
+		setBackground(themeColor.backGroundDark);
 	}
 }
 

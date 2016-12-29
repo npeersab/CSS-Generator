@@ -51,6 +51,7 @@ public class LeftPanel extends ThemedJPanel {
 		
 		// create and add buttons panel
 		buttonPanel = new ButtonPanel(parent);
+		parent.setButtonPanel(buttonPanel);
 		bagConstraints.gridy++;
 		bagConstraints.weighty = 0.01;
 		add(buttonPanel, bagConstraints);
