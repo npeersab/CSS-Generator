@@ -224,6 +224,9 @@ public class MainFrame extends ThemedJFrame {
 		
 		// expand cssTree
 		cssTree.expandPath(path);
+		
+		// re apply theme to tree
+		treePanel.updateTreeTheme(themeColor);
 	}
 
 	// add new Property
@@ -245,6 +248,9 @@ public class MainFrame extends ThemedJFrame {
 		
 		// set file status
 		fileEdited();
+		
+		// re apply theme to tree
+				treePanel.updateTreeTheme(themeColor);
 	}
 
 	// make changes after editing a property

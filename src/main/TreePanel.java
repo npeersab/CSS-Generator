@@ -14,22 +14,22 @@ public class TreePanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	// reference to parent frame
 	private MainFrame parent;
-	
+
 	private JScrollPane treePane;
 	private JTree cssTree;
-	
+
 	public TreePanel(MainFrame parent) {
 		setLayout(new GridBagLayout());
 		this.parent = parent;
-		
+
 		// get theme
 		themeColor = parent.getThemeColor();
 	}
-	
+
 	public void updateTree() {
 		// remove existing tree
 		removeAll();
-		
+
 		cssTree = parent.getCssTree();
 		treePane = new JScrollPane(
 				cssTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -49,15 +49,19 @@ public class TreePanel extends ThemedJPanel {
 	public void applyTheme(ThemeColor themeColor) {
 		setThemeColor(themeColor);
 		setBackground(themeColor.backGroundDark);
+		updateTreeTheme(themeColor);
+	}
+
+	public void updateTreeTheme(ThemeColor themeColor) {
 		cssTree.setBackground(themeColor.backGroundLight);
-		
+
 		DefaultTreeCellRenderer cellRenderer = (DefaultTreeCellRenderer) cssTree.getCellRenderer();
 		cellRenderer.setTextNonSelectionColor(themeColor.font);
 		cellRenderer.setTextSelectionColor(themeColor.font);
-		
+
 		cellRenderer.setBackgroundNonSelectionColor(themeColor.backGroundLight);
 		cellRenderer.setBackgroundSelectionColor(themeColor.backGroundDark);
-		
+
 		cellRenderer.setBorderSelectionColor(themeColor.backGroundDark);
 	}
 }
