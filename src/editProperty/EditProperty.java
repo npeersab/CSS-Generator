@@ -7,13 +7,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Hashtable;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -23,10 +21,10 @@ import css.PropertyDetailsList;
 import css.Range;
 import css.Selector;
 import css.ValueType;
+import dialog.Dialog;
 import main.MainFrame;
 
-public class EditProperty extends JFrame implements ActionListener {
-	private static final long serialVersionUID = 1L;
+public class EditProperty extends Dialog {
 	// components in frame
 	private JColorChooser chooser;
 	private JSlider slider;
@@ -50,25 +48,27 @@ public class EditProperty extends JFrame implements ActionListener {
 		this.property = property;
 		this.parent = parent;
 		this.selector = selector;
-		
-		// disable parent
-		enableParent(false);
+	}
+	
+	public void showEditProperty() {
+		// create dialog
+		dialog = new JDialog(parent, "Edit Property", true);
 		
 		// set layout to GridBaglayout and create GridBagConstraints
-		setLayout(new GridBagLayout());
+		dialog.setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.anchor = GridBagConstraints.NORTHWEST;
 		bagConstraints.insets = new Insets(10, 10, 10, 10);		
 
 		// add labels for property and value
-		add(new JLabel("Property: "), bagConstraints);
+		dialog.add(new JLabel("Property: "), bagConstraints);
 		bagConstraints.gridy++;
-		add(new JLabel("New Value: "), bagConstraints);
+		dialog.add(new JLabel("New Value: "), bagConstraints);
 		
 		bagConstraints.gridx++;
 		bagConstraints.gridy = 0;
-		add(new JLabel(property.getName()), bagConstraints);
+		dialog.add(new JLabel(property.getName()), bagConstraints);
 		
 		// add value selector
 		bagConstraints.gridy++;
@@ -76,39 +76,39 @@ public class EditProperty extends JFrame implements ActionListener {
 		switch (propertyDetails.getType()) {
 		case COLOR:
 			// increase size of frame to fit color chooser
-			setSize(870, 480);
+			dialog.setSize(870, 480);
 			chooser = new JColorChooser();
 			chooser.getSelectionModel();
-			add(chooser, bagConstraints);
+			dialog.add(chooser, bagConstraints);
 			break;
 		case DOUBLE:
 			addSlider(propertyDetails, bagConstraints, true);
-			setSize(DEFAULT_SIZE);
+			dialog.setSize(DEFAULT_SIZE);
 			break;
 		case INTEGER:			
 			addSlider(propertyDetails, bagConstraints, false);
-			setSize(DEFAULT_SIZE);
+			dialog.setSize(DEFAULT_SIZE);
 			break;
 		case PIXEL:
 			addSlider(propertyDetails, bagConstraints, false);
-			setSize(DEFAULT_SIZE);
+			dialog.setSize(DEFAULT_SIZE);
 			break;
 		case STRING:
 			String possibleValue[] = propertyDetails.getPossibleValues();
 			if (possibleValue != null) {
 				comboBox = new JComboBox<String>(propertyDetails.getPossibleValues());  
-				add(comboBox, bagConstraints);
+				dialog.add(comboBox, bagConstraints);
 				comboBox.setSelectedItem(property.getValue());
 			}
 			else {
 				valueTextField = new JTextField(20);
-				add(valueTextField, bagConstraints);
+				dialog.add(valueTextField, bagConstraints);
 			}
-			setSize(DEFAULT_SIZE);
+			dialog.setSize(DEFAULT_SIZE);
 			break;
 		case TIME:
 			addSlider(propertyDetails, bagConstraints, false);
-			setSize(DEFAULT_SIZE);
+			dialog.setSize(DEFAULT_SIZE);
 			break;
 		default:
 			break;
@@ -116,32 +116,29 @@ public class EditProperty extends JFrame implements ActionListener {
 		
 		// create and add updateButton
 		updateButton = new JButton("Update Value");
-		updateButton.addActionListener(this);
+		updateButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				property.setValue(getValue());
+				parent.editProperty(selector);
+				dialog.dispose();
+			}
+		});
 		bagConstraints.anchor = GridBagConstraints.NORTHEAST;
 		bagConstraints.gridy++;
-		add(updateButton, bagConstraints);
+		dialog.add(updateButton, bagConstraints);
 		
 		// create and add cancelButton
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(e -> {
-			enableParent(true);
-			dispose();
+			dialog.dispose();
 		});
 		bagConstraints.gridx++;
-		add(cancelButton, bagConstraints);
+		dialog.add(cancelButton, bagConstraints);
 		
-		// set frame properties
-		setTitle("Edit Property");
-		setIconImage(parent.getIconImage());
-		setLocationRelativeTo(null);
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				enableParent(true);
-				dispose();
-			}
-		});
-		setVisible(true);
+		// set dialog properties
+		dialog.setLocationRelativeTo(parent);
+		dialog.setVisible(true);
 	}
 
 	// set slider according to property type
@@ -212,16 +209,7 @@ public class EditProperty extends JFrame implements ActionListener {
 		slider.setPaintLabels(true);
 
 		// add slider to panel
-		add(slider, bagConstraints);
-	}
-
-	// after pressing update button
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		property.setValue(getValue());
-		enableParent(true);
-		parent.editProperty(selector);
-		dispose();
+		dialog.add(slider, bagConstraints);
 	}
 
 	// return selected value
@@ -256,12 +244,6 @@ public class EditProperty extends JFrame implements ActionListener {
 
 		}
 		return value;
-	}
-	
-	// disable/enable parent window
-	private void enableParent(boolean b) {
-		parent.enableWindow(b);
-		setAlwaysOnTop(!b);
 	}
 	
 	// return previous value of property
@@ -311,7 +293,7 @@ public class EditProperty extends JFrame implements ActionListener {
 	public int getValueFromRange(int num, Range<?> range) {
 		int min, max;
 		
-		// get min and max values
+		// get minimum and max values
 		min = (int) range.getMin();
 		max = (int) range.getMax();
 		
