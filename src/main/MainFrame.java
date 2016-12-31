@@ -201,14 +201,23 @@ public class MainFrame extends ThemedJFrame {
 
 	// add new Selector
 	public void addSelector(Selector selector) {
+		/// add selector in cssTree
 		TreePath path = cssTree.getSelectionPath();
-
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 		node.add(new DefaultMutableTreeNode(selector));
 		cssTree.updateUI();
+		
+		// add selector in file
 		cssFile.addSelector(selector);
+		
+		// add selector in codePanel
 		codePanel.addSelector(selector);
+		
+		// set file as edited
 		fileEdited();
+		
+		// expand css tree
+		cssTree.expandPath(path);
 	}
 
 	// add new Property
@@ -224,7 +233,10 @@ public class MainFrame extends ThemedJFrame {
 
 		// update code panel
 		codePanel.updateSelectorPanel(selector);
-
+		
+		// expand tree
+		cssTree.expandPath(path);
+		
 		// set file status
 		fileEdited();
 	}
