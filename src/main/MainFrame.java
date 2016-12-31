@@ -115,17 +115,19 @@ public class MainFrame extends ThemedJFrame {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				TreePath path = e.getPath();
-
+				// when no file is selected
 				if (path.toString().equals("[No File Selected]"))
 					return;
 
 				switch (path.getPathCount()) {
+				// when file is selected
 				case 1 :
 					addButton.setText("Add Selector");
 					addButton.setToolTipText("add new Selector in the File");
 					removeButton.setEnabled(false);
 					break;
 
+				// when selector is selected
 				case 2 :
 					addButton.setText("Add Property");
 					addButton.setToolTipText("add new Property to selected Selector");
@@ -135,6 +137,7 @@ public class MainFrame extends ThemedJFrame {
 					removeButton.setEnabled(true);
 					break;
 
+				// when property is selected
 				case 3 :
 					addButton.setText("Edit Propery");
 					addButton.setToolTipText("edit selected Property");
@@ -155,7 +158,10 @@ public class MainFrame extends ThemedJFrame {
 
 	// open existing file
 	public void openFile() {
+		// get CSS directory 
 		File cssdir = Directory.getCSSDirectory();
+		
+		// create file chooser
 		JFileChooser filechooser = new JFileChooser(cssdir);
 		filechooser.setDialogTitle("Select File");
 		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -216,7 +222,7 @@ public class MainFrame extends ThemedJFrame {
 		// set file as edited
 		fileEdited();
 		
-		// expand css tree
+		// expand cssTree
 		cssTree.expandPath(path);
 	}
 
