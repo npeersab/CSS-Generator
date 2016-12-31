@@ -20,7 +20,6 @@ public class ButtonPanel extends JPanel {
 		
 		// add ADD button
 		JButton addButton = new JButton("Add");
-		addButton.addActionListener(parent);
 		parent.setAddButton(addButton);
 		bagConstraints.gridx++;
 		add(addButton, bagConstraints);

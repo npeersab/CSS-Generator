@@ -58,7 +58,7 @@ public class ValuePanel extends JPanel {
 		switch (valueType) {
 		case COLOR:
 			// increase size of frame to fit color chooser
-			parent.setSize(800, 650);
+			parent.getDialog().setSize(800, 650);
 			chooser = new JColorChooser();
 			add(chooser, bagConstraints);
 			break;
@@ -82,7 +82,7 @@ public class ValuePanel extends JPanel {
 				valueTextField = new JTextField(20);
 				add(valueTextField, bagConstraints);
 			}
-			parent.setSize(parent.FRAME_SIZE);
+			parent.getDialog().setSize(parent.FRAME_SIZE);
 			break;
 		case TIME:
 			addSlider(propertyDetails, bagConstraints, false);
@@ -91,7 +91,7 @@ public class ValuePanel extends JPanel {
 			break;
 		}
 		// set parent location to center
-		parent.setLocationRelativeTo(null);
+		parent.getDialog().setLocationRelativeTo(null);
 		updateUI();
 	}
 
@@ -200,6 +200,6 @@ public class ValuePanel extends JPanel {
 		add(slider, bagConstraints);
 
 		// update parent frame size
-		parent.setSize(parent.FRAME_SIZE);
+		parent.getDialog().setSize(parent.FRAME_SIZE);
 	}
 }

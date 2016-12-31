@@ -213,12 +213,19 @@ public class MainFrame extends ThemedJFrame {
 	
 	// add new Property
 	public void addProperty(Selector selector, Property property) {
-		TreePath path = cssTree.getSelectionPath();
+		// add property in selector
+		selector.addProperty(property);
 		
+		// add property in css tree
+		TreePath path = cssTree.getSelectionPath();
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 		node.add(new DefaultMutableTreeNode(property));
 		cssTree.updateUI();
+		
+		// update code panel
 		codePanel.updateSelectorPanel(selector);
+		
+		// set file status
 		fileEdited();
 	}
 	

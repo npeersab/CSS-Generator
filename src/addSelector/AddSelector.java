@@ -3,7 +3,7 @@ package addSelector;
 import css.Selector;
 import css.SelectorType;
 import dialog.ButtonEvent;
-import dialog.ButtonEventListener;
+import dialog.Dialog;
 import main.MainFrame;
 import res.ImgSrc;
 import java.awt.Font;
@@ -12,8 +12,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -21,14 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class AddSelector {
+public class AddSelector extends Dialog {
 	// components
 	private JTextField textField;
 	private JComboBox<SelectorType> selector;
 	private JButton addButton, cancelButton;
-	private JDialog dialog;
-	private List<ButtonEventListener> buttonEventListeners = 
-			new ArrayList<ButtonEventListener>();
 	
 	// reference to parent
 	private MainFrame parent;
@@ -144,30 +139,4 @@ public class AddSelector {
 		}
 		return null;
 	}
-	
-	// close the dialog box
-    public void close() {
-        if(dialog != null) {
-            dialog.dispose();
-        }
-    }
-    
-    // add new listener
-    public void addButtonEventListener(ButtonEventListener buttonEventListener) {
-        if(!buttonEventListeners.contains(buttonEventListener)) {
-            buttonEventListeners.add(buttonEventListener);
-        }
-    }
-
-    // remove the listener
-    public void removeButtonEventListener(ButtonEventListener buttonEventListener) {
-    	buttonEventListeners.remove(buttonEventListener);
-    }
-
-    // perform action when an event is occurred
-    public void dispatchButtonEvent(ButtonEvent evt) {
-        for(ButtonEventListener buttonEventListener: buttonEventListeners) {
-            buttonEventListener.handleButtonEvent(evt);
-        }
-    }
 }

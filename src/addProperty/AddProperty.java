@@ -3,24 +3,19 @@ package addProperty;
 import css.Property;
 import css.PropertyDetails;
 import css.PropertyGroup;
-import css.Selector;
+import dialog.ButtonEvent;
+import dialog.Dialog;
 import main.MainFrame;
-import res.ImgSrc;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JTextArea;
 
-public class AddProperty extends JFrame implements ActionListener {
-	private static final long serialVersionUID = 1L;
+public class AddProperty extends Dialog {
 	
 	// panels
 	private PropertyPanel propertyPanel;
@@ -34,10 +29,7 @@ public class AddProperty extends JFrame implements ActionListener {
 	private JComboBox<PropertyDetails> propertyComboBox;
 	private JButton addButton, cancelButton;
 	private JTextArea description;
-	
-	// to keep reference of selector in which property is going to be added
-	private Selector selector;
-	
+		
 	// default frame size;
 	public final Dimension FRAME_SIZE = new Dimension(550, 400);
 	
@@ -45,16 +37,17 @@ public class AddProperty extends JFrame implements ActionListener {
 	private MainFrame parent;
 
 	// Constructor
-	public AddProperty(MainFrame parent, Selector selector) {
+	public AddProperty(MainFrame parent) {
 		// store the references
-		this.selector = selector;
 		this.parent = parent;
-		
-		// disable parent
-		enableParent(false);
+	}
+	
+	public void showAddProperty() {
+		// create dialog
+		dialog = new JDialog(parent, "Add new Property", true);		
 		
 		// set layout to GridBaglayout and create GridBagConstraints
-		setLayout(new GridBagLayout());
+		dialog.setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -62,70 +55,53 @@ public class AddProperty extends JFrame implements ActionListener {
 					
 		// add propertyTypePanel
 		propertyGroupPanel = new PropertyGroupPanel(this);
-		add(propertyGroupPanel, bagConstraints);
+		dialog.add(propertyGroupPanel, bagConstraints);
 		
 		descriptionPanel = new DescriptionPanel(this);
 		
 		// add propertyPanel
 		propertyPanel = new PropertyPanel(this);
 		bagConstraints.gridy++;
-		add(propertyPanel, bagConstraints);
+		dialog.add(propertyPanel, bagConstraints);
 		
 		// add description panel
 		bagConstraints.gridy++;
-		add(descriptionPanel, bagConstraints);
+		dialog.add(descriptionPanel, bagConstraints);
 		
 		// add valuePanel
 		valuePanel = new ValuePanel(this);
 		bagConstraints.gridy++;
-		add(valuePanel, bagConstraints);
+		dialog.add(valuePanel, bagConstraints);
 		
 		// add buttonPanel
 		buttonPanel = new ButtonPanel(this);
 		bagConstraints.anchor = GridBagConstraints.EAST;
 		bagConstraints.gridy++;
-		add(buttonPanel, bagConstraints);
+		dialog.add(buttonPanel, bagConstraints);
+		
+		// action listener for add button
+		addButton.addActionListener(
+				e -> dispatchButtonEvent(new ButtonEvent(dialog, ButtonEvent.YES)));
 		
 		// action listener for cancel button
-		cancelButton.addActionListener(e -> {
-			enableParent(true);
-			dispose();
-		});
+		cancelButton.addActionListener(e -> dialog.dispose());
 			
-		// set frame properties
-		setTitle("Add new Property");
-		setIconImage(ImgSrc.getImageIcon());
-		setSize(FRAME_SIZE);
-		setLocationRelativeTo(parent);
-		setResizable(false);
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				enableParent(true);
-				dispose();
-			}
-		});
-		setVisible(true);
+		// set dialog properties
+		dialog.setSize(FRAME_SIZE);
+		dialog.setResizable(false);
+		dialog.setLocationRelativeTo(parent);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
 	}
 
-	// action after pressing addButton
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	// return property
+	public Property getProperty() {
 		String value = valuePanel.getValue();
 		PropertyDetails propertyDetails = (PropertyDetails) propertyComboBox.getSelectedItem();
-		Property property = new Property(
+		return new Property(
 				propertyDetails.toString(), value, propertyDetails.getDescription()); 
-		selector.addProperty(property);	
-		parent.addProperty(selector, property);
-		enableParent(true);
-		dispose();
 	}
-	
-	// disable/enable parent window
-	private void enableParent(boolean b) {
-		parent.enableWindow(b);
-		setAlwaysOnTop(!b);
-	}
+
 	
 	// update description
 	public void updateDescription(String description) {

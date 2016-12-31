@@ -23,8 +23,7 @@ public class AddButtonListener implements ActionListener {
 	}
 			
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		
+	public void actionPerformed(ActionEvent e) {		
 		switch (path.getPathCount()) {
 		// if clicked on file name in tree
 		case 1:
@@ -46,11 +45,24 @@ public class AddButtonListener implements ActionListener {
 			
 			break;
 		case 2:
-			new AddProperty(
-					parent, (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject());
+			Selector selector = (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			AddProperty addProperty = new AddProperty(parent);
+			addProperty.addButtonEventListener(new ButtonEventListener() {
+				@Override
+				public void handleButtonEvent(ButtonEvent event) {
+					if (event.getId() == ButtonEvent.YES) {
+						Property property = addProperty.getProperty();
+						if (property != null)
+							parent.addProperty(selector, property);
+						else return;
+					}
+					addProperty.close();
+				}
+			});
+			addProperty.showAddProperty();
 			break;
 		case 3:
-			Selector selector = (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			selector = (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			new EditProperty(
 					parent, selector, (Property) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject());
 			break;

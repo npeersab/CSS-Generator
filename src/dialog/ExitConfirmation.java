@@ -5,20 +5,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import dialog.ButtonEventListener;
 import main.MainFrame;
 
-public class ExitConfirmation {
-	private List<ButtonEventListener> buttonEventListeners = 
-			new ArrayList<ButtonEventListener>();
-	
+public class ExitConfirmation extends Dialog {
 	// components
-	private JDialog dialog;
 	private JButton yesButton, noButton, cancelButton;
 	
 	// reference to parent frame
@@ -91,30 +84,4 @@ public class ExitConfirmation {
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 	}
-	
-	// close the dialog box
-    public void close() {
-        if(dialog != null) {
-            dialog.dispose();
-        }
-    }
-    
-    // add new listener
-    public void addButtonEventListener(ButtonEventListener buttonEventListener) {
-        if(!buttonEventListeners.contains(buttonEventListener)) {
-            buttonEventListeners.add(buttonEventListener);
-        }
-    }
-
-    // remove the listener
-    public void removeButtonEventListener(ButtonEventListener buttonEventListener) {
-    	buttonEventListeners.remove(buttonEventListener);
-    }
-
-    // perform action when an event is occurred
-    public void dispatchButtonEvent(ButtonEvent evt) {
-        for(ButtonEventListener buttonEventListener: buttonEventListeners) {
-            buttonEventListener.handleButtonEvent(evt);
-        }
-    }
 }
