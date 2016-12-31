@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-
 import theme.ThemeColor;
 import theme.ThemedJPanel;
 import codePanel.CodePanel;

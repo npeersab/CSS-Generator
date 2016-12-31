@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JLabel;
-
 import theme.ThemeColor;
 import theme.ThemedJPanel;
 import css.CSSFile;

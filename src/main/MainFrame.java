@@ -3,6 +3,9 @@ package main;
 import css.CSSFile;
 import css.Property;
 import css.Selector;
+import main.dialog.ConfimationEventListener;
+import main.dialog.ConfirmationEvent;
+import main.dialog.ExitConfirmation;
 import res.Directory;
 import res.ImgSrc;
 import theme.ThemeColor;
@@ -99,7 +102,7 @@ public class MainFrame extends ThemedJFrame {
 		setVisible(true);
 		windowAdapter = new customWindowAdapter();
 		addWindowListener(windowAdapter);
-	} // Constructor
+	}
 	
 	// create cssTree
 	private void createTree(DefaultMutableTreeNode root) {
@@ -282,7 +285,24 @@ public class MainFrame extends ThemedJFrame {
     		System.exit(NORMAL);
     	}
     	else {
-    		new ExitConfirmation(MainFrame.this);
+    		ExitConfirmation confirmation = new ExitConfirmation(MainFrame.this);
+    		confirmation.addConfirmationEventListener(new ConfimationEventListener() {
+				@Override
+				public void handleConfirmationEvent(ConfirmationEvent event) {
+					switch (event.getId()) {
+					case ConfirmationEvent.CANCEL:
+						break;
+					case ConfirmationEvent.NO:
+						dispose();
+						break;
+					case ConfirmationEvent.YES:
+						save();
+						dispose();
+					}
+					confirmation.close();
+				}
+			});
+    		confirmation.ShowExitConfirmation();
     	}
 	}
 	
