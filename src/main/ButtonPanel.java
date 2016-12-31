@@ -5,6 +5,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
+
+import main.listener.AddButtonListener;
+import main.listener.RemoveButtonListener;
 import theme.ThemeColor;
 import theme.ThemedJPanel;
 

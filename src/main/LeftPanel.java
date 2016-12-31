@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import theme.ThemeColor;
 import theme.ThemedJPanel;
-import codePanel.CodePanel;
+import main.codePanel.CodePanel;
 
 public class LeftPanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;

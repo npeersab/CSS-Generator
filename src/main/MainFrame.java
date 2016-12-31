@@ -3,9 +3,11 @@ package main;
 import css.CSSFile;
 import css.Property;
 import css.Selector;
-import main.dialog.ConfimationEventListener;
-import main.dialog.ConfirmationEvent;
-import main.dialog.ExitConfirmation;
+import dialog.ButtonEvent;
+import dialog.ButtonEventListener;
+import dialog.ExitConfirmation;
+import main.listener.AddButtonListener;
+import main.listener.RemoveButtonListener;
 import res.Directory;
 import res.ImgSrc;
 import theme.ThemeColor;
@@ -23,7 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import theme.ThemedJFrame;
-import codePanel.CodePanel;
+import main.codePanel.CodePanel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -286,16 +288,16 @@ public class MainFrame extends ThemedJFrame {
     	}
     	else {
     		ExitConfirmation confirmation = new ExitConfirmation(MainFrame.this);
-    		confirmation.addConfirmationEventListener(new ConfimationEventListener() {
+    		confirmation.addButtonEventListener(new ButtonEventListener() {
 				@Override
-				public void handleConfirmationEvent(ConfirmationEvent event) {
+				public void handleButtonEvent(ButtonEvent event) {
 					switch (event.getId()) {
-					case ConfirmationEvent.CANCEL:
+					case ButtonEvent.CANCEL:
 						break;
-					case ConfirmationEvent.NO:
+					case ButtonEvent.NO:
 						dispose();
 						break;
-					case ConfirmationEvent.YES:
+					case ButtonEvent.YES:
 						save();
 						dispose();
 					}
