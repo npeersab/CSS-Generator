@@ -24,10 +24,10 @@ public class ThemeColor {
 		white = new ThemeColor(Color.LIGHT_GRAY, Color.WHITE, Color.BLACK, Color.RED,
 				new Color(36, 0, 133), Color.MAGENTA);
 		
-		red = new ThemeColor(new Color(255, 0, 0), new Color(255, 144, 144),
-				new Color(0, 0, 0), new Color(255, 255, 255), new Color(103, 0, 255), new Color(177, 0, 177));
+		red = new ThemeColor(new Color(255, 0, 0), new Color(255, 208, 196),
+				new Color(0, 0, 0), new Color(255, 255, 255), new Color(103, 0, 255), Color.GRAY);
 		
-		blue = new ThemeColor(new Color(33, 98, 175), new Color(17, 150, 207),
-				new Color(255, 255, 255), new Color(0, 0, 0), new Color(255, 0, 0), new Color(0, 255, 0));
+		blue = new ThemeColor(new Color(62, 154, 255), new Color(133, 191, 255),
+				new Color(255, 255, 255), new Color(0, 0, 0), new Color(255, 0, 0), new Color(34, 170, 33));
 	}
 }
