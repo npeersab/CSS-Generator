@@ -97,6 +97,7 @@ public class MainFrame extends ThemedJFrame {
 		setTitle(TITLE);
 		setIconImage(ImgSrc.getImageIcon());
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -277,13 +278,6 @@ public class MainFrame extends ThemedJFrame {
 	// update title of frame
 	public void updateTitle(String filename) {
 		setTitle(filename + " - " + TITLE);
-	}
-
-	class customWindowAdapter extends WindowAdapter {
-		@Override
-		public void windowClosing(WindowEvent windowEvent) {
-			exit();
-		}
 	}    
 
 	// save file
@@ -329,6 +323,7 @@ public class MainFrame extends ThemedJFrame {
 					case ButtonEvent.YES:
 						save();
 						dispose();
+						break;
 					}
 					confirmation.close();
 				}

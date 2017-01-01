@@ -43,15 +43,13 @@ public class ExitConfirmation extends Dialog {
 		ActionListener actionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int id;
+				int id = -1;
 				JButton button = (JButton) e.getSource();
 				
 				if (button.equals(yesButton))
 					id = ButtonEvent.YES;
 				else if (button.equals(noButton))
 					id = ButtonEvent.NO;
-				else 
-					id = ButtonEvent.CANCEL;
 				
 				dispatchButtonEvent(new ButtonEvent(dialog, id));
 			}
