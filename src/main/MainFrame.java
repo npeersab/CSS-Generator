@@ -347,7 +347,7 @@ public class MainFrame extends ThemedJFrame {
 					confirmation.close();
 				}
 			});
-			confirmation.ShowExitConfirmation();
+			confirmation.showExitConfirmation();
 		}
 	}
 

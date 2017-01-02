@@ -21,7 +21,7 @@ public class ExitConfirmation extends Dialog {
 		this.parent = parent;
 	}
 	
-	public void ShowExitConfirmation() {
+	public void showExitConfirmation() {
 		// create new dialog box
 		dialog = new JDialog(parent, "Exit Confirmation", true);
 		
