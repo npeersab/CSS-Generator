@@ -46,7 +46,7 @@ public class MainFrame extends ThemedJFrame {
 
 	// Panels
 	private TreePanel treePanel;
-	private LeftPanel leftPanel;
+	private RightPanel rightPanel;
 	private CodePanel codePanel;
 	private ButtonPanel buttonPanel;
 
@@ -77,11 +77,11 @@ public class MainFrame extends ThemedJFrame {
 		treePanel.updateTree();
 
 		// create leftPanel
-		leftPanel = new LeftPanel(this);
+		rightPanel = new RightPanel(this);
 
 		// add treePanel and detailsPanel in splitPane
 		JSplitPane splitPane = new JSplitPane(
-				JSplitPane.HORIZONTAL_SPLIT, treePanel, leftPanel);
+				JSplitPane.HORIZONTAL_SPLIT, treePanel, rightPanel);
 		splitPane.setDividerLocation(0.2);
 		splitPane.setResizeWeight(0.2);
 		bagConstraints.weightx = 1;
@@ -185,7 +185,7 @@ public class MainFrame extends ThemedJFrame {
 		treePanel.updateTree();
 
 		updateTitle(cssFile.getName());
-		leftPanel.setHeader(cssFile.getName());
+		rightPanel.setHeader(cssFile.getName());
 		codePanel.updatePanel(cssFile);
 
 		buttonPanel.setVisible(true);
@@ -206,7 +206,7 @@ public class MainFrame extends ThemedJFrame {
 			createTree(root);
 			treePanel.updateTree();
 			fileEdited();
-			leftPanel.setHeader(cssFile.getName());
+			rightPanel.setHeader(cssFile.getName());
 			codePanel.updatePanel(cssFile);
 			addButton.setVisible(true);
 			removeButton.setVisible(true);
@@ -356,7 +356,7 @@ public class MainFrame extends ThemedJFrame {
 	public void applyTheme(ThemeColor themeColor) {
 		setThemeColor(themeColor);
 		treePanel.applyTheme(themeColor);
-		leftPanel.applyTheme(themeColor);
+		rightPanel.applyTheme(themeColor);
 		codePanel.applyTheme(themeColor);		
 	}
 

@@ -10,13 +10,13 @@ import theme.ThemeColor;
 import theme.ThemedJPanel;
 import main.codePanel.CodePanel;
 
-public class LeftPanel extends ThemedJPanel {
+public class RightPanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel header;
 	private CodePanel codePanel;
 	ButtonPanel buttonPanel;
 
-	public LeftPanel(MainFrame parent) {
+	public RightPanel(MainFrame parent) {
 		// set layout
 		setLayout(new GridBagLayout());
 		

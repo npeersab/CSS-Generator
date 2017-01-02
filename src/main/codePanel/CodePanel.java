@@ -12,7 +12,7 @@ import theme.ThemeColor;
 import theme.ThemedJPanel;
 import css.CSSFile;
 import css.Selector;
-import main.LeftPanel;
+import main.RightPanel;
 
 public class CodePanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
@@ -21,7 +21,7 @@ public class CodePanel extends ThemedJPanel {
 	private JLabel emptyLabel;
 	
 	// constructor
-	public CodePanel(LeftPanel parent) {
+	public CodePanel(RightPanel parent) {
 		// set layout and create constraints
 		setLayout(new GridBagLayout());
 		
