@@ -6,7 +6,6 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
-
 import theme.ThemeColor;
 import theme.ThemedJPanel;
 

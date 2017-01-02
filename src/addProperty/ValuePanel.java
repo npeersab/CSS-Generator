@@ -160,37 +160,29 @@ public class ValuePanel extends JPanel {
 		// add custom label to slider
 		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
 		String unit = propertyDetails.getType().getUnit();
-		String label1 = null, label2 = null, label3 = null, label4 = null, label5 = null;
+		String labels[] = new String[5];
 		
 		// calculate different points to be displayed on slider
-		int num1 = min,
-			num2 = min < 0 ? min / 2 : max / 4,
-			num3 = min < 0 ? 0 : max / 2,
-			num4 = min < 0 ? max / 2 : (max * 3) / 4,
-			num5 = max;
+		int nums[] = new int[5];
+		nums[0] = min;
+		nums[1] = min < 0 ? min / 2 : max / 4;
+		nums[2] = min < 0 ? 0 : max / 2;
+		nums[3] = min < 0 ? max / 2 : (max * 3) / 4;
+		nums[4] = max;
 		
 		// create labels
 		if (d) {
-			label1 = ((double) num1 / 100) + unit;
-			label2 = ((double) num2 / 100) + unit;
-			label3 = ((double) num3 / 100) + unit;
-			label4 = ((double) num4 / 100) + unit;
-			label5 = ((double) num5 / 100) + unit;
+			for (int i = 0; i < 5; i++)
+				labels[i] = ((double) nums[i] / 100) + unit;
 		}
 		else {	
-			label1 = num1 + unit;
-			label2 = num2 + unit;
-			label3 = num3 + unit;
-			label4 = num4 + unit;
-			label5 = max + unit;
+			for (int i = 0; i < 5; i++)
+				labels[i] = nums[i] + unit;
 		}
 		
 		// map values with labels
-		hashtable.put(new Integer(num1), new JLabel(label1));
-		hashtable.put(new Integer(num2), new JLabel(label2));
-		hashtable.put(new Integer(num3), new JLabel(label3));
-		hashtable.put(new Integer(num4), new JLabel(label4));
-		hashtable.put(new Integer(num5), new JLabel(label5));
+		for (int i = 0; i < 5; i++) 
+			hashtable.put(new Integer(nums[i]), new JLabel(labels[i]));
 		
 		// set labels to slider
 		slider.setLabelTable(hashtable);

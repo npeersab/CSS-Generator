@@ -31,15 +31,15 @@ public class EditProperty extends Dialog {
 	private JComboBox<?> comboBox;
 	private JButton updateButton, cancelButton;
 	private JTextField valueTextField; 
-	
+
 	// reference to parent objects
 	private Property property;
 	private Selector selector;
 	private MainFrame parent;
-	
+
 	// details of property
 	private PropertyDetails propertyDetails;
-	
+
 	// default frame size
 	private final Dimension DEFAULT_SIZE = new Dimension(600, 200);
 
@@ -49,11 +49,11 @@ public class EditProperty extends Dialog {
 		this.parent = parent;
 		this.selector = selector;
 	}
-	
+
 	public void showEditProperty() {
 		// create dialog
 		dialog = new JDialog(parent, "Edit Property", true);
-		
+
 		// set layout to GridBaglayout and create GridBagConstraints
 		dialog.setLayout(new GridBagLayout());
 		GridBagConstraints bagConstraints = new GridBagConstraints();
@@ -65,11 +65,11 @@ public class EditProperty extends Dialog {
 		dialog.add(new JLabel("Property: "), bagConstraints);
 		bagConstraints.gridy++;
 		dialog.add(new JLabel("New Value: "), bagConstraints);
-		
+
 		bagConstraints.gridx++;
 		bagConstraints.gridy = 0;
 		dialog.add(new JLabel(property.getName()), bagConstraints);
-		
+
 		// add value selector
 		bagConstraints.gridy++;
 		propertyDetails = PropertyDetailsList.getDetails(property);
@@ -113,7 +113,7 @@ public class EditProperty extends Dialog {
 		default:
 			break;
 		}
-		
+
 		// create and add updateButton
 		updateButton = new JButton("Update Value");
 		updateButton.addActionListener(new ActionListener() {
@@ -127,7 +127,7 @@ public class EditProperty extends Dialog {
 		bagConstraints.anchor = GridBagConstraints.NORTHEAST;
 		bagConstraints.gridy++;
 		dialog.add(updateButton, bagConstraints);
-		
+
 		// create and add cancelButton
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(e -> {
@@ -135,7 +135,7 @@ public class EditProperty extends Dialog {
 		});
 		bagConstraints.gridx++;
 		dialog.add(cancelButton, bagConstraints);
-		
+
 		// set dialog properties
 		dialog.setLocationRelativeTo(parent);
 		dialog.setVisible(true);
@@ -172,38 +172,30 @@ public class EditProperty extends Dialog {
 		// add custom label to slider
 		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
 		String unit = propertyDetails.getType().getUnit();
-		String label1 = null, label2 = null, label3 = null, label4 = null, label5 = null;
-		
+		String labels[] = new String[5];
+
 		// calculate different points to be displayed on slider
-		int num1 = min,
-			num2 = min < 0 ? min / 2 : max / 4,
-			num3 = min < 0 ? 0 : max / 2,
-			num4 = min < 0 ? max / 2 : (max * 3) / 4,
-			num5 = max;
-		
+		int nums[] = new int[5];
+		nums[0] = min;
+		nums[1] = min < 0 ? min / 2 : max / 4;
+		nums[2] = min < 0 ? 0 : max / 2;
+		nums[3] = min < 0 ? max / 2 : (max * 3) / 4;
+		nums[4] = max;
+
 		// create labels
 		if (d) {
-			label1 = ((double) num1 / 100) + unit;
-			label2 = ((double) num2 / 100) + unit;
-			label3 = ((double) num3 / 100) + unit;
-			label4 = ((double) num4 / 100) + unit;
-			label5 = ((double) num5 / 100) + unit;
+			for (int i = 0; i < 5; i++)
+				labels[i] = ((double) nums[i] / 100) + unit;
 		}
 		else {	
-			label1 = num1 + unit;
-			label2 = num2 + unit;
-			label3 = num3 + unit;
-			label4 = num4 + unit;
-			label5 = max + unit;
+			for (int i = 0; i < 5; i++)
+				labels[i] = nums[i] + unit;
 		}
-		
+
 		// map values with labels
-		hashtable.put(new Integer(num1), new JLabel(label1));
-		hashtable.put(new Integer(num2), new JLabel(label2));
-		hashtable.put(new Integer(num3), new JLabel(label3));
-		hashtable.put(new Integer(num4), new JLabel(label4));
-		hashtable.put(new Integer(num5), new JLabel(label5));
-		
+		for (int i = 0; i < 5; i++) 
+			hashtable.put(new Integer(nums[i]), new JLabel(labels[i]));
+
 		// set labels to slider
 		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
@@ -245,32 +237,32 @@ public class EditProperty extends Dialog {
 		}
 		return value;
 	}
-	
+
 	// return previous value of property
 	public int getOldValue(Property property) {
 		String value = property.getValue();
 		int num;
 		Range<?> range = propertyDetails.getRange();
-		
+
 		switch(propertyDetails.getType()) {
 		case COLOR:
 			break;
 		case DOUBLE:
 			// get previous value
 			double doubleValue = Float.parseFloat(property.getValue());
-			
+
 			// get range of property
 			double doubleMin = (double) range.getMin(),
 					doubleMax = (double) range.getMax();
-			
+
 			// if value is small than minValue return minValue
 			if (doubleValue < doubleMin)
 				return (int) (doubleMin * 100);
-			
+
 			// if value is large than maxValue return maxValue
 			if (doubleValue > doubleMax)
 				return (int) (doubleMax * 100);
-			
+
 			// return value if it is range
 			return (int) (doubleValue * 100);
 		case INTEGER:
@@ -289,22 +281,22 @@ public class EditProperty extends Dialog {
 		}
 		return 0;
 	}
-	
+
 	public int getValueFromRange(int num, Range<?> range) {
 		int min, max;
-		
+
 		// get minimum and max values
 		min = (int) range.getMin();
 		max = (int) range.getMax();
-		
+
 		// if value is small than minValue return minValue
 		if (num < min)
 			return min;
-		
+
 		// if value is large than maxValue return maxValue
 		if (num > max)
 			return max;
-		
+
 		// return value if it is range
 		return num;
 	}

@@ -128,7 +128,7 @@ public class MainFrame extends ThemedJFrame {
 					removeButton.setEnabled(false);
 					break;
 
-				// when selector is selected
+					// when selector is selected
 				case 2 :
 					addButton.setText("Add Property");
 					addButton.setToolTipText("add new Property to selected Selector");
@@ -138,7 +138,7 @@ public class MainFrame extends ThemedJFrame {
 					removeButton.setEnabled(true);
 					break;
 
-				// when property is selected
+					// when property is selected
 				case 3 :
 					addButton.setText("Edit Propery");
 					addButton.setToolTipText("edit selected Property");
@@ -161,7 +161,7 @@ public class MainFrame extends ThemedJFrame {
 	public void openFile() {
 		// get CSS directory 
 		File cssdir = Directory.getCSSDirectory();
-		
+
 		// create file chooser
 		JFileChooser filechooser = new JFileChooser(cssdir);
 		filechooser.setDialogTitle("Select File");
@@ -170,19 +170,27 @@ public class MainFrame extends ThemedJFrame {
 
 		if (filechooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File file = filechooser.getSelectedFile();
-			cssFile = new CSSFile(file);
-			cssFile.ReadFile();
-
-			root = cssFile.getTree();
-			createTree(root);
-			treePanel.updateTree();
-
-			updateTitle(cssFile.getName());
-			leftPanel.setHeader(cssFile.getName());
-			codePanel.updatePanel(cssFile);
-
-			buttonPanel.setVisible(true);
+			cssFile = new CSSFile(this, file);
+			readFile(file);
 		}
+	}
+
+	// read the file
+	public void readFile(File file) {
+		
+		cssFile.ReadFile();
+
+		root = cssFile.getTree();
+		createTree(root);
+		treePanel.updateTree();
+
+		updateTitle(cssFile.getName());
+		leftPanel.setHeader(cssFile.getName());
+		codePanel.updatePanel(cssFile);
+
+		buttonPanel.setVisible(true);
+
+		saveAs.setEnabled(true);
 	}
 
 	// create new cssFile
@@ -192,7 +200,7 @@ public class MainFrame extends ThemedJFrame {
 		chooser.setDialogTitle("Enter File Name");
 		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
 		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-			cssFile = new CSSFile(chooser.getSelectedFile());
+			cssFile = new CSSFile(this, chooser.getSelectedFile());
 			cssFile.saveFile();
 			root = new DefaultMutableTreeNode(cssFile.getName());
 			createTree(root);
@@ -211,47 +219,57 @@ public class MainFrame extends ThemedJFrame {
 		/// add selector in cssTree
 		TreePath path = cssTree.getSelectionPath();
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-		node.add(new DefaultMutableTreeNode(selector));
+		DefaultMutableTreeNode selectorNode = new DefaultMutableTreeNode(selector);
+		node.add(selectorNode);
 		cssTree.updateUI();
-		
+
 		// add selector in file
-		cssFile.addSelector(selector);
-		
+		cssFile.addSelector(selector, selectorNode);
+
 		// add selector in codePanel
 		codePanel.addSelector(selector);
-		
+
 		// set file as edited
 		fileEdited();
-		
+
 		// expand cssTree
 		cssTree.expandPath(path);
-		
+
 		// re apply theme to tree
 		treePanel.updateTreeTheme(themeColor);
 	}
 
+	// remove selector
+	public void removeSelector(Selector selector) {
+		cssFile.removeSelector(selector);
+		codePanel.removeSelector(selector);
+	}
+	
 	// add new Property
-	public void addProperty(Selector selector, Property property) {
-		// add property in selector
-		selector.addProperty(property);
+	public void addProperty(Selector selector, Property property, DefaultMutableTreeNode node) {
 
 		// add property in CSS tree
-		TreePath path = cssTree.getSelectionPath();
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-		node.add(new DefaultMutableTreeNode(property));
+		DefaultMutableTreeNode propertyNode = new DefaultMutableTreeNode(property);
+		node.add(propertyNode);
 		cssTree.updateUI();
+		
+		// add property in selector
+		selector.addProperty(property, propertyNode);
 
 		// update code panel
 		codePanel.updateSelectorPanel(selector);
-		
-		// expand tree
-		cssTree.expandPath(path);
-		
+
 		// set file status
 		fileEdited();
-		
+
 		// re apply theme to tree
-				treePanel.updateTreeTheme(themeColor);
+		treePanel.updateTreeTheme(themeColor);
+	}
+	
+	// remove property
+	public void removeProperty(Selector selector, Property property) {
+		selector.removeProperty(this, property);
+		codePanel.updateSelectorPanel(selector);
 	}
 
 	// make changes after editing a property
@@ -271,7 +289,6 @@ public class MainFrame extends ThemedJFrame {
 	// make changes when file is saved
 	public void fileSaved() {
 		save.setEnabled(false);
-		saveAs.setEnabled(false);
 		saved(true);
 	}
 
@@ -297,13 +314,15 @@ public class MainFrame extends ThemedJFrame {
 		JFileChooser chooser = new JFileChooser(cssdir);
 		chooser.setDialogTitle("Save As...");
 		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
-		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
-			cssFile.setFile(chooser.getSelectedFile());
+		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+			File file = chooser.getSelectedFile();
+			cssFile.setFile(file);
+			cssFile.saveFile();
+			readFile(file);
+			fileSaved();
+		}
 		else
 			return;
-		updateTitle(cssFile.getName());
-		cssFile.saveFile();
-		fileSaved();
 	}
 
 	// exit

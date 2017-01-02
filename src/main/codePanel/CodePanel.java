@@ -78,6 +78,9 @@ public class CodePanel extends ThemedJPanel {
 		bagConstraints.weighty = 50;
 		emptyLabel = new JLabel();
 		add(emptyLabel, bagConstraints);
+		
+		revalidate();
+		repaint();
 	}
 	
 	// add new selector in code

@@ -55,13 +55,16 @@ public class LeftPanel extends ThemedJPanel {
 		bagConstraints.weighty = 0.01;
 		add(buttonPanel, bagConstraints);
 		
+		// change background color
 		setBackground(themeColor.backGroundDark);
 	}
 	
+	// change the header of the panel
 	public void setHeader(String header) {
 		this.header.setText(header);
 	}
 
+	// apply theme
 	@Override
 	public void applyTheme(ThemeColor themeColor) {
 		setThemeColor(themeColor);
