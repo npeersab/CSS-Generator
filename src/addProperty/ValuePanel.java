@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import css.PropertyDetails;
 import css.PropertyDetailsList;
 import css.Range;
@@ -26,6 +29,8 @@ public class ValuePanel extends JPanel {
 	private JColorChooser chooser;
 	private JComboBox<String> comboBox;
 	private JTextField valueTextField;
+	private JLabel valueLabel;
+	private String unit;
 
 	// constructor
 	public ValuePanel(AddProperty parent) {
@@ -159,7 +164,7 @@ public class ValuePanel extends JPanel {
 
 		// add custom label to slider
 		Hashtable<Integer, JLabel> hashtable = new Hashtable<Integer, JLabel>();
-		String unit = propertyDetails.getType().getUnit();
+		unit = propertyDetails.getType().getUnit();
 		String labels[] = new String[5];
 		
 		// calculate different points to be displayed on slider
@@ -188,10 +193,34 @@ public class ValuePanel extends JPanel {
 		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
 
+		// add listener to slider
+		slider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				updateValueLabel(propertyDetails);
+			}
+		});
+		
 		// add slider to panel
 		add(slider, bagConstraints);
+		
+		// add label to display value
+		valueLabel = new JLabel();
+		bagConstraints.gridx++;
+		add(valueLabel, bagConstraints);
+		
+		updateValueLabel(propertyDetails);
 
 		// update parent frame size
 		parent.getDialog().setSize(parent.FRAME_SIZE);
+	}
+	
+	public void updateValueLabel(PropertyDetails propertyDetails) {
+		String value;
+		if (propertyDetails.getType() == ValueType.DOUBLE)
+			value = String.format("%2.2f", slider.getValue() / 100.0);
+		else
+			value = String.valueOf(slider.getValue());
+		valueLabel.setText("[ " + value + unit + " ]");
 	}
 }
