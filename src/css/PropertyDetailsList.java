@@ -1,11 +1,9 @@
 package css;
 
-import java.awt.GraphicsEnvironment;
-
 public class PropertyDetailsList {
 	public static PropertyDetails[] animation, color, backgroundBorder, basicBox, basicUserInterface, 
 	flexibleBoxLayout, font, multiColumnLayout, table, text, textDecoration, writingModes;
-	//Strings for all CSS Values
+	// Strings for all CSS Values
 	public static final String ABSOLUTE = "absolute", ALLOW_END = "allow-end", ALTERNATE = "alternate",
 			ALIAS = "alias", ALL_SCROLL = "all-scroll", ALL = "all", ALTERNATE_REVERSE = "alternate-reverse",
 			ATTR = "attr", AUTO = "auto", BACKWORDS = "backwords", BALANCED = "balanced",
@@ -482,8 +480,17 @@ public class PropertyDetailsList {
 	 	cnt = 0;
 	 	
 	 	font[cnt++] = new PropertyDetails(
-	 			"font-family", "Specifies the font family for text", ValueType.STRING,
-	 			GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+	 			"font-family", "Specifies the font family for text", ValueType.STRING, new String[] {
+	 					"Andale Mono", "Arial", "Arial Black", "Arial Narrow", "Arial Rounded MT Bold", 
+	 					"Avant Garde", "Baskerville", "Big Caslon", "Bodoni MT", "Book Antiqua", 
+	 					"Brush Script MT", "Calibri", "Calisto MT", "Cambria", "Candara", "Century Gothic", 
+	 					"Consolas", "Copperplate", "Courier New", "Didot", "Franklin Gothic Medium", 
+	 					"Futura", "Garamond", "Geneva", "Georgia", "Gill Sans", "Goudy Old Style", 
+	 					"Helvetica", "Hoefler Text", "Impact", "Lucida Bright", "Lucida Console",
+	 					"Lucida Grande", "Lucida Sans Typewriter", "Monaco", "Optima", "Palatino", 
+	 					"Papyrus", "Perpetua", "Rockwell", "Rockwell Extra Bold", "Segoe UI", "Tahoma", 
+	 					"Times New Roman", "Trebuchet MS", "Verdana", 
+	 			});
 	 	
 	 	font[cnt++] = new PropertyDetails(
 	 			"font-kerning", "Controls the usage of the kerning information"
