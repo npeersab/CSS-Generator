@@ -2,7 +2,6 @@ package main;
 
 import java.awt.Event;
 import java.awt.event.KeyEvent;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -33,10 +32,9 @@ public class MenuBar extends JMenuBar {
 		parent.save.addActionListener(e -> parent.save());
 		
 		parent.saveAs  = new JMenuItem("Save As...");
-		parent.saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		parent.saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.SHIFT_MASK));
 		parent.saveAs.setEnabled(false);
 		parent.saveAs.addActionListener(e -> parent.saveAs());
-		parent.saveAs.setMnemonic(KeyEvent.VK_S);
 				
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK));
