@@ -97,7 +97,7 @@ public class MenuBar extends JMenuBar {
 		view.add(theme);
 		view.setMnemonic(KeyEvent.VK_V);
 		
-		// add view menu in menubar
+		// add view menu in menu bar
 		add(view);
 	}
 }

@@ -5,6 +5,8 @@ public class PropertyDetails {
 	private ValueType valueType;
 	private Range<?> range;
 	
+	
+	// constructor
 	public PropertyDetails(String name, String description, ValueType valueType, Range<?> range, String possibleValues[]) {
 		this.name = name;
 		this.description = description;

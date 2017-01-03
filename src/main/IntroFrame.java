@@ -11,6 +11,8 @@ public class IntroFrame extends JDialog {
 	public IntroFrame() {
 		// set image
 		add(new JLabel(new ImageIcon(ImgSrc.getIntroImage())));
+		
+		// set dialog properties
 		setSize(600, 236);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
