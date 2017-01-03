@@ -15,6 +15,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import css.Property;
 import css.PropertyDetails;
 import css.PropertyDetailsList;
@@ -30,7 +33,8 @@ public class EditProperty extends Dialog {
 	private JSlider slider;
 	private JComboBox<?> comboBox;
 	private JButton updateButton, cancelButton;
-	private JTextField valueTextField; 
+	private JTextField valueTextField;
+	private JLabel valueLabel;
 
 	// reference to parent objects
 	private Property property;
@@ -41,7 +45,7 @@ public class EditProperty extends Dialog {
 	private PropertyDetails propertyDetails;
 
 	// default frame size
-	private final Dimension DEFAULT_SIZE = new Dimension(600, 200);
+	private final Dimension DEFAULT_SIZE = new Dimension(700, 200);
 
 	public EditProperty(MainFrame parent, Selector selector, Property property) {
 		// store reference
@@ -125,6 +129,7 @@ public class EditProperty extends Dialog {
 			}
 		});
 		bagConstraints.anchor = GridBagConstraints.NORTHEAST;
+		bagConstraints.gridx--;
 		bagConstraints.gridy++;
 		dialog.add(updateButton, bagConstraints);
 
@@ -138,6 +143,7 @@ public class EditProperty extends Dialog {
 
 		// set dialog properties
 		dialog.setLocationRelativeTo(parent);
+		dialog.setResizable(false);
 		dialog.setVisible(true);
 	}
 
@@ -199,9 +205,24 @@ public class EditProperty extends Dialog {
 		// set labels to slider
 		slider.setLabelTable(hashtable);
 		slider.setPaintLabels(true);
-
+		
+		// add listener to slider
+		slider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				updateValueLabel(propertyDetails);
+			}
+		});
+		
 		// add slider to panel
 		dialog.add(slider, bagConstraints);
+
+		// add label to display value
+		valueLabel = new JLabel();
+		bagConstraints.gridx++;
+		dialog.add(valueLabel, bagConstraints);
+
+		updateValueLabel(propertyDetails);
 	}
 
 	// return selected value
@@ -299,5 +320,15 @@ public class EditProperty extends Dialog {
 
 		// return value if it is range
 		return num;
+	}
+	
+	public void updateValueLabel(PropertyDetails propertyDetails) {
+		String value;
+		String unit = propertyDetails.getType().getUnit();
+		if (propertyDetails.getType() == ValueType.DOUBLE)
+			value = String.format("%2.2f", slider.getValue() / 100.0);
+		else
+			value = String.valueOf(slider.getValue());
+		valueLabel.setText("[ " + value + unit + " ]");
 	}
 }
