@@ -4,14 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-
 import addProperty.AddProperty;
 import addSelector.AddSelector;
 import css.CSSFile;
 import css.Property;
 import css.Selector;
 import dialog.ButtonEventListener;
-import dialog.OverwriteConfirmation;
+import dialog.DialogBox;
 import dialog.ButtonEvent;
 import editProperty.EditProperty;
 import main.MainFrame;
@@ -47,12 +46,11 @@ public class AddButtonListener implements ActionListener {
 							if (cssFile.contains(selector)) {
 								
 								// create overwrite confirmation window
-								OverwriteConfirmation confirmation =
-										new OverwriteConfirmation(
-												addSelector.getDialog(), selector.toString());
+								DialogBox dialogBox = new DialogBox(
+										addSelector.getDialog(), selector.toString(), DialogBox.OVERWRITE);
 								
 								// add listener to dialog
-								confirmation.addButtonEventListener(new ButtonEventListener() {
+								dialogBox.addButtonEventListener(new ButtonEventListener() {
 									@Override
 									public void handleButtonEvent(ButtonEvent event) {
 										
@@ -67,10 +65,10 @@ public class AddButtonListener implements ActionListener {
 											addSelector.close();
 										}
 										// close confirmation if any button pressed
-										confirmation.close();
+										dialogBox.close();
 									}
 								});
-								confirmation.showOverwriteConfirmation();
+								dialogBox.showDialogBox();
 							}
 							else {
 								parent.addSelector(selector);
@@ -106,12 +104,11 @@ public class AddButtonListener implements ActionListener {
 							if (selector.contains(property)) {
 								
 								// create new overwrite confirmation dialog
-								OverwriteConfirmation confirmation =
-										new OverwriteConfirmation(addProperty.getDialog(), 
-												property.getName());
+								DialogBox dialogBox = new DialogBox(
+										addProperty.getDialog(), property.getName(), DialogBox.OVERWRITE);								
 								
 								// add listener to dialog
-								confirmation.addButtonEventListener(new ButtonEventListener() {
+								dialogBox.addButtonEventListener(new ButtonEventListener() {
 									@Override
 									public void handleButtonEvent(ButtonEvent event) {
 										
@@ -129,10 +126,10 @@ public class AddButtonListener implements ActionListener {
 											addProperty.close();
 										}
 										// close confirmation if any button pressed
-										confirmation.close();
+										dialogBox.close();
 									}
 								});
-								confirmation.showOverwriteConfirmation();
+								dialogBox.showDialogBox();
 							}
 							else  {
 								parent.addProperty(selector, property, node);

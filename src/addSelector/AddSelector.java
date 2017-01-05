@@ -4,7 +4,7 @@ import css.Selector;
 import css.SelectorType;
 import dialog.ButtonEvent;
 import dialog.Dialog;
-import dialog.WarningDialog;
+import dialog.DialogBox;
 import main.MainFrame;
 import res.ImgSrc;
 import java.awt.Font;
@@ -113,8 +113,8 @@ public class AddSelector extends Dialog {
 		String selectorName = textField.getText();
 		// display error if no name entered
 		if(selectorName.length() == 0) {
-			WarningDialog warningDialog = new WarningDialog(dialog, "Please enter Selector Name");
-			warningDialog.showWarningDialog();
+			DialogBox dialogBox = new DialogBox(dialog, "Please enter Selector Name", DialogBox.WARNING);
+			dialogBox.showDialogBox();
 		}
 		else {
 			SelectorType type = (SelectorType) selector.getSelectedItem();

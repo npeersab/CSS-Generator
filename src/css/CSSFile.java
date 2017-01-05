@@ -1,7 +1,7 @@
 package css;
 
 import css.Selector;
-import dialog.WarningDialog;
+import dialog.DialogBox;
 import css.Property;
 import main.MainClass;
 import main.MainFrame;
@@ -42,8 +42,8 @@ public class CSSFile {
 				filereader = new FileReader(file);
 			}
 			catch (FileNotFoundException e) {
-				WarningDialog warningDialog = new WarningDialog(parent, "Unable to Read File");
-				warningDialog.showWarningDialog();
+				DialogBox dialogBox = new DialogBox(parent, "Unable to Read File", DialogBox.WARNING);
+				dialogBox.showDialogBox();
 			}
 
 			BufferedReader br = new BufferedReader(filereader);

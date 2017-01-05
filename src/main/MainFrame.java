@@ -5,7 +5,7 @@ import css.Property;
 import css.Selector;
 import dialog.ButtonEvent;
 import dialog.ButtonEventListener;
-import dialog.ExitConfirmation;
+import dialog.DialogBox;
 import main.listener.AddButtonListener;
 import main.listener.RemoveButtonListener;
 import res.Directory;
@@ -331,8 +331,8 @@ public class MainFrame extends ThemedJFrame {
 			System.exit(NORMAL);
 		}
 		else {
-			ExitConfirmation confirmation = new ExitConfirmation(MainFrame.this);
-			confirmation.addButtonEventListener(new ButtonEventListener() {
+			DialogBox dialogBox = new DialogBox(this, cssFile.getName(), DialogBox.SAVE_MODIFIED);
+			dialogBox.addButtonEventListener(new ButtonEventListener() {
 				@Override
 				public void handleButtonEvent(ButtonEvent event) {
 					switch (event.getId()) {
@@ -344,10 +344,10 @@ public class MainFrame extends ThemedJFrame {
 						dispose();
 						break;
 					}
-					confirmation.close();
+					dialogBox.close();
 				}
 			});
-			confirmation.showExitConfirmation();
+			dialogBox.showDialogBox();
 		}
 	}
 
