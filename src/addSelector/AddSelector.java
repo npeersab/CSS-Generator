@@ -4,6 +4,7 @@ import css.Selector;
 import css.SelectorType;
 import dialog.ButtonEvent;
 import dialog.Dialog;
+import dialog.WarningDialog;
 import main.MainFrame;
 import res.ImgSrc;
 import java.awt.Font;
@@ -16,7 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class AddSelector extends Dialog {
@@ -113,9 +113,8 @@ public class AddSelector extends Dialog {
 		String selectorName = textField.getText();
 		// display error if no name entered
 		if(selectorName.length() == 0) {
-			JOptionPane.showMessageDialog(dialog, 
-					"Please enter Selector name", "No Selector name", 
-					JOptionPane.ERROR_MESSAGE);
+			WarningDialog warningDialog = new WarningDialog(dialog, "Please enter Selector Name");
+			warningDialog.showWarningDialog();
 		}
 		else {
 			SelectorType type = (SelectorType) selector.getSelectedItem();
