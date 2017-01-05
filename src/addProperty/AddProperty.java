@@ -3,7 +3,6 @@ package addProperty;
 import css.Property;
 import css.PropertyDetails;
 import css.PropertyGroup;
-import dialog.ButtonEvent;
 import dialog.Dialog;
 import main.MainFrame;
 import java.awt.Dimension;
@@ -78,10 +77,6 @@ public class AddProperty extends Dialog {
 		bagConstraints.anchor = GridBagConstraints.EAST;
 		bagConstraints.gridy++;
 		dialog.add(buttonPanel, bagConstraints);
-		
-		// action listener for add button
-		addButton.addActionListener(
-				e -> dispatchButtonEvent(new ButtonEvent(dialog, ButtonEvent.YES)));
 		
 		// action listener for cancel button
 		cancelButton.addActionListener(e -> dialog.dispose());
