@@ -159,6 +159,33 @@ public class MainFrame extends ThemedJFrame {
 
 	// open existing file
 	public void openFile() {
+		// check whether file is saved or not
+		if (!saved) {
+			// create dialog box to ask that file is to be saved or not
+			DialogBox dialogBox = new DialogBox(this, cssFile.getName(), DialogBox.SAVE_MODIFIED);
+			dialogBox.addButtonEventListener(new ButtonEventListener() {
+				@Override
+				public void handleButtonEvent(ButtonEvent event) {
+					dialogBox.close();
+					switch (event.getId()) {
+					case ButtonEvent.YES:
+						save();
+						showOpenFileChooser();
+						break;
+					case ButtonEvent.NO:
+						showOpenFileChooser();
+						break;
+					}	
+				}
+			});
+			dialogBox.showDialogBox();
+		}
+		// if file is saved show file chooser
+		else 
+			showOpenFileChooser();
+	}
+
+	public void showOpenFileChooser() {
 		// get CSS directory 
 		File cssdir = Directory.getCSSDirectory();
 
@@ -172,12 +199,12 @@ public class MainFrame extends ThemedJFrame {
 			File file = filechooser.getSelectedFile();
 			cssFile = new CSSFile(this, file);
 			readFile(file);
+			fileSaved();
 		}
 	}
 
 	// read the file
 	public void readFile(File file) {
-		
 		cssFile.ReadFile();
 
 		root = cssFile.getTree();
@@ -195,6 +222,32 @@ public class MainFrame extends ThemedJFrame {
 
 	// create new cssFile
 	public void newFile() {
+		// if file is saved show file chooser
+		if (isSaved()) 
+			showNewFileChooser();
+		else {
+			// create dialog box
+			DialogBox dialogBox = new DialogBox(this, cssFile.getName(), DialogBox.SAVE_MODIFIED);
+			dialogBox.addButtonEventListener(new ButtonEventListener() { 
+				@Override
+				public void handleButtonEvent(ButtonEvent event) {
+					dialogBox.close();
+					switch (event.getId()) {
+					case ButtonEvent.YES:
+						save();
+						showNewFileChooser();
+						break;
+					case ButtonEvent.NO:
+						showNewFileChooser();
+						break;
+					}
+				}
+			});
+			dialogBox.showDialogBox();
+		}
+	}
+
+	public void showNewFileChooser() {
 		File cssdir = Directory.getCSSDirectory();
 		JFileChooser chooser = new JFileChooser(cssdir);
 		chooser.setDialogTitle("Enter File Name");
@@ -244,7 +297,7 @@ public class MainFrame extends ThemedJFrame {
 		cssFile.removeSelector(selector);
 		codePanel.removeSelector(selector);
 	}
-	
+
 	// add new Property
 	public void addProperty(Selector selector, Property property, DefaultMutableTreeNode node) {
 
@@ -252,7 +305,7 @@ public class MainFrame extends ThemedJFrame {
 		DefaultMutableTreeNode propertyNode = new DefaultMutableTreeNode(property);
 		node.add(propertyNode);
 		cssTree.updateUI();
-		
+
 		// add property in selector
 		selector.addProperty(property, propertyNode);
 
@@ -265,7 +318,7 @@ public class MainFrame extends ThemedJFrame {
 		// re apply theme to tree
 		treePanel.updateTreeTheme(themeColor);
 	}
-	
+
 	// remove property
 	public void removeProperty(Selector selector, Property property) {
 		selector.removeProperty(this, property);
