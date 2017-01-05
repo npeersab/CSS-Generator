@@ -25,12 +25,14 @@ public class DialogBox extends Dialog {
 	// buttons
 	private JButton yesButton, noButton, cancelButton;
 
+	// constructor for JFrame
 	public DialogBox(JFrame parent, String name, int type) {
 		this(name, type);
 
 		dialog = new JDialog(parent, title, true);
 	}
 
+	// constructor for JDialog
 	public DialogBox(JDialog parent, String name, int type) {
 		this(name, type);
 
@@ -132,7 +134,7 @@ public class DialogBox extends Dialog {
 			yesButton.addActionListener(e -> close());
 			bagConstraints.gridy++;
 			dialog.add(yesButton, bagConstraints);
-			dialog.setSize(600, 160);
+			dialog.setSize(500, 160);
 			break;
 		}
 		
