@@ -27,12 +27,16 @@ public class CSSFile {
 
 	// hash map to store selector and tree nodes
 	private HashMap<Selector, DefaultMutableTreeNode> selectorHashMap;
+	
+	// selector node
+	private DefaultMutableTreeNode selectorsNode;
 
 	public CSSFile(MainFrame parent, File newfile) {
 		this.parent = parent;
 		file = newfile;
 		selectorsList = new LinkedList<Selector>();
 		selectorHashMap = new HashMap<Selector, DefaultMutableTreeNode>();
+		selectorsNode = new DefaultMutableTreeNode(getName());
 	}
 
 	public void ReadFile() {
@@ -160,17 +164,16 @@ public class CSSFile {
 
 	// return tree node of file
 	public DefaultMutableTreeNode getTree() {
-		DefaultMutableTreeNode selectors = new DefaultMutableTreeNode(this.getName());
 		Iterator<Selector> iterator = selectorsList.iterator();
 
 		while (iterator.hasNext()) {
 			Selector selector = iterator.next(); 
 			DefaultMutableTreeNode selectorNode = selector.getTree();
-			selectors.add(selectorNode);
+			selectorsNode.add(selectorNode);
 			selectorHashMap.put(selector, selectorNode);
 		}
 
-		return selectors;
+		return selectorsNode;
 	}
 
 	// check whether the file contains same selector as parameter
@@ -207,5 +210,14 @@ public class CSSFile {
 	// getter for selectorList
 	public LinkedList<Selector> getSelectorsList() {
 		return selectorsList;
+	}
+	
+	// getter and setter for selector node
+	public DefaultMutableTreeNode getSelectorsNode() {
+		return selectorsNode;
+	}
+	
+	public void setSelectorsNode(DefaultMutableTreeNode selectorsNode) {
+		this.selectorsNode = selectorsNode;
 	}
 }

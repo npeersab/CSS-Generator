@@ -33,7 +33,7 @@ public class MainFrame extends ThemedJFrame {
 	private static final long serialVersionUID = 1L;
 
 	// components
-	private JButton addButton, removeButton; 
+	private JButton addButton, removeButton, addSelectorButton; 
 	private CSSFile cssFile;
 	private JTree cssTree;
 	private DefaultMutableTreeNode root;
@@ -123,8 +123,7 @@ public class MainFrame extends ThemedJFrame {
 				switch (path.getPathCount()) {
 				// when file is selected
 				case 1 :
-					addButton.setText("Add Selector");
-					addButton.setToolTipText("add new Selector in the File");
+					addButton.setEnabled(false);
 					removeButton.setEnabled(false);
 					break;
 
@@ -132,6 +131,7 @@ public class MainFrame extends ThemedJFrame {
 				case 2 :
 					addButton.setText("Add Property");
 					addButton.setToolTipText("add new Property to selected Selector");
+					addButton.setEnabled(true);
 
 					removeButton.setText("Remove Selector");
 					removeButton.setToolTipText("remove selected Selector");
@@ -142,6 +142,7 @@ public class MainFrame extends ThemedJFrame {
 				case 3 :
 					addButton.setText("Edit Propery");
 					addButton.setToolTipText("edit selected Property");
+					addButton.setEnabled(true);
 
 					removeButton.setText("Remove Property");
 					removeButton.setToolTipText("remove selected Property");
@@ -151,8 +152,6 @@ public class MainFrame extends ThemedJFrame {
 
 				addButtonListener.setPath(path);
 				removeButtonListener.setPath(path);
-				addButton.setEnabled(true);
-
 			}
 		});
 	}
@@ -256,6 +255,7 @@ public class MainFrame extends ThemedJFrame {
 			cssFile = new CSSFile(this, chooser.getSelectedFile());
 			cssFile.saveFile();
 			root = new DefaultMutableTreeNode(cssFile.getName());
+			cssFile.setSelectorsNode(root);
 			createTree(root);
 			treePanel.updateTree();
 			fileEdited();
@@ -270,10 +270,9 @@ public class MainFrame extends ThemedJFrame {
 	// add new Selector
 	public void addSelector(Selector selector) {
 		/// add selector in cssTree
-		TreePath path = cssTree.getSelectionPath();
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+		DefaultMutableTreeNode selectorsNode = cssFile.getSelectorsNode();
 		DefaultMutableTreeNode selectorNode = new DefaultMutableTreeNode(selector);
-		node.add(selectorNode);
+		selectorsNode.add(selectorNode);
 		cssTree.updateUI();
 
 		// add selector in file
@@ -285,8 +284,9 @@ public class MainFrame extends ThemedJFrame {
 		// set file as edited
 		fileEdited();
 
-		// expand cssTree
-		cssTree.expandPath(path);
+		// expand cssTree and set selection
+		cssTree.expandRow(0);
+		cssTree.setSelectionRow(0);
 
 		// re apply theme to tree
 		treePanel.updateTreeTheme(themeColor);
@@ -483,5 +483,13 @@ public class MainFrame extends ThemedJFrame {
 	}
 	public void setButtonPanel(ButtonPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
+	}
+
+	public JButton getAddSelectorButton() {
+		return addSelectorButton;
+	}
+
+	public void setAddSelectorButton(JButton addSelectorButton) {
+		this.addSelectorButton = addSelectorButton;
 	}
 }

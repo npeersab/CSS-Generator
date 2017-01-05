@@ -13,18 +13,23 @@ import theme.ThemedJPanel;
 public class ButtonPanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	// buttons
-	private JButton addButton, removeButton;
+	private JButton addButton, removeButton, addSelectorButton;
 	
 	// buttonListeners
 	private AddButtonListener addButtonListener;
 	private RemoveButtonListener removeButtonListener;
 
-	public ButtonPanel(MainFrame parent) {		
-		// create addButton
-		addButton = new JButton("Add Selector");
-		parent.setAddButton(addButton);
+	public ButtonPanel(MainFrame parent) {
+		// create addSelector Button
+		addSelectorButton = new JButton("Add Selector");
+		parent.setAddSelectorButton(addSelectorButton);
+		addButtonListener = new AddButtonListener(parent);
+		addSelectorButton.addActionListener(addButtonListener);
 		
-		addButtonListener = new AddButtonListener(parent);		
+		// create addButton
+		addButton = new JButton("Add Property");
+		parent.setAddButton(addButton);
+				
 		addButton.addActionListener(addButtonListener);
 		parent.setAddButtonListener(addButtonListener);
 		addButton.setEnabled(false);
@@ -44,8 +49,11 @@ public class ButtonPanel extends ThemedJPanel {
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.insets = new Insets(10, 10, 10, 10);
 		bagConstraints.anchor = GridBagConstraints.WEST;
+		bagConstraints.gridx = bagConstraints.gridy = 0;
+		add(addSelectorButton, bagConstraints);
+		bagConstraints.gridx++;
 		add(addButton, bagConstraints);
-		bagConstraints.gridy++;
+		bagConstraints.gridx++;
 		add(removeButton, bagConstraints);
 		
 		// get theme
