@@ -36,6 +36,8 @@ public class ButtonPanel extends JPanel {
 		// add cancel button
 		JButton cancelButton = new JButton("Cancel");
 		parent.setCancelButton(cancelButton);
+		// action listener for cancel button
+		cancelButton.addActionListener(e -> parent.close());
 		bagConstraints.gridx++;
 		add(cancelButton, bagConstraints);
 	}

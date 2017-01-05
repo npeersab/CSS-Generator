@@ -77,9 +77,6 @@ public class AddProperty extends Dialog {
 		bagConstraints.anchor = GridBagConstraints.EAST;
 		bagConstraints.gridy++;
 		dialog.add(buttonPanel, bagConstraints);
-		
-		// action listener for cancel button
-		cancelButton.addActionListener(e -> dialog.dispose());
 			
 		// set dialog properties
 		dialog.setSize(FRAME_SIZE);
