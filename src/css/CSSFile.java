@@ -36,7 +36,7 @@ public class CSSFile {
 		file = newfile;
 		selectorsList = new LinkedList<Selector>();
 		selectorHashMap = new HashMap<Selector, DefaultMutableTreeNode>();
-		selectorsNode = new DefaultMutableTreeNode(getName());
+		selectorsNode = new DefaultMutableTreeNode(this);
 	}
 
 	public void ReadFile() {
@@ -119,7 +119,7 @@ public class CSSFile {
 
 		try {
 			filewriter = new FileWriter(file);
-			filewriter.write(this.toString());
+			filewriter.write(this.getCode());
 			filewriter.close();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(MainClass.frame, "Error While Saving file",
@@ -148,7 +148,7 @@ public class CSSFile {
 	}	
 
 	// returns the selectors in the form of string
-	public String toString() {
+	public String getCode() {
 		Iterator<Selector> iterator = selectorsList.iterator();
 		StringBuffer buff= new StringBuffer();
 
@@ -160,6 +160,10 @@ public class CSSFile {
 
 	public String getName() {
 		return file.getName();
+	}
+	
+	public String toString() {
+		return getName();
 	}
 
 	// return tree node of file

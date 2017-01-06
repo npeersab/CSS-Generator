@@ -6,6 +6,7 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import main.listener.MouseKeyListener;
 import theme.ThemeColor;
 import theme.ThemedJPanel;
 
@@ -30,6 +31,7 @@ public class TreePanel extends ThemedJPanel {
 		removeAll();
 
 		cssTree = parent.getCssTree();
+		cssTree.addMouseListener(new MouseKeyListener(parent, cssTree));
 		treePane = new JScrollPane(
 				cssTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

@@ -6,6 +6,7 @@ import css.Selector;
 import dialog.ButtonEvent;
 import dialog.ButtonEventListener;
 import dialog.DialogBox;
+import editProperty.EditProperty;
 import main.listener.AddButtonListener;
 import main.listener.RemoveButtonListener;
 import res.Directory;
@@ -24,6 +25,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+
+import addProperty.AddProperty;
+import addSelector.AddSelector;
 import theme.ThemedJFrame;
 import main.codePanel.CodePanel;
 import javax.swing.JButton;
@@ -402,6 +406,133 @@ public class MainFrame extends ThemedJFrame {
 			});
 			dialogBox.showDialogBox();
 		}
+	}
+
+	// display dialog box to add new selector
+	public void showAddSelectorDialog() {
+		// create new add selector dialog
+		AddSelector addSelector = new AddSelector(this);
+
+		// add listener to dialog
+		addSelector.addButtonEventListener(new ButtonEventListener() {
+			@Override
+			public void handleButtonEvent(ButtonEvent event) {
+				// if add button is present
+				if (event.getId() == ButtonEvent.YES) {
+					Selector selector = addSelector.getSelector();
+
+					if (selector != null) {
+						// if the selector is already present
+						if (cssFile.contains(selector)) {
+
+							// create overwrite confirmation window
+							DialogBox dialogBox = new DialogBox(
+									addSelector.getDialog(), selector.toString(), DialogBox.OVERWRITE);
+
+							// add listener to dialog
+							dialogBox.addButtonEventListener(new ButtonEventListener() {
+								@Override
+								public void handleButtonEvent(ButtonEvent event) {
+
+									// if yes button is pressed
+									if (event.getId() == ButtonEvent.YES) {
+
+										// remove all existing selectors with same name
+										cssFile.removeAllSelector(selector);
+
+										// add new selector
+										addSelector(selector);
+										addSelector.close();
+									}
+									// close confirmation if any button pressed
+									dialogBox.close();
+								}
+							});
+							dialogBox.showDialogBox();
+						}
+						else {
+							addSelector(selector);
+							addSelector.close();
+						}
+					}
+					else
+						return;
+				}
+			}
+		});
+		addSelector.showAddSelector();		
+	}
+
+	// display dialog box to add new property
+	public void showAddPropertyDialog(TreePath path) {
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getPathComponent(1);
+		Selector selector = (Selector) node.getUserObject();
+
+		// create new add property dialog
+		AddProperty addProperty = new AddProperty(this);
+
+		// add listener to dialog box
+		addProperty.addButtonEventListener(new ButtonEventListener() {
+			@Override
+			public void handleButtonEvent(ButtonEvent event) {
+
+				// when add button is pressed
+				if (event.getId() == ButtonEvent.YES) {
+					Property property = addProperty.getProperty();
+					if (property != null) {
+
+						// if the property is already present in selector
+						if (selector.contains(property)) {
+
+							// create new overwrite confirmation dialog
+							DialogBox dialogBox = new DialogBox(
+									addProperty.getDialog(), property.getName(), DialogBox.OVERWRITE);								
+
+							// add listener to dialog
+							dialogBox.addButtonEventListener(new ButtonEventListener() {
+								@Override
+								public void handleButtonEvent(ButtonEvent event) {
+
+									// if yes button is pressed
+									if (event.getId() == ButtonEvent.YES) {
+
+										// remove all properties with same name from  selector
+										selector.removeAllProperties(MainFrame.this, property);
+
+										// add new property
+										addProperty(selector, property, node);
+
+										// expand tree
+										cssTree.expandPath(path);
+										addProperty.close();
+									}
+									// close confirmation if any button pressed
+									dialogBox.close();
+								}
+							});
+							dialogBox.showDialogBox();
+						}
+						else  {
+							addProperty(selector, property, node);
+							cssTree.expandPath(path);
+							addProperty.close();
+						}
+					}
+					else return;
+				}
+			}
+		});
+		addProperty.showAddProperty();
+	} 
+	
+	// display dialog box to edit property
+	public void showEditPropertyDialog(TreePath path) {
+		// edit the property
+		Selector selector = (Selector) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+		EditProperty editProperty = new EditProperty(
+				this, selector, 
+				(Property) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject());
+		editProperty.showEditProperty();
 	}
 
 	// apply theme
