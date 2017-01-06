@@ -258,7 +258,7 @@ public class MainFrame extends ThemedJFrame {
 		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 			cssFile = new CSSFile(this, chooser.getSelectedFile());
 			cssFile.saveFile();
-			root = new DefaultMutableTreeNode(cssFile.getName());
+			root = new DefaultMutableTreeNode(cssFile);
 			cssFile.setSelectorsNode(root);
 			createTree(root);
 			treePanel.updateTree();
