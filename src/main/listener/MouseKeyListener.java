@@ -54,7 +54,7 @@ public class MouseKeyListener extends MouseAdapter {
 					addPropertyItem.addActionListener(event -> parent.showAddPropertyDialog(path));
 
 					JMenuItem removeSelectorItem = new JMenuItem("Remove Selector");
-					removeSelectorItem.addActionListener(parent.getRemoveButtonListener());
+					removeSelectorItem.addActionListener(parent.getRemoveElementListener());
 
 					popupMenu.add(addPropertyItem);
 					popupMenu.add(removeSelectorItem);
@@ -65,7 +65,7 @@ public class MouseKeyListener extends MouseAdapter {
 					editPropertyItem.addActionListener(event -> parent.showEditPropertyDialog(path));
 
 					JMenuItem removePropertyItem = new JMenuItem("Remove Property");
-					removePropertyItem.addActionListener(parent.getRemoveButtonListener());
+					removePropertyItem.addActionListener(parent.getRemoveElementListener());
 
 					popupMenu.add(editPropertyItem);
 					popupMenu.add(removePropertyItem);

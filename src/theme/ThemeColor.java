@@ -18,7 +18,7 @@ public class ThemeColor {
 	}
 	
 	public static void createDefaultThemes() {
-		black = new ThemeColor(Color.BLACK, Color.GRAY, Color.WHITE, Color.CYAN,
+		black = new ThemeColor(Color.BLACK, Color.LIGHT_GRAY, Color.WHITE, Color.CYAN,
 				Color.GREEN, Color.MAGENTA);
 		
 		white = new ThemeColor(Color.LIGHT_GRAY, Color.WHITE, Color.BLACK, Color.RED,

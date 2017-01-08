@@ -7,8 +7,8 @@ import dialog.ButtonEvent;
 import dialog.ButtonEventListener;
 import dialog.DialogBox;
 import editProperty.EditProperty;
-import main.listener.AddButtonListener;
-import main.listener.RemoveButtonListener;
+import main.listener.AddElementListener;
+import main.listener.RemoveElementListener;
 import res.Directory;
 import res.ImgSrc;
 import theme.ThemeColor;
@@ -25,7 +25,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-
 import addProperty.AddProperty;
 import addSelector.AddSelector;
 import theme.ThemedJFrame;
@@ -36,23 +35,23 @@ import javax.swing.JFileChooser;
 public class MainFrame extends ThemedJFrame {
 	private static final long serialVersionUID = 1L;
 
-	// components
-	private JButton addButton, removeButton, addSelectorButton; 
+	// components 
 	private CSSFile cssFile;
 	private JTree cssTree;
 	private DefaultMutableTreeNode root;
 	private MenuBar menuBar;
-	JMenuItem save, saveAs;
+	private JMenuItem saveItem, saveAsItem;
+	private JButton saveButton, saveAsButton;
 
 	// Listeners
-	private AddButtonListener addButtonListener;
-	private RemoveButtonListener removeButtonListener;
+	private AddElementListener addElementListener;
+	private RemoveElementListener removeElementListener;
 
 	// Panels
 	private TreePanel treePanel;
 	private RightPanel rightPanel;
 	private CodePanel codePanel;
-	private ButtonPanel buttonPanel;
+	private ToolBar toolBar;
 
 	// default title for the application
 	private final String TITLE = "CSS Generator";
@@ -68,9 +67,19 @@ public class MainFrame extends ThemedJFrame {
 		GridBagConstraints bagConstraints = new GridBagConstraints();
 		bagConstraints.gridx = bagConstraints.gridy = 0;
 		bagConstraints.fill = GridBagConstraints.BOTH;
+		
+		// create listeners
+		addElementListener = new AddElementListener(this);
+		removeElementListener = new RemoveElementListener(this);
 
 		// set theme
 		themeColor = ThemeColor.white;
+		
+		// create tool bar
+		toolBar = new ToolBar(this);
+		bagConstraints.weightx = 1;
+		bagConstraints.weighty = 0.5;
+		add(toolBar, bagConstraints);
 
 		// create treePanel
 		treePanel = new TreePanel(this);
@@ -82,7 +91,7 @@ public class MainFrame extends ThemedJFrame {
 
 		// create leftPanel
 		rightPanel = new RightPanel(this);
-
+	
 		// add treePanel and detailsPanel in splitPane
 		JSplitPane splitPane = new JSplitPane(
 				JSplitPane.HORIZONTAL_SPLIT, treePanel, rightPanel);
@@ -90,6 +99,7 @@ public class MainFrame extends ThemedJFrame {
 		splitPane.setResizeWeight(0.2);
 		bagConstraints.weightx = 1;
 		bagConstraints.weighty = 4;
+		bagConstraints.gridy++;
 		add(splitPane, bagConstraints);
 
 		// create menu bar
@@ -123,39 +133,8 @@ public class MainFrame extends ThemedJFrame {
 				// when no file is selected
 				if (path.toString().equals("[No File Selected]"))
 					return;
-
-				switch (path.getPathCount()) {
-				// when file is selected
-				case 1 :
-					addButton.setEnabled(false);
-					removeButton.setEnabled(false);
-					break;
-
-					// when selector is selected
-				case 2 :
-					addButton.setText("Add Property");
-					addButton.setToolTipText("add new Property to selected Selector");
-					addButton.setEnabled(true);
-
-					removeButton.setText("Remove Selector");
-					removeButton.setToolTipText("remove selected Selector");
-					removeButton.setEnabled(true);
-					break;
-
-					// when property is selected
-				case 3 :
-					addButton.setText("Edit Propery");
-					addButton.setToolTipText("edit selected Property");
-					addButton.setEnabled(true);
-
-					removeButton.setText("Remove Property");
-					removeButton.setToolTipText("remove selected Property");
-					removeButton.setEnabled(true);
-					break;
-				}
-
-				addButtonListener.setPath(path);
-				removeButtonListener.setPath(path);
+				addElementListener.setPath(path);
+				removeElementListener.setPath(path);
 			}
 		});
 	}
@@ -218,9 +197,8 @@ public class MainFrame extends ThemedJFrame {
 		rightPanel.setHeader(cssFile.getName());
 		codePanel.updatePanel(cssFile);
 
-		buttonPanel.setVisible(true);
-
-		saveAs.setEnabled(true);
+		saveAsItem.setEnabled(true);
+		saveAsButton.setEnabled(true);
 	}
 
 	// create new cssFile
@@ -265,9 +243,6 @@ public class MainFrame extends ThemedJFrame {
 			fileEdited();
 			rightPanel.setHeader(cssFile.getName());
 			codePanel.updatePanel(cssFile);
-			addButton.setVisible(true);
-			removeButton.setVisible(true);
-			buttonPanel.setVisible(true);
 		}
 	}
 
@@ -338,14 +313,17 @@ public class MainFrame extends ThemedJFrame {
 	// make changes when file is edited
 	public void fileEdited() {
 		updateTitle("*" + cssFile.getName());
-		save.setEnabled(true);
-		saveAs.setEnabled(true);
+		saveItem.setEnabled(true);
+		saveAsItem.setEnabled(true);
+		saveButton.setEnabled(true);
+		saveAsButton.setEnabled(true);
 		saved(false);
 	}
 
 	// make changes when file is saved
 	public void fileSaved() {
-		save.setEnabled(false);
+		saveItem.setEnabled(false);
+		saveButton.setEnabled(false);
 		saved(true);
 	}
 
@@ -541,7 +519,8 @@ public class MainFrame extends ThemedJFrame {
 		setThemeColor(themeColor);
 		treePanel.applyTheme(themeColor);
 		rightPanel.applyTheme(themeColor);
-		codePanel.applyTheme(themeColor);		
+		codePanel.applyTheme(themeColor);
+		toolBar.applyTheme(themeColor);
 	}
 
 	// getter and setter for cssTree
@@ -550,38 +529,6 @@ public class MainFrame extends ThemedJFrame {
 	}
 	public void setCssTree(JTree cssTree) {
 		this.cssTree = cssTree;
-	}
-
-	// getter and setter for addButtonListener
-	public AddButtonListener getAddNButtonListener() {
-		return addButtonListener;
-	}
-	public void setAddButtonListener(AddButtonListener addButtonListener) {
-		this.addButtonListener = addButtonListener;
-	}
-
-	// getter and setter for removeButtonListener
-	public RemoveButtonListener getRemoveButtonListener() {
-		return removeButtonListener;
-	}
-	public void setRemoveButtonListener(RemoveButtonListener removeButtonListener) {
-		this.removeButtonListener = removeButtonListener;
-	}
-
-	// getter and setter for addButton
-	public JButton getAddButton() {
-		return addButton;
-	}
-	public void setAddButton(JButton button) {
-		this.addButton = button;
-	}
-
-	// getter and setter for removeButton
-	public JButton getRemoveButton() {
-		return removeButton;
-	}
-	public void setRemoveButton(JButton button) {
-		this.removeButton = button;
 	}
 
 	// getter and setter for cssFile
@@ -608,19 +555,51 @@ public class MainFrame extends ThemedJFrame {
 		this.codePanel = codePanel;
 	}
 
-	// getter and setter for button panel
-	public ButtonPanel getButtonPanel() {
-		return buttonPanel;
-	}
-	public void setButtonPanel(ButtonPanel buttonPanel) {
-		this.buttonPanel = buttonPanel;
+	public JButton getSaveButton() {
+		return saveButton;
 	}
 
-	public JButton getAddSelectorButton() {
-		return addSelectorButton;
+	public void setSaveButton(JButton saveButton) {
+		this.saveButton = saveButton;
 	}
 
-	public void setAddSelectorButton(JButton addSelectorButton) {
-		this.addSelectorButton = addSelectorButton;
+	public JButton getSaveAsButton() {
+		return saveAsButton;
+	}
+
+	public void setSaveAsButton(JButton saveAsButton) {
+		this.saveAsButton = saveAsButton;
+	}
+
+	public JMenuItem getSaveItem() {
+		return saveItem;
+	}
+
+	public void setSaveItem(JMenuItem saveItem) {
+		this.saveItem = saveItem;
+	}
+
+	public JMenuItem getSaveAsItem() {
+		return saveAsItem;
+	}
+
+	public void setSaveAsItem(JMenuItem saveAsItem) {
+		this.saveAsItem = saveAsItem;
+	}
+
+	public AddElementListener getAddElementListener() {
+		return addElementListener;
+	}
+
+	public void setAddElementListener(AddElementListener addElementListener) {
+		this.addElementListener = addElementListener;
+	}
+
+	public RemoveElementListener getRemoveElementListener() {
+		return removeElementListener;
+	}
+
+	public void setRemoveElementListener(RemoveElementListener removeElementListener) {
+		this.removeElementListener = removeElementListener;
 	}
 }

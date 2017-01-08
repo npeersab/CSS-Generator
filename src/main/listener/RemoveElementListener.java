@@ -8,11 +8,11 @@ import css.Property;
 import css.Selector;
 import main.MainFrame;
 
-public class RemoveButtonListener implements ActionListener {
+public class RemoveElementListener implements ActionListener {
 	private TreePath path;
 	private MainFrame parent;
 			
-	public RemoveButtonListener(MainFrame parent) {
+	public RemoveElementListener(MainFrame parent) {
 		this.parent = parent;
 	}
 	
@@ -30,10 +30,6 @@ public class RemoveButtonListener implements ActionListener {
 					(DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			parent.removeProperty(selector, (Property) node.getUserObject());
 		}
-		
-		parent.getAddButton().setEnabled(false);
-		parent.getRemoveButton().setEnabled(false);
-		
 		parent.fileEdited();
 	}
 	

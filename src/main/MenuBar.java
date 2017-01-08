@@ -27,17 +27,19 @@ public class MenuBar extends JMenuBar {
 		openfile.addActionListener(e -> parent.openFile());
 
 		// create save
-		parent.save = new JMenuItem("Save");
-		parent.save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
-		parent.save.setMnemonic(KeyEvent.VK_S);
-		parent.save.setEnabled(false);
-		parent.save.addActionListener(e -> parent.save());
+		JMenuItem save = new JMenuItem("Save");
+		parent.setSaveItem(save);
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		save.setMnemonic(KeyEvent.VK_S);
+		save.setEnabled(false);
+		save.addActionListener(e -> parent.save());
 		
 		// create save as item
-		parent.saveAs  = new JMenuItem("Save As...");
-		parent.saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.SHIFT_MASK));
-		parent.saveAs.setEnabled(false);
-		parent.saveAs.addActionListener(e -> parent.saveAs());
+		JMenuItem saveAs  = new JMenuItem("Save As...");
+		parent.setSaveAsItem(saveAs);
+		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.SHIFT_MASK));
+		saveAs.setEnabled(false);
+		saveAs.addActionListener(e -> parent.saveAs());
 				
 		// create exit item
 		JMenuItem exit = new JMenuItem("Exit");
@@ -51,8 +53,8 @@ public class MenuBar extends JMenuBar {
 		file.add(newfile);
 		file.add(openfile);
 		file.addSeparator();
-		file.add(parent.save);
-		file.add(parent.saveAs);
+		file.add(save);
+		file.add(saveAs);
 		file.addSeparator();
 		file.add(exit);
 		

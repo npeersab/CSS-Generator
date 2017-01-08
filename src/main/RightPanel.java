@@ -14,7 +14,6 @@ public class RightPanel extends ThemedJPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel header;
 	private CodePanel codePanel;
-	ButtonPanel buttonPanel;
 
 	public RightPanel(MainFrame parent) {
 		// set layout
@@ -48,13 +47,6 @@ public class RightPanel extends ThemedJPanel {
 		bagConstraints.insets = new Insets(0, 5, 5, 5);
 		add(scrollPane, bagConstraints);
 		
-		// create and add buttons panel
-		buttonPanel = new ButtonPanel(parent);
-		parent.setButtonPanel(buttonPanel);
-		bagConstraints.gridy++;
-		bagConstraints.weighty = 0.01;
-		add(buttonPanel, bagConstraints);
-		
 		// change background color
 		setBackground(themeColor.backGroundDark);
 	}
@@ -71,7 +63,5 @@ public class RightPanel extends ThemedJPanel {
 		
 		header.setForeground(themeColor.font);
 		setBackground(themeColor.backGroundDark);
-		
-		buttonPanel.applyTheme(themeColor);
 	}
 }
