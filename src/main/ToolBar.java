@@ -31,6 +31,7 @@ public class ToolBar extends ThemedJPanel {
 		newButton.setBorderPainted(false);
 		Insets marginInsets = new Insets(4, 4, 4, 4);
 		newButton.setMargin(marginInsets);
+		newButton.setToolTipText("Create new file");
 		newButton.addActionListener(e -> parent.newFile());
 		add(newButton, bagConstraints);
 		
@@ -38,6 +39,7 @@ public class ToolBar extends ThemedJPanel {
 		openButton = new JButton(new ImageIcon(ImgSrc.getOpenFileIcon()));
 		openButton.setBorderPainted(false);
 		openButton.setMargin(marginInsets);
+		openButton.setToolTipText("Open existing file");
 		openButton.addActionListener(e -> parent.openFile());
 		bagConstraints.gridx++;
 		add(openButton, bagConstraints);
@@ -48,6 +50,7 @@ public class ToolBar extends ThemedJPanel {
 		saveButton.setBorderPainted(false);
 		saveButton.setMargin(marginInsets);
 		saveButton.setEnabled(false);
+		saveButton.setToolTipText("Save file");
 		saveButton.addActionListener(e -> parent.save());
 		bagConstraints.gridx++;
 		add(saveButton, bagConstraints);
@@ -58,6 +61,7 @@ public class ToolBar extends ThemedJPanel {
 		saveAsButton.setBorderPainted(false);
 		saveAsButton.setMargin(marginInsets);
 		saveAsButton.setEnabled(false);
+		saveAsButton.setToolTipText("Save as new file");
 		saveAsButton.addActionListener(e -> parent.saveAs());
 		bagConstraints.gridx++;
 		add(saveAsButton, bagConstraints);
