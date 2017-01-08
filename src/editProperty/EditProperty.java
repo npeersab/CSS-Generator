@@ -129,7 +129,6 @@ public class EditProperty extends Dialog {
 			}
 		});
 		bagConstraints.anchor = GridBagConstraints.NORTHEAST;
-		bagConstraints.gridx--;
 		bagConstraints.gridy++;
 		dialog.add(updateButton, bagConstraints);
 
@@ -223,6 +222,8 @@ public class EditProperty extends Dialog {
 		dialog.add(valueLabel, bagConstraints);
 
 		updateValueLabel(propertyDetails);
+		
+		bagConstraints.gridx--;
 	}
 
 	// return selected value
