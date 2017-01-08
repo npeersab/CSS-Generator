@@ -3,7 +3,6 @@ package css;
 import css.Selector;
 import dialog.DialogBox;
 import css.Property;
-import main.MainClass;
 import main.MainFrame;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -106,10 +104,7 @@ public class CSSFile {
 				br.close();
 			}
 			catch (IOException e) {
-				JOptionPane.showMessageDialog(MainClass.frame,
-						"Unable to read file",
-						"Error",
-						JOptionPane.ERROR_MESSAGE);
+				new DialogBox(parent, "Unable to read file", DialogBox.WARNING).showDialogBox();
 			}
 		} // if
 	} // ReadFile
@@ -122,10 +117,8 @@ public class CSSFile {
 			filewriter.write(this.getCode());
 			filewriter.close();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(MainClass.frame, "Error While Saving file",
-					"Error", JOptionPane.ERROR_MESSAGE);
+			new DialogBox(parent, "Error While Saving file", DialogBox.WARNING).showDialogBox();
 		}
-
 	} 
 
 	// add new selector
