@@ -37,7 +37,7 @@ public class CSSFile {
 		selectorsNode = new DefaultMutableTreeNode(this);
 	}
 
-	public void ReadFile() {
+	public void readFile() {
 		if (file.canRead()) {
 			FileReader filereader = null;
 			try {
@@ -216,5 +216,9 @@ public class CSSFile {
 	
 	public void setSelectorsNode(DefaultMutableTreeNode selectorsNode) {
 		this.selectorsNode = selectorsNode;
+	}
+
+	public void cleanTree() {
+		selectorsNode.removeAllChildren();
 	}
 }

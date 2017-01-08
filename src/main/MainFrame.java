@@ -187,8 +187,7 @@ public class MainFrame extends ThemedJFrame {
 
 	// read the file
 	public void readFile(File file) {
-		cssFile.ReadFile();
-
+		cssFile.readFile();
 		root = cssFile.getTree();
 		createTree(root);
 		treePanel.updateTree();
@@ -353,7 +352,10 @@ public class MainFrame extends ThemedJFrame {
 			File file = chooser.getSelectedFile();
 			cssFile.setFile(file);
 			cssFile.saveFile();
-			readFile(file);
+			cssTree.updateUI();
+			String name = cssFile.getName();
+			updateTitle(name);
+			rightPanel.setHeader(name);
 			fileSaved();
 		}
 		else
