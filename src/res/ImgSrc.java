@@ -4,7 +4,8 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
+import dialog.DialogBox;
+import main.MainClass;
 
 public class ImgSrc {
 	public static Image getImage(String path) {
@@ -14,10 +15,9 @@ public class ImgSrc {
 			image = ImageIO.read(
 					new File(path));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,
-					"some files are missing please re-install CSS-Generator",
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
+			DialogBox dialogBox = new DialogBox(MainClass.frame, 
+					"Some files are missing please re-install CSS-Generator", DialogBox.WARNING);
+			dialogBox.showDialogBox();
 			System.exit(1);
 		}
 		
