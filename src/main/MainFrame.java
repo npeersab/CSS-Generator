@@ -233,7 +233,10 @@ public class MainFrame extends ThemedJFrame {
 		chooser.setDialogTitle("Enter File Name");
 		chooser.setFileFilter(new FileNameExtensionFilter("CSS Files","css"));
 		if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-			cssFile = new CSSFile(this, chooser.getSelectedFile());
+			File file = chooser.getSelectedFile();
+			if (!file.getName().endsWith(".css"))
+				file = new File(file.getAbsolutePath() + ".css");
+			cssFile = new CSSFile(this, file);
 			cssFile.saveFile();
 			root = new DefaultMutableTreeNode(cssFile);
 			cssFile.setSelectorsNode(root);
